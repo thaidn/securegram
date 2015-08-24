@@ -23,7 +23,7 @@ import android.view.View;
 
 import org.telegram.android.AndroidUtilities;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 
 import java.util.ArrayList;
 

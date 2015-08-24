@@ -182,16 +182,6 @@ public class NativeLoader {
       if (loadFromZip(context, destDir, destLocalFile, folder)) {
         return;
       }
-
-      /*
-       folder = "x86";
-       destLocalFile = new File(context.getFilesDir().getAbsolutePath() + "/libtmessages86.so");
-       if (!loadFromZip(context, destLocalFile, folder)) {
-       destLocalFile = new File(context.getFilesDir().getAbsolutePath() + "/libtmessagesarm.so");
-       folder = "armeabi";
-       loadFromZip(context, destLocalFile, folder);
-       }
-       */
     } catch (Throwable e) {
       e.printStackTrace();
     }

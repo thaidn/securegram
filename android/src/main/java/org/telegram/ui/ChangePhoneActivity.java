@@ -48,7 +48,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.RPCRequest;
 import org.telegram.messenger.TLObject;
 import org.telegram.messenger.TLRPC;
@@ -95,7 +95,7 @@ public class ChangePhoneActivity extends BaseFragment {
       }
       progressDialog = null;
     }
-    if (!AndroidUtilities.isTablet() && getParentActivity() != null) {
+    if (getParentActivity() != null) {
       getParentActivity()
           .getWindow()
           .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -763,8 +763,7 @@ public class ChangePhoneActivity extends BaseFragment {
     }
   }
 
-  public class LoginActivitySmsView extends SlideView
-      implements NotificationCenter.NotificationCenterDelegate {
+  public class LoginActivitySmsView extends SlideView {
 
     private String phoneHash;
     private String requestPhone;
@@ -780,7 +779,6 @@ public class ChangePhoneActivity extends BaseFragment {
     private volatile int codeTime = 15000;
     private double lastCurrentTime;
     private double lastCodeTime;
-    private boolean waitingForSms = false;
     private boolean nextPressed = false;
     private String lastError = "";
 
@@ -894,10 +892,7 @@ public class ChangePhoneActivity extends BaseFragment {
         return;
       }
       codeField.setText("");
-      AndroidUtilities.setWaitingForSms(true);
-      NotificationCenter.getInstance().addObserver(this, NotificationCenter.didReceiveSmsCode);
       currentParams = params;
-      waitingForSms = true;
       String phone = params.getString("phone");
       requestPhone = params.getString("phoneFormated");
       phoneHash = params.getString("phoneHash");
@@ -1057,9 +1052,6 @@ public class ChangePhoneActivity extends BaseFragment {
         return;
       }
       nextPressed = true;
-      waitingForSms = false;
-      AndroidUtilities.setWaitingForSms(false);
-      NotificationCenter.getInstance().removeObserver(this, NotificationCenter.didReceiveSmsCode);
       final TLRPC.TL_account_changePhone req = new TLRPC.TL_account_changePhone();
       req.phone_number = requestPhone;
       req.phone_code = codeField.getText().toString();
@@ -1125,19 +1117,13 @@ public class ChangePhoneActivity extends BaseFragment {
       destroyTimer();
       destroyCodeTimer();
       currentParams = null;
-      AndroidUtilities.setWaitingForSms(false);
-      NotificationCenter.getInstance().removeObserver(this, NotificationCenter.didReceiveSmsCode);
-      waitingForSms = false;
     }
 
     @Override
     public void onDestroyActivity() {
       super.onDestroyActivity();
-      AndroidUtilities.setWaitingForSms(false);
-      NotificationCenter.getInstance().removeObserver(this, NotificationCenter.didReceiveSmsCode);
       destroyTimer();
       destroyCodeTimer();
-      waitingForSms = false;
     }
 
     @Override
@@ -1146,19 +1132,6 @@ public class ChangePhoneActivity extends BaseFragment {
       if (codeField != null) {
         codeField.requestFocus();
         codeField.setSelection(codeField.length());
-      }
-    }
-
-    @Override
-    public void didReceivedNotification(int id, final Object... args) {
-      if (id == NotificationCenter.didReceiveSmsCode) {
-        if (!waitingForSms) {
-          return;
-        }
-        if (codeField != null) {
-          codeField.setText("" + args[0]);
-          onNextPressed();
-        }
       }
     }
   }

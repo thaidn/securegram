@@ -44,7 +44,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.TLRPC;
 import org.telegram.phoneformat.PhoneFormat;
 import org.telegram.ui.actionbar.ActionBar;
@@ -156,6 +156,10 @@ public class PopupNotificationActivity extends Activity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    // Treat the content of the window as secure, preventing it from appearing in screenshots or
+    // from being viewed on non-secure displays.
+    getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
     int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
     if (resourceId > 0) {
@@ -665,7 +669,8 @@ public class PopupNotificationActivity extends Activity
     }
     ViewGroup view;
     MessageObject messageObject = NotificationsController.getInstance().popupMessages.get(num);
-    if (messageObject.type == 1 || messageObject.type == 4) {
+    if (messageObject.type == MessageObject.Type.MEDIA_PHOTO.getType() ||
+        messageObject.type == MessageObject.Type.MEDIA_VENUE.getType()) {
       if (imageViews.size() > 0) {
         view = imageViews.get(0);
         imageViews.remove(0);
@@ -687,7 +692,7 @@ public class PopupNotificationActivity extends Activity
       BackupImageView imageView = (BackupImageView) view.findViewById(R.id.message_image);
       imageView.setAspectFit(true);
 
-      if (messageObject.type == 1) {
+      if (messageObject.type == MessageObject.Type.MEDIA_PHOTO.getType()) {
         TLRPC.PhotoSize currentPhotoObject =
             FileLoader.getClosestPhotoSizeWithSize(
                 messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
@@ -696,7 +701,7 @@ public class PopupNotificationActivity extends Activity
         boolean photoSet = false;
         if (currentPhotoObject != null) {
           boolean photoExist = true;
-          if (messageObject.type == 1) {
+          if (messageObject.type == MessageObject.Type.MEDIA_PHOTO.getType()) {
             File cacheFile = FileLoader.getPathToMessage(messageObject.messageOwner);
             if (!cacheFile.exists()) {
               photoExist = false;
@@ -725,7 +730,7 @@ public class PopupNotificationActivity extends Activity
           imageView.setVisibility(View.VISIBLE);
           messageText.setVisibility(View.GONE);
         }
-      } else if (messageObject.type == 4) {
+      } else if (messageObject.type == MessageObject.Type.MEDIA_VENUE.getType()) {
         messageText.setVisibility(View.GONE);
         messageText.setText(messageObject.messageText);
         imageView.setVisibility(View.VISIBLE);
@@ -742,7 +747,7 @@ public class PopupNotificationActivity extends Activity
                 lon);
         imageView.setImage(currentUrl, null, null);
       }
-    } else if (messageObject.type == 2) {
+    } else if (messageObject.type == MessageObject.Type.MEDIA_AUDIO.getType()) {
       PopupAudioView cell;
       if (audioViews.size() > 0) {
         view = audioViews.get(0);

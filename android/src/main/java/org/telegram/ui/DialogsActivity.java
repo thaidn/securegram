@@ -46,7 +46,7 @@ import org.telegram.android.animationcompat.ViewProxy;
 import org.telegram.android.support.widget.LinearLayoutManager;
 import org.telegram.android.support.widget.RecyclerView;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.TLRPC;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.actionbar.ActionBar;
@@ -175,7 +175,7 @@ public class DialogsActivity extends BaseFragment
     searching = false;
     searchWas = false;
 
-    ResourceLoader.loadRecources(context);
+    ResourceLoader.loadResources(context);
 
     ActionBarMenu menu = actionBar.createMenu();
     if (!onlySelect && searchString == null) {

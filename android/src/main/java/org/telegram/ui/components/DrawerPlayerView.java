@@ -22,7 +22,7 @@ import org.telegram.android.AndroidUtilities;
 import org.telegram.android.MediaController;
 import org.telegram.android.MessageObject;
 import org.telegram.android.NotificationCenter;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 
 public class DrawerPlayerView extends FrameLayout
     implements NotificationCenter.NotificationCenterDelegate {

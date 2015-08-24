@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 import org.telegram.android.AndroidUtilities;
 import org.telegram.android.LocaleController;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 
 public class IntroActivity extends Activity {
   private ViewPager viewPager;
@@ -49,12 +49,8 @@ public class IntroActivity extends Activity {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-    if (AndroidUtilities.isTablet()) {
-      setContentView(R.layout.intro_layout_tablet);
-    } else {
-      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-      setContentView(R.layout.intro_layout);
-    }
+    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    setContentView(R.layout.intro_layout);
 
     if (LocaleController.isRTL) {
       icons =

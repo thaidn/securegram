@@ -23,7 +23,7 @@ import org.telegram.android.AndroidUtilities;
 import org.telegram.android.LocaleController;
 import org.telegram.android.MediaController;
 import org.telegram.android.MessageObject;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.components.CheckBox;
 import org.telegram.ui.components.LayoutHelper;
 

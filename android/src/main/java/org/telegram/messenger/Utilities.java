@@ -467,4 +467,41 @@ public class Utilities {
     }
     return null;
   }
+
+  public static boolean searchForHttpInText(CharSequence string) {
+    int len = string.length();
+    int seqLen = 0;
+    for (int a = 0; a < len; a++) {
+      char ch = string.charAt(a);
+      if (seqLen == 0 && (ch == 'h' || ch == 'H')) {
+        seqLen++;
+      } else if ((seqLen == 1 || seqLen == 2) && (ch == 't' || ch == 'T')) {
+        seqLen++;
+      } else if (seqLen == 3 && (ch == 'p' || ch == 'P')) {
+        seqLen++;
+      } else if (seqLen == 4 && (ch == 's' || ch == 'S')) {
+        seqLen++;
+      } else if ((seqLen == 4 || seqLen == 5) && ch == ':') {
+        seqLen++;
+      } else if ((seqLen == 5 || seqLen == 6 || seqLen == 7) && ch == '/') {
+        if (seqLen == 6 || seqLen == 7) {
+          return true;
+        }
+        seqLen++;
+      } else if (seqLen != 0) {
+        seqLen = 0;
+      }
+    }
+    return false;
+  }
+
+  public static String base64EncodeToString(byte[] bytes) {
+    return Base64.encodeToString(bytes,
+        android.util.Base64.NO_PADDING | Base64.URL_SAFE /* flag */);
+  }
+
+  public static byte[] base64Decode(byte[] bytes) {
+    return Base64.decode(bytes,
+        android.util.Base64.NO_PADDING | Base64.URL_SAFE /* flag */);
+  }
 }

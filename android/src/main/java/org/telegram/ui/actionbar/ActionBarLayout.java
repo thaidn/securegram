@@ -32,7 +32,7 @@ import org.telegram.android.animationcompat.AnimatorListenerAdapterProxy;
 import org.telegram.android.animationcompat.AnimatorSetProxy;
 import org.telegram.android.animationcompat.ObjectAnimatorProxy;
 import org.telegram.android.animationcompat.ViewProxy;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.components.LayoutHelper;
 
 import java.util.ArrayList;
@@ -67,7 +67,6 @@ public class ActionBarLayout extends FrameLayout {
       if (child instanceof ActionBar) {
         return super.drawChild(canvas, child, drawingTime);
       } else {
-        //boolean wasActionBar = false;
         int actionBarHeight = 0;
         int childCount = getChildCount();
         for (int a = 0; a < childCount; a++) {
@@ -78,24 +77,11 @@ public class ActionBarLayout extends FrameLayout {
           if (view instanceof ActionBar && view.getVisibility() == VISIBLE) {
             if (((ActionBar) view).getCastShadows()) {
               actionBarHeight = view.getMeasuredHeight();
-              //wasActionBar = true;
             }
             break;
           }
         }
-        /*if (!wasActionBar) {
-         if (child instanceof ViewGroup) {
-         ViewGroup viewGroup = (ViewGroup) child;
-         childCount = viewGroup.getChildCount();
-         for (int a = 0; a < childCount; a++) {
-         View possibleActionBar = viewGroup.getChildAt(a);
-         if (possibleActionBar instanceof ActionBar) {
-         actionBarHeight = possibleActionBar.getMeasuredHeight();
-         break;
-         }
-         }
-         }
-         }*/
+
         boolean result = super.drawChild(canvas, child, drawingTime);
         if (actionBarHeight != 0 && headerShadowDrawable != null) {
           headerShadowDrawable.setBounds(
@@ -443,8 +429,8 @@ public class ActionBarLayout extends FrameLayout {
         } else if (ev != null
             && ev.getPointerId(0) == startedTrackingPointerId
             && (ev.getAction() == MotionEvent.ACTION_CANCEL
-                || ev.getAction() == MotionEvent.ACTION_UP
-                || ev.getAction() == MotionEvent.ACTION_POINTER_UP)) {
+            || ev.getAction() == MotionEvent.ACTION_UP
+            || ev.getAction() == MotionEvent.ACTION_POINTER_UP)) {
           if (velocityTracker == null) {
             velocityTracker = VelocityTracker.obtain();
           }
@@ -658,8 +644,8 @@ public class ActionBarLayout extends FrameLayout {
       boolean check) {
     if (checkTransitionAnimation()
         || delegate != null
-            && check
-            && !delegate.needPresentFragment(fragment, removeLast, forceWithoutAnimation, this)
+        && check
+        && !delegate.needPresentFragment(fragment, removeLast, forceWithoutAnimation, this)
         || !fragment.onFragmentCreate()) {
       return false;
     }
@@ -670,8 +656,8 @@ public class ActionBarLayout extends FrameLayout {
         Build.VERSION.SDK_INT > 10
             && !forceWithoutAnimation
             && parentActivity
-                .getSharedPreferences("mainconfig", Activity.MODE_PRIVATE)
-                .getBoolean("view_animations", true);
+            .getSharedPreferences("mainconfig", Activity.MODE_PRIVATE)
+            .getBoolean("view_animations", true);
 
     final BaseFragment currentFragment =
         !fragmentsStack.isEmpty() ? fragmentsStack.get(fragmentsStack.size() - 1) : null;
@@ -784,29 +770,6 @@ public class ActionBarLayout extends FrameLayout {
         ViewProxy.setTranslationX(containerView, 48.0f);
         fragment.onOpenAnimationStart();
         startLayoutAnimation(true, true);
-        /*currentAnimation = new AnimatorSetProxy();
-         currentAnimation.playTogether(
-         ObjectAnimatorProxy.ofFloat(containerView, "alpha", 0.0f, 1.0f),
-         ObjectAnimatorProxy.ofFloat(containerView, "translationX", AndroidUtilities.dp(48), 0));
-         currentAnimation.setInterpolator(decelerateInterpolator);
-         currentAnimation.setDuration(200);
-         currentAnimation.addListener(new AnimatorListenerAdapterProxy() {
-         @Override
-         public void onAnimationStart(Object animation) {
-         transitionAnimationStartTime = System.currentTimeMillis();
-         }
-
-         @Override
-         public void onAnimationEnd(Object animation) {
-         onAnimationEndCheck(false);
-         }
-
-         @Override
-         public void onAnimationCancel(Object animation) {
-         onAnimationEndCheck(false);
-         }
-         });
-         currentAnimation.start();*/
       }
     } else {
       if (backgroundView != null) {
@@ -877,8 +840,8 @@ public class ActionBarLayout extends FrameLayout {
         Build.VERSION.SDK_INT > 10
             && animated
             && parentActivity
-                .getSharedPreferences("mainconfig", Activity.MODE_PRIVATE)
-                .getBoolean("view_animations", true);
+            .getSharedPreferences("mainconfig", Activity.MODE_PRIVATE)
+            .getBoolean("view_animations", true);
     final BaseFragment currentFragment = fragmentsStack.get(fragmentsStack.size() - 1);
     BaseFragment previousFragment = null;
     if (fragmentsStack.size() > 1) {

@@ -47,15 +47,15 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import xyz.securegram.R;
+
 import org.telegram.android.animationcompat.AnimatorListenerAdapterProxy;
 import org.telegram.android.animationcompat.AnimatorSetProxy;
 import org.telegram.android.animationcompat.ObjectAnimatorProxy;
 import org.telegram.android.animationcompat.ViewProxy;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
 import org.telegram.messenger.TLRPC;
 import org.telegram.messenger.UserConfig;
 import org.telegram.phoneformat.PhoneFormat;
@@ -84,8 +84,6 @@ public class AndroidUtilities {
 
     private static final Hashtable<String, Typeface> typefaceCache = new Hashtable<>();
     private static int prevOrientation = -10;
-    private static boolean waitingForSms = false;
-    private static final Object smsLock = new Object();
 
     public static int statusBarHeight = 0;
     public static float density = 1;
@@ -178,20 +176,6 @@ public class AndroidUtilities {
                 }
             }
             return typefaceCache.get(assetPath);
-        }
-    }
-
-    public static boolean isWaitingForSms() {
-        boolean value;
-        synchronized (smsLock) {
-            value = waitingForSms;
-        }
-        return value;
-    }
-
-    public static void setWaitingForSms(boolean value) {
-        synchronized (smsLock) {
-            waitingForSms = value;
         }
     }
 

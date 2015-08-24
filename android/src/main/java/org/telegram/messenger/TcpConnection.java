@@ -346,7 +346,7 @@ public class TcpConnection extends ConnectionContext {
               if (canReuse) {
                 BuffersStorage.getInstance().reuseFreeBuffer(buff);
               }
-              if (BuildConfig.DEBUG) {
+              if (xyz.securegram.BuildConfig.DEBUG) {
                 FileLog.e("tmessages", TcpConnection.this + " disconnected, don't send data");
               }
               return;

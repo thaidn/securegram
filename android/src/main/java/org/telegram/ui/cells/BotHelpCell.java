@@ -25,7 +25,7 @@ import org.telegram.android.AndroidUtilities;
 import org.telegram.android.LocaleController;
 import org.telegram.android.MessageObject;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.components.LinkPath;
 import org.telegram.ui.components.ResourceLoader;
 import org.telegram.ui.components.TypefaceSpan;

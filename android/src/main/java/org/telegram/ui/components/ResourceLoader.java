@@ -11,7 +11,7 @@ package org.telegram.ui.components;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 
 public class ResourceLoader {
 
@@ -49,7 +49,7 @@ public class ResourceLoader {
   public static Drawable[] buttonStatesDrawables = new Drawable[8];
   public static Drawable[][] buttonStatesDrawablesDoc = new Drawable[3][2];
 
-  public static void loadRecources(Context context) {
+  public static void loadResources(Context context) {
     if (backgroundDrawableIn == null) {
       backgroundDrawableIn = context.getResources().getDrawable(R.drawable.msg_in);
       backgroundDrawableInSelected = context.getResources().getDrawable(R.drawable.msg_in_selected);

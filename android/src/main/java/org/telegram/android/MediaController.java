@@ -57,7 +57,7 @@ import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.TLRPC;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -2124,7 +2124,7 @@ public class MediaController
                 recordingAudio.user_id = UserConfig.getClientUserId();
                 recordingAudio.mime_type = "audio/ogg";
                 UserConfig.lastLocalId--;
-                UserConfig.saveConfig(false);
+                UserConfig.saveConfig(false /* shouldSaveUser */);
 
                 recordingAudioFile =
                     new File(
@@ -2581,7 +2581,7 @@ public class MediaController
               String.format(Locale.US, "%d.%s", id, ext));
       output = new FileOutputStream(f);
       input.getChannel().transferTo(0, input.getChannel().size(), output.getChannel());
-      UserConfig.saveConfig(false);
+      UserConfig.saveConfig(false /* shouldSaveUser */);
       return f.getAbsolutePath();
     } catch (Exception e) {
       FileLog.e("tmessages", e);

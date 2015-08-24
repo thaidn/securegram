@@ -28,3 +28,7 @@ proguard/
 
 # Idea
 .idea/
+.iml
+
+# Mac weird folder
+.DS_Store

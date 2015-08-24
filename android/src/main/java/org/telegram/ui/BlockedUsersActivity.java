@@ -26,7 +26,7 @@ import android.widget.TextView;
 import org.telegram.android.LocaleController;
 import org.telegram.android.MessagesController;
 import org.telegram.android.NotificationCenter;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.TLRPC;
 import org.telegram.phoneformat.PhoneFormat;
 import org.telegram.ui.actionbar.ActionBar;

@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import org.telegram.android.AndroidUtilities;
 import org.telegram.android.MediaController;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.components.BackupImageView;
 import org.telegram.ui.components.FrameLayoutFixed;
 import org.telegram.ui.components.LayoutHelper;

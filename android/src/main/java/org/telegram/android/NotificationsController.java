@@ -35,7 +35,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.RPCRequest;
 import org.telegram.messenger.TLObject;
 import org.telegram.messenger.TLRPC;

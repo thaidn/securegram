@@ -53,7 +53,7 @@ import org.telegram.android.NotificationCenter;
 import org.telegram.android.UserObject;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.TLRPC;
 import org.telegram.ui.actionbar.ActionBar;
 import org.telegram.ui.actionbar.ActionBarMenu;
@@ -129,6 +129,7 @@ public class LocationActivity extends BaseFragment
   @Override
   public boolean onFragmentCreate() {
     super.onFragmentCreate();
+
     swipeBackEnabled = false;
     NotificationCenter.getInstance().addObserver(this, NotificationCenter.closeChats);
     if (messageObject != null) {
@@ -153,14 +154,7 @@ public class LocationActivity extends BaseFragment
     }
   }
 
-  @Override
-  public View createView(Context context) {
-    actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-    actionBar.setAllowOverlayTitle(true);
-    if (AndroidUtilities.isTablet()) {
-      actionBar.setOccupyStatusBar(false);
-    }
-
+  private void addMenu() {
     actionBar.setActionBarMenuOnItemClick(
         new ActionBar.ActionBarMenuOnItemClick() {
           @Override
@@ -258,6 +252,15 @@ public class LocationActivity extends BaseFragment
     item.addSubItem(
         map_list_menu_satellite, LocaleController.getString("Satellite", R.string.Satellite), 0);
     item.addSubItem(map_list_menu_hybrid, LocaleController.getString("Hybrid", R.string.Hybrid), 0);
+  }
+
+  @Override
+  public View createView(Context context) {
+    actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+    actionBar.setAllowOverlayTitle(true);
+
+    addMenu();
+
     fragmentView =
         new FrameLayout(context) {
           private boolean first = true;
@@ -1013,11 +1016,9 @@ public class LocationActivity extends BaseFragment
   @Override
   public void onResume() {
     super.onResume();
-    if (!AndroidUtilities.isTablet()) {
-      getParentActivity()
-          .getWindow()
-          .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-    }
+    getParentActivity()
+        .getWindow()
+        .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     if (mapView != null) {
       mapView.onResume();
     }

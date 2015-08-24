@@ -21,7 +21,7 @@ import android.text.util.Linkify;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.TLRPC;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.components.URLSpanNoUnderline;
@@ -35,6 +35,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MessageObject {
+
+  public enum Type {
+    TEXT(0),
+    MEDIA_PHOTO(1),
+    MEDIA_AUDIO(2),
+    MEDIA_VIDEO(3),
+    MEDIA_VENUE(4),
+    DOC_GIF(8),
+    DOC_GENERIC(9),
+    DOC_WEBP(13),
+    DOC_AUDIO(14),
+    CHAT_ACTION_PHOTO(10),
+    MSG_ACTION(11);
+
+    private final int value;
+    Type(int value) {
+      this.value = value;
+    }
+
+    public int getType() {
+      return value;
+    }
+  }
 
   public static final int MESSAGE_SEND_STATE_SENDING = 1;
   public static final int MESSAGE_SEND_STATE_SENT = 0;
@@ -551,21 +574,21 @@ public class MessageObject {
       } else if (message.action instanceof TLRPC.TL_messageActionChatEditPhoto
           || message.action instanceof TLRPC.TL_messageActionUserUpdatedPhoto) {
         contentType = 4;
-        type = 11;
+        type = Type.MSG_ACTION.getType();
       } else if (message.action instanceof TLRPC.TL_messageEncryptedAction) {
         if (message.action.encryptedAction
                 instanceof TLRPC.TL_decryptedMessageActionScreenshotMessages
             || message.action.encryptedAction
                 instanceof TLRPC.TL_decryptedMessageActionSetMessageTTL) {
           contentType = 4;
-          type = 10;
+          type = Type.CHAT_ACTION_PHOTO.getType();
         } else {
           contentType = -1;
           type = -1;
         }
       } else {
         contentType = 4;
-        type = 10;
+        type = Type.CHAT_ACTION_PHOTO.getType();
       }
     }
 
@@ -864,7 +887,7 @@ public class MessageObject {
   }
 
   private void generateLayout() {
-    if (type != 0
+    if (type != Type.TEXT.getType()
         || messageOwner.to_id == null
         || messageText == null
         || messageText.length() == 0) {
@@ -939,13 +962,6 @@ public class MessageObject {
             blockHeight = Math.min(blockHeight, (int) (block.textYOffset - prevOffset));
           }
           prevOffset = block.textYOffset;
-          /*if (a != blocksCount - 1) {
-           int height = block.textLayout.getHeight();
-           blockHeight = Math.min(blockHeight, block.textLayout.getHeight());
-           prevOffset = block.textYOffset;
-           } else {
-           blockHeight = Math.min(blockHeight, (int)(block.textYOffset - prevOffset));
-           }*/
         } catch (Exception e) {
           FileLog.e("tmessages", e);
           continue;
@@ -1054,10 +1070,6 @@ public class MessageObject {
     messageOwner.flags &= ~TLRPC.MESSAGE_FLAG_UNREAD;
   }
 
-  public int getUnradFlags() {
-    return getUnreadFlags(messageOwner);
-  }
-
   public static int getUnreadFlags(TLRPC.Message message) {
     int flags = 0;
     if ((message.flags & TLRPC.MESSAGE_FLAG_UNREAD) == 0) {
@@ -1108,10 +1120,6 @@ public class MessageObject {
 
   public static boolean isUnread(TLRPC.Message message) {
     return (message.flags & TLRPC.MESSAGE_FLAG_UNREAD) != 0;
-  }
-
-  public static boolean isContentUnread(TLRPC.Message message) {
-    return (message.flags & TLRPC.MESSAGE_FLAG_CONTENT_UNREAD) != 0;
   }
 
   public static boolean isOut(TLRPC.Message message) {
@@ -1217,26 +1225,23 @@ public class MessageObject {
   }
 
   public int getApproximateHeight() {
-    if (type == 0) {
+    if (type == Type.TEXT.getType()) {
       return textHeight;
     } else if (contentType == 2) {
       return AndroidUtilities.dp(68);
     } else if (contentType == 3) {
       return AndroidUtilities.dp(71);
-    } else if (type == 9) {
+    } else if (type == Type.DOC_GENERIC.getType()) {
       return AndroidUtilities.dp(100);
-    } else if (type == 4) {
+    } else if (type == Type.MEDIA_VENUE.getType()) {
       return AndroidUtilities.dp(114);
-    } else if (type == 14) {
+    } else if (type == Type.DOC_AUDIO.getType()) {
       return AndroidUtilities.dp(78);
-    } else if (type == 13) {
+    } else if (type == Type.DOC_WEBP.getType()) {
       float maxHeight = AndroidUtilities.displaySize.y * 0.4f;
       float maxWidth;
-      if (AndroidUtilities.isTablet()) {
-        maxWidth = AndroidUtilities.getMinTabletSide() * 0.5f;
-      } else {
-        maxWidth = AndroidUtilities.displaySize.x * 0.5f;
-      }
+      maxWidth = AndroidUtilities.displaySize.x * 0.5f;
+
       int photoHeight = 0;
       int photoWidth = 0;
       for (TLRPC.DocumentAttribute attribute : messageOwner.media.document.attributes) {

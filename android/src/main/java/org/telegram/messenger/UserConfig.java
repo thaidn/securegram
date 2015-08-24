@@ -49,11 +49,7 @@ public class UserConfig {
     return id;
   }
 
-  public static void saveConfig(boolean withFile) {
-    saveConfig(withFile, null);
-  }
-
-  public static void saveConfig(boolean withFile, File oldFile) {
+  public static void saveConfig(boolean shouldSaveUser) {
     synchronized (sync) {
       try {
         SharedPreferences preferences =
@@ -82,7 +78,7 @@ public class UserConfig {
         editor.putInt("lastUpdateVersion", lastUpdateVersion);
 
         if (currentUser != null) {
-          if (withFile) {
+          if (shouldSaveUser) {
             SerializedData data = new SerializedData();
             currentUser.serializeToStream(data);
             String userString = Base64.encodeToString(data.toByteArray(), Base64.DEFAULT);
@@ -94,9 +90,6 @@ public class UserConfig {
         }
 
         editor.commit();
-        if (oldFile != null) {
-          oldFile.delete();
-        }
       } catch (Exception e) {
         FileLog.e("tmessages", e);
       }
@@ -127,112 +120,47 @@ public class UserConfig {
     }
   }
 
+  private static void loadDefaultConfigOrFromPreferences() {
+    SharedPreferences preferences =
+        ApplicationLoader.applicationContext.getSharedPreferences(
+            "userconfing", Context.MODE_PRIVATE);
+    registeredForPush = preferences.getBoolean("registeredForPush", false);
+    pushString = preferences.getString("pushString", "");
+    lastSendMessageId = preferences.getInt("lastSendMessageId", -210000);
+    lastLocalId = preferences.getInt("lastLocalId", -210000);
+    contactsHash = preferences.getString("contactsHash", "");
+    importHash = preferences.getString("importHash", "");
+    saveIncomingPhotos = preferences.getBoolean("saveIncomingPhotos", false);
+    contactsVersion = preferences.getInt("contactsVersion", 0);
+    lastBroadcastId = preferences.getInt("lastBroadcastId", -1);
+    registeredForInternalPush = preferences.getBoolean("registeredForInternalPush", false);
+    blockedUsersLoaded = preferences.getBoolean("blockedUsersLoaded", false);
+    passcodeHash = preferences.getString("passcodeHash1", "");
+    appLocked = preferences.getBoolean("appLocked", false);
+    passcodeType = preferences.getInt("passcodeType", 0);
+    autoLockIn = preferences.getInt("autoLockIn", 60 * 60);
+    lastPauseTime = preferences.getInt("lastPauseTime", 0);
+    lastUpdateVersion = preferences.getInt("lastUpdateVersion", 511);
+    String user = preferences.getString("user", null);
+    if (user != null) {
+      byte[] userBytes = Base64.decode(user, Base64.DEFAULT);
+      if (userBytes != null) {
+        SerializedData data = new SerializedData(userBytes);
+        currentUser = TLRPC.User.TLdeserialize(data, data.readInt32(false), false);
+        data.cleanup();
+      }
+    }
+    String passcodeSaltString = preferences.getString("passcodeSalt", "");
+    if (passcodeSaltString.length() > 0) {
+      passcodeSalt = Base64.decode(passcodeSaltString, Base64.DEFAULT);
+    } else {
+      passcodeSalt = new byte[0];
+    }
+  }
+
   public static void loadConfig() {
     synchronized (sync) {
-      final File configFile =
-          new File(ApplicationLoader.applicationContext.getFilesDir(), "user.dat");
-      if (configFile.exists()) {
-        try {
-          SerializedData data = new SerializedData(configFile);
-          int ver = data.readInt32(false);
-          if (ver == 1) {
-            int constructor = data.readInt32(false);
-            currentUser = TLRPC.User.TLdeserialize(data, constructor, false);
-            MessagesStorage.lastDateValue = data.readInt32(false);
-            MessagesStorage.lastPtsValue = data.readInt32(false);
-            MessagesStorage.lastSeqValue = data.readInt32(false);
-            registeredForPush = data.readBool(false);
-            pushString = data.readString(false);
-            lastSendMessageId = data.readInt32(false);
-            lastLocalId = data.readInt32(false);
-            contactsHash = data.readString(false);
-            importHash = data.readString(false);
-            saveIncomingPhotos = data.readBool(false);
-            contactsVersion = 0;
-            MessagesStorage.lastQtsValue = data.readInt32(false);
-            MessagesStorage.lastSecretVersion = data.readInt32(false);
-            int val = data.readInt32(false);
-            if (val == 1) {
-              MessagesStorage.secretPBytes = data.readByteArray(false);
-            }
-            MessagesStorage.secretG = data.readInt32(false);
-            Utilities.stageQueue.postRunnable(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    saveConfig(true, configFile);
-                  }
-                });
-          } else if (ver == 2) {
-            int constructor = data.readInt32(false);
-            currentUser = TLRPC.User.TLdeserialize(data, constructor, false);
-
-            SharedPreferences preferences =
-                ApplicationLoader.applicationContext.getSharedPreferences(
-                    "userconfing", Context.MODE_PRIVATE);
-            registeredForPush = preferences.getBoolean("registeredForPush", false);
-            pushString = preferences.getString("pushString", "");
-            lastSendMessageId = preferences.getInt("lastSendMessageId", -210000);
-            lastLocalId = preferences.getInt("lastLocalId", -210000);
-            contactsHash = preferences.getString("contactsHash", "");
-            importHash = preferences.getString("importHash", "");
-            saveIncomingPhotos = preferences.getBoolean("saveIncomingPhotos", false);
-            contactsVersion = preferences.getInt("contactsVersion", 0);
-          }
-          if (lastLocalId > -210000) {
-            lastLocalId = -210000;
-          }
-          if (lastSendMessageId > -210000) {
-            lastSendMessageId = -210000;
-          }
-          data.cleanup();
-          Utilities.stageQueue.postRunnable(
-              new Runnable() {
-                @Override
-                public void run() {
-                  saveConfig(true, configFile);
-                }
-              });
-        } catch (Exception e) {
-          FileLog.e("tmessages", e);
-        }
-      } else {
-        SharedPreferences preferences =
-            ApplicationLoader.applicationContext.getSharedPreferences(
-                "userconfing", Context.MODE_PRIVATE);
-        registeredForPush = preferences.getBoolean("registeredForPush", false);
-        pushString = preferences.getString("pushString", "");
-        lastSendMessageId = preferences.getInt("lastSendMessageId", -210000);
-        lastLocalId = preferences.getInt("lastLocalId", -210000);
-        contactsHash = preferences.getString("contactsHash", "");
-        importHash = preferences.getString("importHash", "");
-        saveIncomingPhotos = preferences.getBoolean("saveIncomingPhotos", false);
-        contactsVersion = preferences.getInt("contactsVersion", 0);
-        lastBroadcastId = preferences.getInt("lastBroadcastId", -1);
-        registeredForInternalPush = preferences.getBoolean("registeredForInternalPush", false);
-        blockedUsersLoaded = preferences.getBoolean("blockedUsersLoaded", false);
-        passcodeHash = preferences.getString("passcodeHash1", "");
-        appLocked = preferences.getBoolean("appLocked", false);
-        passcodeType = preferences.getInt("passcodeType", 0);
-        autoLockIn = preferences.getInt("autoLockIn", 60 * 60);
-        lastPauseTime = preferences.getInt("lastPauseTime", 0);
-        lastUpdateVersion = preferences.getInt("lastUpdateVersion", 511);
-        String user = preferences.getString("user", null);
-        if (user != null) {
-          byte[] userBytes = Base64.decode(user, Base64.DEFAULT);
-          if (userBytes != null) {
-            SerializedData data = new SerializedData(userBytes);
-            currentUser = TLRPC.User.TLdeserialize(data, data.readInt32(false), false);
-            data.cleanup();
-          }
-        }
-        String passcodeSaltString = preferences.getString("passcodeSalt", "");
-        if (passcodeSaltString.length() > 0) {
-          passcodeSalt = Base64.decode(passcodeSaltString, Base64.DEFAULT);
-        } else {
-          passcodeSalt = new byte[0];
-        }
-      }
+        loadDefaultConfigOrFromPreferences();
     }
   }
 

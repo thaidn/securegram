@@ -64,12 +64,15 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
+import xyz.securegram.axolotl.AxolotlController;
+
 import org.telegram.messenger.RPCRequest;
 import org.telegram.messenger.SerializedData;
 import org.telegram.messenger.TLObject;
 import org.telegram.messenger.TLRPC;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.phoneformat.PhoneFormat;
 import org.telegram.ui.actionbar.ActionBar;
 import org.telegram.ui.actionbar.ActionBarMenu;
@@ -266,12 +269,8 @@ public class SettingsActivity extends BaseFragment
       switchBackendButtonRow = rowCount++;
     }
     versionRow = rowCount++;
-    //contactsSectionRow = rowCount++;
-    //contactsReimportRow = rowCount++;
-    //contactsSortRow = rowCount++;
 
     MessagesController.getInstance().loadFullUser(UserConfig.getCurrentUser(), classGuid);
-
     return true;
   }
 

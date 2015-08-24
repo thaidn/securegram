@@ -49,7 +49,7 @@ import org.telegram.android.animationcompat.ObjectAnimatorProxy;
 import org.telegram.android.animationcompat.ViewProxy;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.UserConfig;
 
 import java.util.ArrayList;

@@ -42,7 +42,7 @@ import org.telegram.android.NotificationCenter;
 import org.telegram.android.SecretChatHelper;
 import org.telegram.android.UserObject;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.TLRPC;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.actionbar.ActionBar;
@@ -87,16 +87,20 @@ public class ContactsActivity extends BaseFragment
 
   public ContactsActivity(Bundle args) {
     super(args);
+
+    notificationEvents = new int[] {
+        NotificationCenter.contactsDidLoaded,
+        NotificationCenter.updateInterfaces,
+        NotificationCenter.encryptedChatCreated,
+        NotificationCenter.closeChats
+    };
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public boolean onFragmentCreate() {
     super.onFragmentCreate();
-    NotificationCenter.getInstance().addObserver(this, NotificationCenter.contactsDidLoaded);
-    NotificationCenter.getInstance().addObserver(this, NotificationCenter.updateInterfaces);
-    NotificationCenter.getInstance().addObserver(this, NotificationCenter.encryptedChatCreated);
-    NotificationCenter.getInstance().addObserver(this, NotificationCenter.closeChats);
+
     if (arguments != null) {
       onlyUsers = getArguments().getBoolean("onlyUsers", false);
       destroyAfterSelect = arguments.getBoolean("destroyAfterSelect", false);
@@ -117,10 +121,6 @@ public class ContactsActivity extends BaseFragment
   @Override
   public void onFragmentDestroy() {
     super.onFragmentDestroy();
-    NotificationCenter.getInstance().removeObserver(this, NotificationCenter.contactsDidLoaded);
-    NotificationCenter.getInstance().removeObserver(this, NotificationCenter.updateInterfaces);
-    NotificationCenter.getInstance().removeObserver(this, NotificationCenter.encryptedChatCreated);
-    NotificationCenter.getInstance().removeObserver(this, NotificationCenter.closeChats);
     delegate = null;
   }
 
@@ -305,7 +305,7 @@ public class ContactsActivity extends BaseFragment
                 } else {
                   Bundle args = new Bundle();
                   args.putInt("user_id", user.id);
-                  presentFragment(new ChatActivity(args), true);
+                  presentFragment(new ChatActivity(args), true /* removeLast */);
                 }
               }
             } else {

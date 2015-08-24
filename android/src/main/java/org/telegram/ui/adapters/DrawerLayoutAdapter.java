@@ -16,7 +16,7 @@ import android.widget.BaseAdapter;
 import org.telegram.android.AndroidUtilities;
 import org.telegram.android.LocaleController;
 import org.telegram.android.MessagesController;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.cells.DividerCell;
 import org.telegram.ui.cells.DrawerActionCell;

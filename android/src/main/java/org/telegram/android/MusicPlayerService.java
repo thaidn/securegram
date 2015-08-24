@@ -29,7 +29,7 @@ import android.widget.RemoteViews;
 import org.telegram.android.audioinfo.AudioInfo;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.LaunchActivity;
 
 public class MusicPlayerService extends Service

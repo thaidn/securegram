@@ -23,7 +23,7 @@ import org.telegram.android.MediaController;
 import org.telegram.android.MessageObject;
 import org.telegram.android.MessagesController;
 import org.telegram.messenger.FileLoader;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.cells.BaseCell;
 
 import java.io.File;

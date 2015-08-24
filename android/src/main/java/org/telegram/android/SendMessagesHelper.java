@@ -24,7 +24,9 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
+import xyz.securegram.axolotl.AxolotlController;
+
 import org.telegram.messenger.RPCRequest;
 import org.telegram.messenger.TLObject;
 import org.telegram.messenger.TLRPC;
@@ -1038,6 +1040,7 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
     TLRPC.InputPeer sendToPeer = null;
     ArrayList<TLRPC.InputUser> sendToPeers = null;
     if (lower_id == 0) {
+      // encrypted chat.
       encryptedChat = MessagesController.getInstance().getEncryptedChat(high_id);
       if (encryptedChat == null) {
         if (msgObj != null) {
@@ -1054,24 +1057,24 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
     if (retry) {
       newMsg = msgObj.messageOwner;
 
-      if (msgObj.type == 0) {
+      if (msgObj.type == MessageObject.Type.TEXT.getType()) {
         if (msgObj.isForwarded()) {
           type = 4;
         } else {
           message = newMsg.message;
           type = 0;
         }
-      } else if (msgObj.type == 4) {
+      } else if (msgObj.type == MessageObject.Type.MEDIA_VENUE.getType()) {
         location = newMsg.media;
         type = 1;
-      } else if (msgObj.type == 1) {
+      } else if (msgObj.type == MessageObject.Type.MEDIA_PHOTO.getType()) {
         if (msgObj.isForwarded()) {
           type = 4;
         } else {
           photo = (TLRPC.TL_photo) newMsg.media.photo;
           type = 2;
         }
-      } else if (msgObj.type == 3) {
+      } else if (msgObj.type == MessageObject.Type.MEDIA_VIDEO.getType()) {
         if (msgObj.isForwarded()) {
           type = 4;
         } else {
@@ -1085,10 +1088,12 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
         user.last_name = newMsg.media.last_name;
         user.id = newMsg.media.user_id;
         type = 6;
-      } else if (msgObj.type == 8 || msgObj.type == 9 || msgObj.type == 13) {
+      } else if (msgObj.type == MessageObject.Type.DOC_GIF.getType() ||
+          msgObj.type == MessageObject.Type.DOC_GENERIC.getType() ||
+          msgObj.type == MessageObject.Type.DOC_WEBP.getType()) {
         document = (TLRPC.TL_document) newMsg.media.document;
         type = 7;
-      } else if (msgObj.type == 2) {
+      } else if (msgObj.type == MessageObject.Type.MEDIA_AUDIO.getType()) {
         audio = (TLRPC.TL_audio) newMsg.media.audio;
         type = 8;
       }
@@ -1238,6 +1243,7 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
     }
     if (lower_id != 0) {
       if (high_id == 1) {
+        // broadcast chat.
         if (currentChatInfo == null) {
           MessagesStorage.getInstance().markMessageAsSendError(newMsg.id);
           NotificationCenter.getInstance()
@@ -1328,7 +1334,9 @@ public class SendMessagesHelper implements NotificationCenter.NotificationCenter
             performSendMessageRequest(reqSend, newMsgObj.messageOwner, null);
           } else {
             TLRPC.TL_messages_sendMessage reqSend = new TLRPC.TL_messages_sendMessage();
-            reqSend.message = message;
+            // TODO(thaidn): encrypt other message types.
+            reqSend.message = AxolotlController.getInstance().encryptMessage(message,
+                sendToPeer.user_id);
             reqSend.peer = sendToPeer;
             reqSend.random_id = newMsg.random_id;
             if (reply_to_msg != null) {

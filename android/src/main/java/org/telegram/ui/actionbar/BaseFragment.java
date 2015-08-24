@@ -17,9 +17,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.telegram.android.NotificationCenter;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 
 public class BaseFragment {
 
@@ -33,6 +34,8 @@ public class BaseFragment {
   protected Bundle arguments;
   protected boolean swipeBackEnabled = true;
   protected boolean hasOwnBackground = false;
+
+  protected int notificationEvents[];
 
   public BaseFragment() {
     classGuid = ConnectionsManager.getInstance().generateClassGuid();
@@ -134,15 +137,27 @@ public class BaseFragment {
   }
 
   public boolean onFragmentCreate() {
+    if (notificationEvents != null) {
+      for (int event: notificationEvents) {
+        NotificationCenter.getInstance().addObserver(this, event);
+      }
+    }
+
     return true;
   }
 
   public void onFragmentDestroy() {
     ConnectionsManager.getInstance().cancelRpcsForClassGuid(classGuid);
-    isFinished = true;
+    if (notificationEvents != null) {
+      for (int event: notificationEvents) {
+        NotificationCenter.getInstance().removeObserver(this, event);
+      }
+    }
+
     if (actionBar != null) {
       actionBar.setEnabled(false);
     }
+    isFinished = true;
   }
 
   public void onResume() {}

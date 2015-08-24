@@ -3,7 +3,7 @@
 <!--Translation by Khalid Alaraifi-->
 
 <resources>
-    <string name="AppName">Telegram</string>
+    <string name="AppName">Securegram</string>
     <string name="LanguageName">العربية</string>
     <string name="LanguageNameInEnglish">Arabic</string>
     <string name="LanguageCode">ar</string>

@@ -40,20 +40,18 @@ import org.telegram.android.ScreenReceiver;
 import org.telegram.android.SendMessagesHelper;
 import org.telegram.ui.components.ForegroundDetector;
 
+import xyz.securegram.R;
+import xyz.securegram.axolotl.AxolotlController;
+
 import java.io.File;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ApplicationLoader extends Application {
 
   private GoogleCloudMessaging gcm;
-  private AtomicInteger msgId = new AtomicInteger();
   private String regid;
-  public static final String EXTRA_MESSAGE = "message";
   public static final String PROPERTY_REG_ID = "registration_id";
   private static final String PROPERTY_APP_VERSION = "appVersion";
-  private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
   private static Drawable cachedWallpaper;
-  private static int selectedColor;
   private static boolean isCustomTheme;
   private static final Object sync = new Object();
 
@@ -66,10 +64,6 @@ public class ApplicationLoader extends Application {
 
   public static boolean isCustomTheme() {
     return isCustomTheme;
-  }
-
-  public static int getSelectedColor() {
-    return selectedColor;
   }
 
   public static void reloadWallpaper() {
@@ -137,8 +131,6 @@ public class ApplicationLoader extends Application {
       return;
     }
 
-    applicationInited = true;
-
     try {
       LocaleController.getInstance();
     } catch (Exception e) {
@@ -170,6 +162,7 @@ public class ApplicationLoader extends Application {
       MessagesController.getInstance().putUser(UserConfig.getCurrentUser(), true);
       ConnectionsManager.getInstance().applyCountryPortNumber(UserConfig.getCurrentUser().phone);
       ConnectionsManager.getInstance().initPushConnection();
+      AxolotlController.getInstance().registerLocalAxolotlIdentity();
       MessagesController.getInstance().getBlockedUsers(true);
       SendMessagesHelper.getInstance().checkUnsentMessages();
     }
@@ -180,6 +173,8 @@ public class ApplicationLoader extends Application {
 
     ContactsController.getInstance().checkAppAccount();
     MediaController.getInstance();
+
+    applicationInited = true;
   }
 
   @Override
@@ -208,19 +203,8 @@ public class ApplicationLoader extends Application {
         applicationContext.getSharedPreferences("Notifications", MODE_PRIVATE);
 
     if (preferences.getBoolean("pushService", true)) {
-      applicationContext.startService(new Intent(applicationContext, NotificationsService.class));
-
-      if (android.os.Build.VERSION.SDK_INT >= 19) {
-        PendingIntent pintent =
-            PendingIntent.getService(
-                applicationContext,
-                0,
-                new Intent(applicationContext, NotificationsService.class),
-                0);
-        AlarmManager alarm =
-            (AlarmManager) applicationContext.getSystemService(Context.ALARM_SERVICE);
-        alarm.cancel(pintent);
-      }
+      applicationContext.startService(new Intent(applicationContext,
+          NotificationsService.class));
     } else {
       stopPushService();
     }
@@ -231,8 +215,11 @@ public class ApplicationLoader extends Application {
 
     PendingIntent pintent =
         PendingIntent.getService(
-            applicationContext, 0, new Intent(applicationContext, NotificationsService.class), 0);
-    AlarmManager alarm = (AlarmManager) applicationContext.getSystemService(Context.ALARM_SERVICE);
+            applicationContext,
+            0,
+            new Intent(applicationContext, NotificationsService.class), 0);
+    AlarmManager alarm = (AlarmManager) applicationContext.getSystemService(
+        Context.ALARM_SERVICE);
     alarm.cancel(pintent);
   }
 
@@ -333,7 +320,7 @@ public class ApplicationLoader extends Application {
           public void run() {
             UserConfig.pushString = regid;
             UserConfig.registeredForPush = !isNew;
-            UserConfig.saveConfig(false);
+            UserConfig.saveConfig(false /* shouldSaveUser */);
             if (UserConfig.getClientUserId() != 0) {
               AndroidUtilities.runOnUIThread(
                   new Runnable() {

@@ -50,7 +50,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.RPCRequest;
 import org.telegram.messenger.TLObject;
 import org.telegram.messenger.TLRPC;
@@ -282,7 +282,8 @@ public class MediaActivity extends BaseFragment
                         for (HashMap.Entry<Integer, MessageObject> entry :
                             selectedFiles.entrySet()) {
                           MessageObject msg = entry.getValue();
-                          if (msg.messageOwner.random_id != 0 && msg.type != 10) {
+                          if (msg.messageOwner.random_id != 0 &&
+                              msg.type != MessageObject.Type.CHAT_ACTION_PHOTO.getType()) {
                             random_ids.add(msg.messageOwner.random_id);
                           }
                         }

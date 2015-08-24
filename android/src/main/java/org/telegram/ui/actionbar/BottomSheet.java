@@ -46,7 +46,7 @@ import org.telegram.android.animationcompat.AnimatorSetProxy;
 import org.telegram.android.animationcompat.ObjectAnimatorProxy;
 import org.telegram.android.animationcompat.ViewProxy;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.components.LayoutHelper;
 
 import java.util.ArrayList;

@@ -27,7 +27,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.RPCRequest;
 import org.telegram.messenger.TLObject;
 import org.telegram.messenger.TLRPC;
@@ -626,7 +626,7 @@ public class ContactsController {
                   || UserConfig.contactsVersion != 1) {
                 UserConfig.importHash = "";
                 UserConfig.contactsVersion = 1;
-                UserConfig.saveConfig(false);
+                UserConfig.saveConfig(false /* shouldSaveUser */);
                 request = false;
               }
             }
@@ -1133,7 +1133,7 @@ public class ContactsController {
                         ids.append(aContactsArr.user_id);
                       }
                       UserConfig.contactsHash = Utilities.MD5(ids.toString());
-                      UserConfig.saveConfig(false);
+                      UserConfig.saveConfig(false /* shouldSaveUser */);
                     }
 
                     Collections.sort(
@@ -1398,7 +1398,7 @@ public class ContactsController {
       ids.append(value.user_id);
     }
     UserConfig.contactsHash = Utilities.MD5(ids.toString());
-    UserConfig.saveConfig(false);
+    UserConfig.saveConfig(false /* shouldSaveUser */);
 
     Collections.sort(
         sortedSectionsArray,

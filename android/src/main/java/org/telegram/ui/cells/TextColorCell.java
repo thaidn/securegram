@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import org.telegram.android.AndroidUtilities;
 import org.telegram.android.LocaleController;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.components.LayoutHelper;
 
 public class TextColorCell extends FrameLayout {

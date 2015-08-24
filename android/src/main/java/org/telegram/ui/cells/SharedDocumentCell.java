@@ -26,7 +26,7 @@ import org.telegram.android.LocaleController;
 import org.telegram.android.MediaController;
 import org.telegram.android.MessageObject;
 import org.telegram.messenger.FileLoader;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.TLRPC;
 import org.telegram.ui.components.BackupImageView;
 import org.telegram.ui.components.CheckBox;

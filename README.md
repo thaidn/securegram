@@ -1,6 +1,6 @@
 ## Securegram for Android
 
-Securegram is fork of Telegram with a focus on security and performance. All messages must be end-to-end encrypted using ECDH over Curve25519 in a TextSecure-like style.
+Securegram is a fork of Telegram with a focus on security. All messages are end-to-end encrypted using the Axolotl protocol.
 
 ##Creating your Telegram Application
 

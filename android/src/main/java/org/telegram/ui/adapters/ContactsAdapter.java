@@ -18,7 +18,7 @@ import org.telegram.android.ContactsController;
 import org.telegram.android.LocaleController;
 import org.telegram.android.MessagesController;
 import org.telegram.android.animationcompat.ViewProxy;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.TLRPC;
 import org.telegram.ui.cells.DividerCell;
 import org.telegram.ui.cells.GreySectionCell;

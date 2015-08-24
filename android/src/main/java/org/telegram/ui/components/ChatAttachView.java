@@ -31,7 +31,7 @@ import org.telegram.android.LocaleController;
 import org.telegram.android.MediaController;
 import org.telegram.android.NotificationCenter;
 import org.telegram.android.support.widget.LinearLayoutManager;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.adapters.PhotoAttachAdapter;
 

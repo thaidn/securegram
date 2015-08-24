@@ -17,6 +17,30 @@ import java.util.HashMap;
 
 public class NotificationCenter {
 
+  public enum Notification {
+    DID_RECEIVED_MESSAGE(1),
+    UPDATE_INTERFACES(2),
+    DIALOGS_NEED_RELOAD(3),
+    CLOSE_CHATS(4),
+    MESSAGES_DELETED(5),
+    MESSAGES_READ(6),
+    MESSAGES_DID_LOADED(7);
+
+
+    private final int id;
+
+    Notification(int id) {
+      this.id = id;
+    }
+
+    /**
+     * Returns the int code corresponding to this enum value.
+     */
+    public int getId() {
+      return id;
+    }
+  }
+
   private static int totalEvents = 1;
 
   public static final int didReceivedNewMessages = totalEvents++;
@@ -74,7 +98,6 @@ public class NotificationCenter {
   public static final int wallpapersDidLoaded = totalEvents++;
   public static final int closeOtherAppActivities = totalEvents++;
   public static final int didUpdatedConnectionState = totalEvents++;
-  public static final int didReceiveSmsCode = totalEvents++;
   public static final int emojiDidLoaded = totalEvents++;
   public static final int appDidLogout = totalEvents++;
 

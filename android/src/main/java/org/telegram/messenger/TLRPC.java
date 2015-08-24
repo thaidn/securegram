@@ -2116,6 +2116,8 @@ public class TLRPC {
     public PeerNotifySettings notify_settings;
     public boolean blocked;
     public BotInfo bot_info;
+    public String real_first_name;
+    public String real_last_name;
 
     public static TL_userFull TLdeserialize(
         AbsSerializedData stream, int constructor, boolean exception) {
@@ -2140,6 +2142,8 @@ public class TLRPC {
           PeerNotifySettings.TLdeserialize(stream, stream.readInt32(exception), exception);
       blocked = stream.readBool(exception);
       bot_info = BotInfo.TLdeserialize(stream, stream.readInt32(exception), exception);
+      real_first_name = stream.readString(exception);
+      real_last_name = stream.readString(exception);
     }
 
     public void serializeToStream(AbsSerializedData stream) {
@@ -2150,6 +2154,8 @@ public class TLRPC {
       notify_settings.serializeToStream(stream);
       stream.writeBool(blocked);
       bot_info.serializeToStream(stream);
+      stream.writeString(real_first_name);
+      stream.writeString(real_last_name);
     }
   }
 

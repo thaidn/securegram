@@ -17,6 +17,7 @@ import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
 
@@ -26,7 +27,9 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
+import xyz.securegram.axolotl.AxolotlController;
+
 import org.telegram.messenger.RPCRequest;
 import org.telegram.messenger.SerializedData;
 import org.telegram.messenger.TLObject;
@@ -3295,6 +3298,15 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                                           || !res.new_encrypted_messages.isEmpty()) {
                                         final HashMap<Long, ArrayList<MessageObject>> messages =
                                             new HashMap<>();
+
+                                        // TODO(thaidn): decrypt other message types.
+                                        for (TLRPC.Message message : res.new_messages) {
+                                          res.new_messages.remove(message);
+                                          message.message = AxolotlController.getInstance().decryptMessage(
+                                              message.message, message.from_id);
+                                          res.new_messages.add(message);
+                                        }
+
                                         for (TLRPC.EncryptedMessage encryptedMessage :
                                             res.new_encrypted_messages) {
                                           ArrayList<TLRPC.Message> decryptedMessages =
@@ -4003,9 +4015,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         messagesArr.add(upd.message);
         ImageLoader.saveMessageThumbs(upd.message);
         MessageObject obj = new MessageObject(upd.message, usersDict, true);
-        if (obj.type == 11) {
+        if (obj.type == MessageObject.Type.MSG_ACTION.getType()) {
           interfaceUpdateMask |= UPDATE_MASK_CHAT_AVATAR;
-        } else if (obj.type == 10) {
+        } else if (obj.type == MessageObject.Type.CHAT_ACTION_PHOTO.getType()) {
           interfaceUpdateMask |= UPDATE_MASK_CHAT_NAME;
         }
         long uid;
@@ -4486,21 +4498,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                       editor.remove("notify2_" + dialog_id);
                       MessagesStorage.getInstance().setDialogFlags(dialog_id, 0);
                     }
-                  } /* else if (update.peer instanceof TLRPC.TL_notifyChats) { disable global settings sync
-                     if (editor == null) {
-                     SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", Activity.MODE_PRIVATE);
-                     editor = preferences.edit();
-                     }
-                     editor.putBoolean("EnableGroup", update.notify_settings.mute_until == 0);
-                     editor.putBoolean("EnablePreviewGroup", update.notify_settings.show_previews);
-                     } else if (update.peer instanceof TLRPC.TL_notifyUsers) {
-                     if (editor == null) {
-                     SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", Activity.MODE_PRIVATE);
-                     editor = preferences.edit();
-                     }
-                     editor.putBoolean("EnableAll", update.notify_settings.mute_until == 0);
-                     editor.putBoolean("EnablePreviewAll", update.notify_settings.show_previews);
-                     }*/
+                  }
                 }
               }
               if (editor != null) {
@@ -4744,6 +4742,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
           || message.messageOwner.date > lastMessage.messageOwner.date) {
         lastMessage = message;
       }
+
+      message.messageText = AxolotlController.getInstance().decryptMessage(
+          message.messageText.toString(), message.messageOwner.from_id);
     }
 
     TLRPC.TL_dialog dialog = dialogs_dict.get(uid);

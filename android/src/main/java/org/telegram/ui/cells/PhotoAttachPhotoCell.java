@@ -15,7 +15,7 @@ import android.widget.FrameLayout;
 
 import org.telegram.android.AndroidUtilities;
 import org.telegram.android.MediaController;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.components.BackupImageView;
 import org.telegram.ui.components.CheckBox;

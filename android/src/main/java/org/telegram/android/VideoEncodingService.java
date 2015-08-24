@@ -16,7 +16,7 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 
 public class VideoEncodingService extends Service
     implements NotificationCenter.NotificationCenterDelegate {

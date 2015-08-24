@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 import org.telegram.android.AndroidUtilities;
 import org.telegram.android.LocaleController;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.ui.components.LayoutHelper;
 import org.telegram.ui.components.SimpleTextView;
 

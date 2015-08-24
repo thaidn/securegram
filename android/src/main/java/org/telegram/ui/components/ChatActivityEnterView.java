@@ -46,7 +46,9 @@ import org.telegram.android.animationcompat.ViewProxy;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ConnectionsManager;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
+import xyz.securegram.axolotl.AxolotlController;
+
 import org.telegram.messenger.TLRPC;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.actionbar.ActionBar;
@@ -843,9 +845,11 @@ public class ChatActivityEnterView extends FrameLayoutFixed
       int count = (int) Math.ceil(text.length() / 4096.0f);
       for (int a = 0; a < count; a++) {
         String mess = text.substring(a * 4096, Math.min((a + 1) * 4096, text.length()));
+        int userId = (int) (dialog_id);
         SendMessagesHelper.getInstance()
             .sendMessage(
-                mess, dialog_id, replyingMessageObject, messageWebPage, messageWebPageSearch);
+                mess, dialog_id, replyingMessageObject, messageWebPage,
+                messageWebPageSearch);
       }
       return true;
     }

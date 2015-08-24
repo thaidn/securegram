@@ -26,7 +26,7 @@ import android.widget.TextView;
 import org.telegram.android.AndroidUtilities;
 import org.telegram.android.LocaleController;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.R;
+import xyz.securegram.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.actionbar.ActionBar;
 import org.telegram.ui.actionbar.ActionBarMenu;
