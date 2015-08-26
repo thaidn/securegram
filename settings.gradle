@@ -1,1 +1,4 @@
-include ':android', ':libtest'
+include ':android', ':libaxolotl-tests', ':libaxolotl-android', ':libaxolotl-java'
+project(':libaxolotl-tests').projectDir = new File('libaxolotl/tests')
+project(':libaxolotl-android').projectDir = new File('libaxolotl/android')
+project(':libaxolotl-java').projectDir = new File('libaxolotl/java')

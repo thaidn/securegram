@@ -10,6 +10,7 @@ import org.telegram.android.MessagesController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.TLRPC;
 import org.telegram.messenger.Utilities;
+
 import org.whispersystems.libaxolotl.AxolotlAddress;
 import org.whispersystems.libaxolotl.IdentityKey;
 import org.whispersystems.libaxolotl.SessionBuilder;
@@ -22,13 +23,13 @@ import org.whispersystems.libaxolotl.IdentityKeyPair;
 import org.whispersystems.libaxolotl.SessionCipher;
 import org.whispersystems.libaxolotl.state.AxolotlStore;
 import org.whispersystems.libaxolotl.state.PreKeyBundle;
-import org.whispersystems.libaxolotl.state.impl.InMemoryAxolotlStore;
 import org.whispersystems.libaxolotl.state.SignedPreKeyRecord;
 import org.whispersystems.libaxolotl.util.KeyHelper;
+import org.whispersystems.libaxolotl.state.impl.InMemoryAxolotlStore;
 
+import xyz.securegram.QrCode;
 import xyz.securegram.axolotl.AbelianProtos.AbelianEnvelope;
 import xyz.securegram.axolotl.AbelianProtos.AbelianIdentity;
-import xyz.securegram.QrCode;
 
 public class AxolotlController {
   private static final String TAG = AxolotlController.class.getName();
