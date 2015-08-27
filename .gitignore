@@ -30,5 +30,8 @@ proguard/
 .idea/
 *.iml
 
+# Keystore
+*.jks
+
 # Mac weird folder
 .DS_Store

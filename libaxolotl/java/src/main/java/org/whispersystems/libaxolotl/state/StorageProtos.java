@@ -8,10 +8,10 @@ public final class StorageProtos {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface SessionStructureOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface SessionStructureOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.SessionStructure)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional uint32 sessionVersion = 1;
     /**
      * <code>optional uint32 sessionVersion = 1;</code>
      */
@@ -21,7 +21,6 @@ public final class StorageProtos {
      */
     int getSessionVersion();
 
-    // optional bytes localIdentityPublic = 2;
     /**
      * <code>optional bytes localIdentityPublic = 2;</code>
      */
@@ -31,7 +30,6 @@ public final class StorageProtos {
      */
     com.google.protobuf.ByteString getLocalIdentityPublic();
 
-    // optional bytes remoteIdentityPublic = 3;
     /**
      * <code>optional bytes remoteIdentityPublic = 3;</code>
      */
@@ -41,7 +39,6 @@ public final class StorageProtos {
      */
     com.google.protobuf.ByteString getRemoteIdentityPublic();
 
-    // optional bytes rootKey = 4;
     /**
      * <code>optional bytes rootKey = 4;</code>
      */
@@ -51,7 +48,6 @@ public final class StorageProtos {
      */
     com.google.protobuf.ByteString getRootKey();
 
-    // optional uint32 previousCounter = 5;
     /**
      * <code>optional uint32 previousCounter = 5;</code>
      */
@@ -61,7 +57,6 @@ public final class StorageProtos {
      */
     int getPreviousCounter();
 
-    // optional .textsecure.SessionStructure.Chain senderChain = 6;
     /**
      * <code>optional .textsecure.SessionStructure.Chain senderChain = 6;</code>
      */
@@ -75,7 +70,6 @@ public final class StorageProtos {
      */
     org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.ChainOrBuilder getSenderChainOrBuilder();
 
-    // repeated .textsecure.SessionStructure.Chain receiverChains = 7;
     /**
      * <code>repeated .textsecure.SessionStructure.Chain receiverChains = 7;</code>
      */
@@ -100,7 +94,6 @@ public final class StorageProtos {
     org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.ChainOrBuilder getReceiverChainsOrBuilder(
         int index);
 
-    // optional .textsecure.SessionStructure.PendingKeyExchange pendingKeyExchange = 8;
     /**
      * <code>optional .textsecure.SessionStructure.PendingKeyExchange pendingKeyExchange = 8;</code>
      */
@@ -114,7 +107,6 @@ public final class StorageProtos {
      */
     org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchangeOrBuilder getPendingKeyExchangeOrBuilder();
 
-    // optional .textsecure.SessionStructure.PendingPreKey pendingPreKey = 9;
     /**
      * <code>optional .textsecure.SessionStructure.PendingPreKey pendingPreKey = 9;</code>
      */
@@ -128,27 +120,24 @@ public final class StorageProtos {
      */
     org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKeyOrBuilder getPendingPreKeyOrBuilder();
 
-    // optional uint32 remoteRegistrationId = 10;
     /**
-     * <code>optional uint32 remoteRegistrationId = 10;</code>
+     * <code>optional uint32 remoteDeviceId = 10;</code>
      */
-    boolean hasRemoteRegistrationId();
+    boolean hasRemoteDeviceId();
     /**
-     * <code>optional uint32 remoteRegistrationId = 10;</code>
+     * <code>optional uint32 remoteDeviceId = 10;</code>
      */
-    int getRemoteRegistrationId();
+    int getRemoteDeviceId();
 
-    // optional uint32 localRegistrationId = 11;
     /**
-     * <code>optional uint32 localRegistrationId = 11;</code>
+     * <code>optional uint32 localDeviceId = 11;</code>
      */
-    boolean hasLocalRegistrationId();
+    boolean hasLocalDeviceId();
     /**
-     * <code>optional uint32 localRegistrationId = 11;</code>
+     * <code>optional uint32 localDeviceId = 11;</code>
      */
-    int getLocalRegistrationId();
+    int getLocalDeviceId();
 
-    // optional bool needsRefresh = 12;
     /**
      * <code>optional bool needsRefresh = 12;</code>
      */
@@ -158,7 +147,6 @@ public final class StorageProtos {
      */
     boolean getNeedsRefresh();
 
-    // optional bytes aliceBaseKey = 13;
     /**
      * <code>optional bytes aliceBaseKey = 13;</code>
      */
@@ -172,8 +160,9 @@ public final class StorageProtos {
    * Protobuf type {@code textsecure.SessionStructure}
    */
   public static final class SessionStructure extends
-      com.google.protobuf.GeneratedMessage
-      implements SessionStructureOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.SessionStructure)
+      SessionStructureOrBuilder {
     // Use SessionStructure.newBuilder() to construct.
     private SessionStructure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -293,12 +282,12 @@ public final class StorageProtos {
             }
             case 80: {
               bitField0_ |= 0x00000100;
-              remoteRegistrationId_ = input.readUInt32();
+              remoteDeviceId_ = input.readUInt32();
               break;
             }
             case 88: {
               bitField0_ |= 0x00000200;
-              localRegistrationId_ = input.readUInt32();
+              localDeviceId_ = input.readUInt32();
               break;
             }
             case 96: {
@@ -353,10 +342,10 @@ public final class StorageProtos {
       return PARSER;
     }
 
-    public interface ChainOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface ChainOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.SessionStructure.Chain)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional bytes senderRatchetKey = 1;
       /**
        * <code>optional bytes senderRatchetKey = 1;</code>
        */
@@ -366,7 +355,6 @@ public final class StorageProtos {
        */
       com.google.protobuf.ByteString getSenderRatchetKey();
 
-      // optional bytes senderRatchetKeyPrivate = 2;
       /**
        * <code>optional bytes senderRatchetKeyPrivate = 2;</code>
        */
@@ -376,7 +364,6 @@ public final class StorageProtos {
        */
       com.google.protobuf.ByteString getSenderRatchetKeyPrivate();
 
-      // optional .textsecure.SessionStructure.Chain.ChainKey chainKey = 3;
       /**
        * <code>optional .textsecure.SessionStructure.Chain.ChainKey chainKey = 3;</code>
        */
@@ -390,7 +377,6 @@ public final class StorageProtos {
        */
       org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKeyOrBuilder getChainKeyOrBuilder();
 
-      // repeated .textsecure.SessionStructure.Chain.MessageKey messageKeys = 4;
       /**
        * <code>repeated .textsecure.SessionStructure.Chain.MessageKey messageKeys = 4;</code>
        */
@@ -419,8 +405,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.SessionStructure.Chain}
      */
     public static final class Chain extends
-        com.google.protobuf.GeneratedMessage
-        implements ChainOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.SessionStructure.Chain)
+        ChainOrBuilder {
       // Use Chain.newBuilder() to construct.
       private Chain(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -539,10 +526,10 @@ public final class StorageProtos {
         return PARSER;
       }
 
-      public interface ChainKeyOrBuilder
-          extends com.google.protobuf.MessageOrBuilder {
+      public interface ChainKeyOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:textsecure.SessionStructure.Chain.ChainKey)
+          com.google.protobuf.MessageOrBuilder {
 
-        // optional uint32 index = 1;
         /**
          * <code>optional uint32 index = 1;</code>
          */
@@ -552,7 +539,6 @@ public final class StorageProtos {
          */
         int getIndex();
 
-        // optional bytes key = 2;
         /**
          * <code>optional bytes key = 2;</code>
          */
@@ -566,8 +552,9 @@ public final class StorageProtos {
        * Protobuf type {@code textsecure.SessionStructure.Chain.ChainKey}
        */
       public static final class ChainKey extends
-          com.google.protobuf.GeneratedMessage
-          implements ChainKeyOrBuilder {
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:textsecure.SessionStructure.Chain.ChainKey)
+          ChainKeyOrBuilder {
         // Use ChainKey.newBuilder() to construct.
         private ChainKey(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
           super(builder);
@@ -663,7 +650,6 @@ public final class StorageProtos {
         }
 
         private int bitField0_;
-        // optional uint32 index = 1;
         public static final int INDEX_FIELD_NUMBER = 1;
         private int index_;
         /**
@@ -679,7 +665,6 @@ public final class StorageProtos {
           return index_;
         }
 
-        // optional bytes key = 2;
         public static final int KEY_FIELD_NUMBER = 2;
         private com.google.protobuf.ByteString key_;
         /**
@@ -702,7 +687,8 @@ public final class StorageProtos {
         private byte memoizedIsInitialized = -1;
         public final boolean isInitialized() {
           byte isInitialized = memoizedIsInitialized;
-          if (isInitialized != -1) return isInitialized == 1;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
 
           memoizedIsInitialized = 1;
           return true;
@@ -816,8 +802,9 @@ public final class StorageProtos {
          * Protobuf type {@code textsecure.SessionStructure.Chain.ChainKey}
          */
         public static final class Builder extends
-            com.google.protobuf.GeneratedMessage.Builder<Builder>
-           implements org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKeyOrBuilder {
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:textsecure.SessionStructure.Chain.ChainKey)
+            org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKeyOrBuilder {
           public static final com.google.protobuf.Descriptors.Descriptor
               getDescriptor() {
             return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SessionStructure_Chain_ChainKey_descriptor;
@@ -939,7 +926,6 @@ public final class StorageProtos {
           }
           private int bitField0_;
 
-          // optional uint32 index = 1;
           private int index_ ;
           /**
            * <code>optional uint32 index = 1;</code>
@@ -972,7 +958,6 @@ public final class StorageProtos {
             return this;
           }
 
-          // optional bytes key = 2;
           private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
           /**
            * <code>optional bytes key = 2;</code>
@@ -1019,10 +1004,10 @@ public final class StorageProtos {
         // @@protoc_insertion_point(class_scope:textsecure.SessionStructure.Chain.ChainKey)
       }
 
-      public interface MessageKeyOrBuilder
-          extends com.google.protobuf.MessageOrBuilder {
+      public interface MessageKeyOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:textsecure.SessionStructure.Chain.MessageKey)
+          com.google.protobuf.MessageOrBuilder {
 
-        // optional uint32 index = 1;
         /**
          * <code>optional uint32 index = 1;</code>
          */
@@ -1032,7 +1017,6 @@ public final class StorageProtos {
          */
         int getIndex();
 
-        // optional bytes cipherKey = 2;
         /**
          * <code>optional bytes cipherKey = 2;</code>
          */
@@ -1042,7 +1026,6 @@ public final class StorageProtos {
          */
         com.google.protobuf.ByteString getCipherKey();
 
-        // optional bytes macKey = 3;
         /**
          * <code>optional bytes macKey = 3;</code>
          */
@@ -1052,7 +1035,6 @@ public final class StorageProtos {
          */
         com.google.protobuf.ByteString getMacKey();
 
-        // optional bytes iv = 4;
         /**
          * <code>optional bytes iv = 4;</code>
          */
@@ -1066,8 +1048,9 @@ public final class StorageProtos {
        * Protobuf type {@code textsecure.SessionStructure.Chain.MessageKey}
        */
       public static final class MessageKey extends
-          com.google.protobuf.GeneratedMessage
-          implements MessageKeyOrBuilder {
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:textsecure.SessionStructure.Chain.MessageKey)
+          MessageKeyOrBuilder {
         // Use MessageKey.newBuilder() to construct.
         private MessageKey(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
           super(builder);
@@ -1173,7 +1156,6 @@ public final class StorageProtos {
         }
 
         private int bitField0_;
-        // optional uint32 index = 1;
         public static final int INDEX_FIELD_NUMBER = 1;
         private int index_;
         /**
@@ -1189,7 +1171,6 @@ public final class StorageProtos {
           return index_;
         }
 
-        // optional bytes cipherKey = 2;
         public static final int CIPHERKEY_FIELD_NUMBER = 2;
         private com.google.protobuf.ByteString cipherKey_;
         /**
@@ -1205,7 +1186,6 @@ public final class StorageProtos {
           return cipherKey_;
         }
 
-        // optional bytes macKey = 3;
         public static final int MACKEY_FIELD_NUMBER = 3;
         private com.google.protobuf.ByteString macKey_;
         /**
@@ -1221,7 +1201,6 @@ public final class StorageProtos {
           return macKey_;
         }
 
-        // optional bytes iv = 4;
         public static final int IV_FIELD_NUMBER = 4;
         private com.google.protobuf.ByteString iv_;
         /**
@@ -1246,7 +1225,8 @@ public final class StorageProtos {
         private byte memoizedIsInitialized = -1;
         public final boolean isInitialized() {
           byte isInitialized = memoizedIsInitialized;
-          if (isInitialized != -1) return isInitialized == 1;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
 
           memoizedIsInitialized = 1;
           return true;
@@ -1374,8 +1354,9 @@ public final class StorageProtos {
          * Protobuf type {@code textsecure.SessionStructure.Chain.MessageKey}
          */
         public static final class Builder extends
-            com.google.protobuf.GeneratedMessage.Builder<Builder>
-           implements org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.MessageKeyOrBuilder {
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:textsecure.SessionStructure.Chain.MessageKey)
+            org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.MessageKeyOrBuilder {
           public static final com.google.protobuf.Descriptors.Descriptor
               getDescriptor() {
             return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SessionStructure_Chain_MessageKey_descriptor;
@@ -1515,7 +1496,6 @@ public final class StorageProtos {
           }
           private int bitField0_;
 
-          // optional uint32 index = 1;
           private int index_ ;
           /**
            * <code>optional uint32 index = 1;</code>
@@ -1548,7 +1528,6 @@ public final class StorageProtos {
             return this;
           }
 
-          // optional bytes cipherKey = 2;
           private com.google.protobuf.ByteString cipherKey_ = com.google.protobuf.ByteString.EMPTY;
           /**
            * <code>optional bytes cipherKey = 2;</code>
@@ -1584,7 +1563,6 @@ public final class StorageProtos {
             return this;
           }
 
-          // optional bytes macKey = 3;
           private com.google.protobuf.ByteString macKey_ = com.google.protobuf.ByteString.EMPTY;
           /**
            * <code>optional bytes macKey = 3;</code>
@@ -1620,7 +1598,6 @@ public final class StorageProtos {
             return this;
           }
 
-          // optional bytes iv = 4;
           private com.google.protobuf.ByteString iv_ = com.google.protobuf.ByteString.EMPTY;
           /**
            * <code>optional bytes iv = 4;</code>
@@ -1668,7 +1645,6 @@ public final class StorageProtos {
       }
 
       private int bitField0_;
-      // optional bytes senderRatchetKey = 1;
       public static final int SENDERRATCHETKEY_FIELD_NUMBER = 1;
       private com.google.protobuf.ByteString senderRatchetKey_;
       /**
@@ -1684,7 +1660,6 @@ public final class StorageProtos {
         return senderRatchetKey_;
       }
 
-      // optional bytes senderRatchetKeyPrivate = 2;
       public static final int SENDERRATCHETKEYPRIVATE_FIELD_NUMBER = 2;
       private com.google.protobuf.ByteString senderRatchetKeyPrivate_;
       /**
@@ -1700,7 +1675,6 @@ public final class StorageProtos {
         return senderRatchetKeyPrivate_;
       }
 
-      // optional .textsecure.SessionStructure.Chain.ChainKey chainKey = 3;
       public static final int CHAINKEY_FIELD_NUMBER = 3;
       private org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKey chainKey_;
       /**
@@ -1722,7 +1696,6 @@ public final class StorageProtos {
         return chainKey_;
       }
 
-      // repeated .textsecure.SessionStructure.Chain.MessageKey messageKeys = 4;
       public static final int MESSAGEKEYS_FIELD_NUMBER = 4;
       private java.util.List<org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.MessageKey> messageKeys_;
       /**
@@ -1767,7 +1740,8 @@ public final class StorageProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -1895,8 +1869,9 @@ public final class StorageProtos {
        * Protobuf type {@code textsecure.SessionStructure.Chain}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.ChainOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.SessionStructure.Chain)
+          org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.ChainOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SessionStructure_Chain_descriptor;
@@ -2078,7 +2053,6 @@ public final class StorageProtos {
         }
         private int bitField0_;
 
-        // optional bytes senderRatchetKey = 1;
         private com.google.protobuf.ByteString senderRatchetKey_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes senderRatchetKey = 1;</code>
@@ -2114,7 +2088,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional bytes senderRatchetKeyPrivate = 2;
         private com.google.protobuf.ByteString senderRatchetKeyPrivate_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes senderRatchetKeyPrivate = 2;</code>
@@ -2150,7 +2123,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional .textsecure.SessionStructure.Chain.ChainKey chainKey = 3;
         private org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKey chainKey_ = org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKey.getDefaultInstance();
         private com.google.protobuf.SingleFieldBuilder<
             org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKey, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKey.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKeyOrBuilder> chainKeyBuilder_;
@@ -2259,7 +2231,7 @@ public final class StorageProtos {
           if (chainKeyBuilder_ == null) {
             chainKeyBuilder_ = new com.google.protobuf.SingleFieldBuilder<
                 org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKey, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKey.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.ChainKeyOrBuilder>(
-                    chainKey_,
+                    getChainKey(),
                     getParentForChildren(),
                     isClean());
             chainKey_ = null;
@@ -2267,7 +2239,6 @@ public final class StorageProtos {
           return chainKeyBuilder_;
         }
 
-        // repeated .textsecure.SessionStructure.Chain.MessageKey messageKeys = 4;
         private java.util.List<org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.MessageKey> messageKeys_ =
           java.util.Collections.emptyList();
         private void ensureMessageKeysIsMutable() {
@@ -2409,7 +2380,8 @@ public final class StorageProtos {
             java.lang.Iterable<? extends org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.MessageKey> values) {
           if (messageKeysBuilder_ == null) {
             ensureMessageKeysIsMutable();
-            super.addAll(values, messageKeys_);
+            com.google.protobuf.AbstractMessageLite.Builder.addAll(
+                values, messageKeys_);
             onChanged();
           } else {
             messageKeysBuilder_.addAllMessages(values);
@@ -2518,10 +2490,10 @@ public final class StorageProtos {
       // @@protoc_insertion_point(class_scope:textsecure.SessionStructure.Chain)
     }
 
-    public interface PendingKeyExchangeOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface PendingKeyExchangeOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.SessionStructure.PendingKeyExchange)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional uint32 sequence = 1;
       /**
        * <code>optional uint32 sequence = 1;</code>
        */
@@ -2531,7 +2503,6 @@ public final class StorageProtos {
        */
       int getSequence();
 
-      // optional bytes localBaseKey = 2;
       /**
        * <code>optional bytes localBaseKey = 2;</code>
        */
@@ -2541,7 +2512,6 @@ public final class StorageProtos {
        */
       com.google.protobuf.ByteString getLocalBaseKey();
 
-      // optional bytes localBaseKeyPrivate = 3;
       /**
        * <code>optional bytes localBaseKeyPrivate = 3;</code>
        */
@@ -2551,7 +2521,6 @@ public final class StorageProtos {
        */
       com.google.protobuf.ByteString getLocalBaseKeyPrivate();
 
-      // optional bytes localRatchetKey = 4;
       /**
        * <code>optional bytes localRatchetKey = 4;</code>
        */
@@ -2561,7 +2530,6 @@ public final class StorageProtos {
        */
       com.google.protobuf.ByteString getLocalRatchetKey();
 
-      // optional bytes localRatchetKeyPrivate = 5;
       /**
        * <code>optional bytes localRatchetKeyPrivate = 5;</code>
        */
@@ -2571,7 +2539,6 @@ public final class StorageProtos {
        */
       com.google.protobuf.ByteString getLocalRatchetKeyPrivate();
 
-      // optional bytes localIdentityKey = 7;
       /**
        * <code>optional bytes localIdentityKey = 7;</code>
        */
@@ -2581,7 +2548,6 @@ public final class StorageProtos {
        */
       com.google.protobuf.ByteString getLocalIdentityKey();
 
-      // optional bytes localIdentityKeyPrivate = 8;
       /**
        * <code>optional bytes localIdentityKeyPrivate = 8;</code>
        */
@@ -2595,8 +2561,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.SessionStructure.PendingKeyExchange}
      */
     public static final class PendingKeyExchange extends
-        com.google.protobuf.GeneratedMessage
-        implements PendingKeyExchangeOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.SessionStructure.PendingKeyExchange)
+        PendingKeyExchangeOrBuilder {
       // Use PendingKeyExchange.newBuilder() to construct.
       private PendingKeyExchange(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -2717,7 +2684,6 @@ public final class StorageProtos {
       }
 
       private int bitField0_;
-      // optional uint32 sequence = 1;
       public static final int SEQUENCE_FIELD_NUMBER = 1;
       private int sequence_;
       /**
@@ -2733,7 +2699,6 @@ public final class StorageProtos {
         return sequence_;
       }
 
-      // optional bytes localBaseKey = 2;
       public static final int LOCALBASEKEY_FIELD_NUMBER = 2;
       private com.google.protobuf.ByteString localBaseKey_;
       /**
@@ -2749,7 +2714,6 @@ public final class StorageProtos {
         return localBaseKey_;
       }
 
-      // optional bytes localBaseKeyPrivate = 3;
       public static final int LOCALBASEKEYPRIVATE_FIELD_NUMBER = 3;
       private com.google.protobuf.ByteString localBaseKeyPrivate_;
       /**
@@ -2765,7 +2729,6 @@ public final class StorageProtos {
         return localBaseKeyPrivate_;
       }
 
-      // optional bytes localRatchetKey = 4;
       public static final int LOCALRATCHETKEY_FIELD_NUMBER = 4;
       private com.google.protobuf.ByteString localRatchetKey_;
       /**
@@ -2781,7 +2744,6 @@ public final class StorageProtos {
         return localRatchetKey_;
       }
 
-      // optional bytes localRatchetKeyPrivate = 5;
       public static final int LOCALRATCHETKEYPRIVATE_FIELD_NUMBER = 5;
       private com.google.protobuf.ByteString localRatchetKeyPrivate_;
       /**
@@ -2797,7 +2759,6 @@ public final class StorageProtos {
         return localRatchetKeyPrivate_;
       }
 
-      // optional bytes localIdentityKey = 7;
       public static final int LOCALIDENTITYKEY_FIELD_NUMBER = 7;
       private com.google.protobuf.ByteString localIdentityKey_;
       /**
@@ -2813,7 +2774,6 @@ public final class StorageProtos {
         return localIdentityKey_;
       }
 
-      // optional bytes localIdentityKeyPrivate = 8;
       public static final int LOCALIDENTITYKEYPRIVATE_FIELD_NUMBER = 8;
       private com.google.protobuf.ByteString localIdentityKeyPrivate_;
       /**
@@ -2841,7 +2801,8 @@ public final class StorageProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -2990,8 +2951,9 @@ public final class StorageProtos {
        * Protobuf type {@code textsecure.SessionStructure.PendingKeyExchange}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchangeOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.SessionStructure.PendingKeyExchange)
+          org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchangeOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SessionStructure_PendingKeyExchange_descriptor;
@@ -3158,7 +3120,6 @@ public final class StorageProtos {
         }
         private int bitField0_;
 
-        // optional uint32 sequence = 1;
         private int sequence_ ;
         /**
          * <code>optional uint32 sequence = 1;</code>
@@ -3191,7 +3152,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional bytes localBaseKey = 2;
         private com.google.protobuf.ByteString localBaseKey_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes localBaseKey = 2;</code>
@@ -3227,7 +3187,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional bytes localBaseKeyPrivate = 3;
         private com.google.protobuf.ByteString localBaseKeyPrivate_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes localBaseKeyPrivate = 3;</code>
@@ -3263,7 +3222,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional bytes localRatchetKey = 4;
         private com.google.protobuf.ByteString localRatchetKey_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes localRatchetKey = 4;</code>
@@ -3299,7 +3257,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional bytes localRatchetKeyPrivate = 5;
         private com.google.protobuf.ByteString localRatchetKeyPrivate_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes localRatchetKeyPrivate = 5;</code>
@@ -3335,7 +3292,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional bytes localIdentityKey = 7;
         private com.google.protobuf.ByteString localIdentityKey_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes localIdentityKey = 7;</code>
@@ -3371,7 +3327,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional bytes localIdentityKeyPrivate = 8;
         private com.google.protobuf.ByteString localIdentityKeyPrivate_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes localIdentityKeyPrivate = 8;</code>
@@ -3418,30 +3373,10 @@ public final class StorageProtos {
       // @@protoc_insertion_point(class_scope:textsecure.SessionStructure.PendingKeyExchange)
     }
 
-    public interface PendingPreKeyOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface PendingPreKeyOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.SessionStructure.PendingPreKey)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional uint32 preKeyId = 1;
-      /**
-       * <code>optional uint32 preKeyId = 1;</code>
-       */
-      boolean hasPreKeyId();
-      /**
-       * <code>optional uint32 preKeyId = 1;</code>
-       */
-      int getPreKeyId();
-
-      // optional int32 signedPreKeyId = 3;
-      /**
-       * <code>optional int32 signedPreKeyId = 3;</code>
-       */
-      boolean hasSignedPreKeyId();
-      /**
-       * <code>optional int32 signedPreKeyId = 3;</code>
-       */
-      int getSignedPreKeyId();
-
-      // optional bytes baseKey = 2;
       /**
        * <code>optional bytes baseKey = 2;</code>
        */
@@ -3455,8 +3390,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.SessionStructure.PendingPreKey}
      */
     public static final class PendingPreKey extends
-        com.google.protobuf.GeneratedMessage
-        implements PendingPreKeyOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.SessionStructure.PendingPreKey)
+        PendingPreKeyOrBuilder {
       // Use PendingPreKey.newBuilder() to construct.
       private PendingPreKey(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -3502,19 +3438,9 @@ public final class StorageProtos {
                 }
                 break;
               }
-              case 8: {
-                bitField0_ |= 0x00000001;
-                preKeyId_ = input.readUInt32();
-                break;
-              }
               case 18: {
-                bitField0_ |= 0x00000004;
+                bitField0_ |= 0x00000001;
                 baseKey_ = input.readBytes();
-                break;
-              }
-              case 24: {
-                bitField0_ |= 0x00000002;
-                signedPreKeyId_ = input.readInt32();
                 break;
               }
             }
@@ -3557,46 +3483,13 @@ public final class StorageProtos {
       }
 
       private int bitField0_;
-      // optional uint32 preKeyId = 1;
-      public static final int PREKEYID_FIELD_NUMBER = 1;
-      private int preKeyId_;
-      /**
-       * <code>optional uint32 preKeyId = 1;</code>
-       */
-      public boolean hasPreKeyId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional uint32 preKeyId = 1;</code>
-       */
-      public int getPreKeyId() {
-        return preKeyId_;
-      }
-
-      // optional int32 signedPreKeyId = 3;
-      public static final int SIGNEDPREKEYID_FIELD_NUMBER = 3;
-      private int signedPreKeyId_;
-      /**
-       * <code>optional int32 signedPreKeyId = 3;</code>
-       */
-      public boolean hasSignedPreKeyId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional int32 signedPreKeyId = 3;</code>
-       */
-      public int getSignedPreKeyId() {
-        return signedPreKeyId_;
-      }
-
-      // optional bytes baseKey = 2;
       public static final int BASEKEY_FIELD_NUMBER = 2;
       private com.google.protobuf.ByteString baseKey_;
       /**
        * <code>optional bytes baseKey = 2;</code>
        */
       public boolean hasBaseKey() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>optional bytes baseKey = 2;</code>
@@ -3606,14 +3499,13 @@ public final class StorageProtos {
       }
 
       private void initFields() {
-        preKeyId_ = 0;
-        signedPreKeyId_ = 0;
         baseKey_ = com.google.protobuf.ByteString.EMPTY;
       }
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -3623,13 +3515,7 @@ public final class StorageProtos {
                           throws java.io.IOException {
         getSerializedSize();
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          output.writeUInt32(1, preKeyId_);
-        }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
           output.writeBytes(2, baseKey_);
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          output.writeInt32(3, signedPreKeyId_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -3642,15 +3528,7 @@ public final class StorageProtos {
         size = 0;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeUInt32Size(1, preKeyId_);
-        }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          size += com.google.protobuf.CodedOutputStream
             .computeBytesSize(2, baseKey_);
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(3, signedPreKeyId_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSerializedSize = size;
@@ -3734,8 +3612,9 @@ public final class StorageProtos {
        * Protobuf type {@code textsecure.SessionStructure.PendingPreKey}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKeyOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.SessionStructure.PendingPreKey)
+          org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKeyOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SessionStructure_PendingPreKey_descriptor;
@@ -3768,12 +3647,8 @@ public final class StorageProtos {
 
         public Builder clear() {
           super.clear();
-          preKeyId_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000001);
-          signedPreKeyId_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000002);
           baseKey_ = com.google.protobuf.ByteString.EMPTY;
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
           return this;
         }
 
@@ -3805,14 +3680,6 @@ public final class StorageProtos {
           if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
             to_bitField0_ |= 0x00000001;
           }
-          result.preKeyId_ = preKeyId_;
-          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-            to_bitField0_ |= 0x00000002;
-          }
-          result.signedPreKeyId_ = signedPreKeyId_;
-          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-            to_bitField0_ |= 0x00000004;
-          }
           result.baseKey_ = baseKey_;
           result.bitField0_ = to_bitField0_;
           onBuilt();
@@ -3830,12 +3697,6 @@ public final class StorageProtos {
 
         public Builder mergeFrom(org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKey other) {
           if (other == org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKey.getDefaultInstance()) return this;
-          if (other.hasPreKeyId()) {
-            setPreKeyId(other.getPreKeyId());
-          }
-          if (other.hasSignedPreKeyId()) {
-            setSignedPreKeyId(other.getSignedPreKeyId());
-          }
           if (other.hasBaseKey()) {
             setBaseKey(other.getBaseKey());
           }
@@ -3866,79 +3727,12 @@ public final class StorageProtos {
         }
         private int bitField0_;
 
-        // optional uint32 preKeyId = 1;
-        private int preKeyId_ ;
-        /**
-         * <code>optional uint32 preKeyId = 1;</code>
-         */
-        public boolean hasPreKeyId() {
-          return ((bitField0_ & 0x00000001) == 0x00000001);
-        }
-        /**
-         * <code>optional uint32 preKeyId = 1;</code>
-         */
-        public int getPreKeyId() {
-          return preKeyId_;
-        }
-        /**
-         * <code>optional uint32 preKeyId = 1;</code>
-         */
-        public Builder setPreKeyId(int value) {
-          bitField0_ |= 0x00000001;
-          preKeyId_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional uint32 preKeyId = 1;</code>
-         */
-        public Builder clearPreKeyId() {
-          bitField0_ = (bitField0_ & ~0x00000001);
-          preKeyId_ = 0;
-          onChanged();
-          return this;
-        }
-
-        // optional int32 signedPreKeyId = 3;
-        private int signedPreKeyId_ ;
-        /**
-         * <code>optional int32 signedPreKeyId = 3;</code>
-         */
-        public boolean hasSignedPreKeyId() {
-          return ((bitField0_ & 0x00000002) == 0x00000002);
-        }
-        /**
-         * <code>optional int32 signedPreKeyId = 3;</code>
-         */
-        public int getSignedPreKeyId() {
-          return signedPreKeyId_;
-        }
-        /**
-         * <code>optional int32 signedPreKeyId = 3;</code>
-         */
-        public Builder setSignedPreKeyId(int value) {
-          bitField0_ |= 0x00000002;
-          signedPreKeyId_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional int32 signedPreKeyId = 3;</code>
-         */
-        public Builder clearSignedPreKeyId() {
-          bitField0_ = (bitField0_ & ~0x00000002);
-          signedPreKeyId_ = 0;
-          onChanged();
-          return this;
-        }
-
-        // optional bytes baseKey = 2;
         private com.google.protobuf.ByteString baseKey_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes baseKey = 2;</code>
          */
         public boolean hasBaseKey() {
-          return ((bitField0_ & 0x00000004) == 0x00000004);
+          return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
          * <code>optional bytes baseKey = 2;</code>
@@ -3953,7 +3747,7 @@ public final class StorageProtos {
           if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000001;
           baseKey_ = value;
           onChanged();
           return this;
@@ -3962,7 +3756,7 @@ public final class StorageProtos {
          * <code>optional bytes baseKey = 2;</code>
          */
         public Builder clearBaseKey() {
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
           baseKey_ = getDefaultInstance().getBaseKey();
           onChanged();
           return this;
@@ -3980,7 +3774,6 @@ public final class StorageProtos {
     }
 
     private int bitField0_;
-    // optional uint32 sessionVersion = 1;
     public static final int SESSIONVERSION_FIELD_NUMBER = 1;
     private int sessionVersion_;
     /**
@@ -3996,7 +3789,6 @@ public final class StorageProtos {
       return sessionVersion_;
     }
 
-    // optional bytes localIdentityPublic = 2;
     public static final int LOCALIDENTITYPUBLIC_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString localIdentityPublic_;
     /**
@@ -4012,7 +3804,6 @@ public final class StorageProtos {
       return localIdentityPublic_;
     }
 
-    // optional bytes remoteIdentityPublic = 3;
     public static final int REMOTEIDENTITYPUBLIC_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString remoteIdentityPublic_;
     /**
@@ -4028,7 +3819,6 @@ public final class StorageProtos {
       return remoteIdentityPublic_;
     }
 
-    // optional bytes rootKey = 4;
     public static final int ROOTKEY_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString rootKey_;
     /**
@@ -4044,7 +3834,6 @@ public final class StorageProtos {
       return rootKey_;
     }
 
-    // optional uint32 previousCounter = 5;
     public static final int PREVIOUSCOUNTER_FIELD_NUMBER = 5;
     private int previousCounter_;
     /**
@@ -4060,7 +3849,6 @@ public final class StorageProtos {
       return previousCounter_;
     }
 
-    // optional .textsecure.SessionStructure.Chain senderChain = 6;
     public static final int SENDERCHAIN_FIELD_NUMBER = 6;
     private org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain senderChain_;
     /**
@@ -4082,7 +3870,6 @@ public final class StorageProtos {
       return senderChain_;
     }
 
-    // repeated .textsecure.SessionStructure.Chain receiverChains = 7;
     public static final int RECEIVERCHAINS_FIELD_NUMBER = 7;
     private java.util.List<org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain> receiverChains_;
     /**
@@ -4118,7 +3905,6 @@ public final class StorageProtos {
       return receiverChains_.get(index);
     }
 
-    // optional .textsecure.SessionStructure.PendingKeyExchange pendingKeyExchange = 8;
     public static final int PENDINGKEYEXCHANGE_FIELD_NUMBER = 8;
     private org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchange pendingKeyExchange_;
     /**
@@ -4140,7 +3926,6 @@ public final class StorageProtos {
       return pendingKeyExchange_;
     }
 
-    // optional .textsecure.SessionStructure.PendingPreKey pendingPreKey = 9;
     public static final int PENDINGPREKEY_FIELD_NUMBER = 9;
     private org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKey pendingPreKey_;
     /**
@@ -4162,39 +3947,36 @@ public final class StorageProtos {
       return pendingPreKey_;
     }
 
-    // optional uint32 remoteRegistrationId = 10;
-    public static final int REMOTEREGISTRATIONID_FIELD_NUMBER = 10;
-    private int remoteRegistrationId_;
+    public static final int REMOTEDEVICEID_FIELD_NUMBER = 10;
+    private int remoteDeviceId_;
     /**
-     * <code>optional uint32 remoteRegistrationId = 10;</code>
+     * <code>optional uint32 remoteDeviceId = 10;</code>
      */
-    public boolean hasRemoteRegistrationId() {
+    public boolean hasRemoteDeviceId() {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>optional uint32 remoteRegistrationId = 10;</code>
+     * <code>optional uint32 remoteDeviceId = 10;</code>
      */
-    public int getRemoteRegistrationId() {
-      return remoteRegistrationId_;
+    public int getRemoteDeviceId() {
+      return remoteDeviceId_;
     }
 
-    // optional uint32 localRegistrationId = 11;
-    public static final int LOCALREGISTRATIONID_FIELD_NUMBER = 11;
-    private int localRegistrationId_;
+    public static final int LOCALDEVICEID_FIELD_NUMBER = 11;
+    private int localDeviceId_;
     /**
-     * <code>optional uint32 localRegistrationId = 11;</code>
+     * <code>optional uint32 localDeviceId = 11;</code>
      */
-    public boolean hasLocalRegistrationId() {
+    public boolean hasLocalDeviceId() {
       return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>optional uint32 localRegistrationId = 11;</code>
+     * <code>optional uint32 localDeviceId = 11;</code>
      */
-    public int getLocalRegistrationId() {
-      return localRegistrationId_;
+    public int getLocalDeviceId() {
+      return localDeviceId_;
     }
 
-    // optional bool needsRefresh = 12;
     public static final int NEEDSREFRESH_FIELD_NUMBER = 12;
     private boolean needsRefresh_;
     /**
@@ -4210,7 +3992,6 @@ public final class StorageProtos {
       return needsRefresh_;
     }
 
-    // optional bytes aliceBaseKey = 13;
     public static final int ALICEBASEKEY_FIELD_NUMBER = 13;
     private com.google.protobuf.ByteString aliceBaseKey_;
     /**
@@ -4236,15 +4017,16 @@ public final class StorageProtos {
       receiverChains_ = java.util.Collections.emptyList();
       pendingKeyExchange_ = org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchange.getDefaultInstance();
       pendingPreKey_ = org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKey.getDefaultInstance();
-      remoteRegistrationId_ = 0;
-      localRegistrationId_ = 0;
+      remoteDeviceId_ = 0;
+      localDeviceId_ = 0;
       needsRefresh_ = false;
       aliceBaseKey_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -4281,10 +4063,10 @@ public final class StorageProtos {
         output.writeMessage(9, pendingPreKey_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeUInt32(10, remoteRegistrationId_);
+        output.writeUInt32(10, remoteDeviceId_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeUInt32(11, localRegistrationId_);
+        output.writeUInt32(11, localDeviceId_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeBool(12, needsRefresh_);
@@ -4339,11 +4121,11 @@ public final class StorageProtos {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(10, remoteRegistrationId_);
+          .computeUInt32Size(10, remoteDeviceId_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(11, localRegistrationId_);
+          .computeUInt32Size(11, localDeviceId_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
@@ -4435,8 +4217,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.SessionStructure}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.state.StorageProtos.SessionStructureOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.SessionStructure)
+        org.whispersystems.libaxolotl.state.StorageProtos.SessionStructureOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SessionStructure_descriptor;
@@ -4507,9 +4290,9 @@ public final class StorageProtos {
           pendingPreKeyBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000100);
-        remoteRegistrationId_ = 0;
+        remoteDeviceId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
-        localRegistrationId_ = 0;
+        localDeviceId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000400);
         needsRefresh_ = false;
         bitField0_ = (bitField0_ & ~0x00000800);
@@ -4599,11 +4382,11 @@ public final class StorageProtos {
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000100;
         }
-        result.remoteRegistrationId_ = remoteRegistrationId_;
+        result.remoteDeviceId_ = remoteDeviceId_;
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.localRegistrationId_ = localRegistrationId_;
+        result.localDeviceId_ = localDeviceId_;
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000400;
         }
@@ -4678,11 +4461,11 @@ public final class StorageProtos {
         if (other.hasPendingPreKey()) {
           mergePendingPreKey(other.getPendingPreKey());
         }
-        if (other.hasRemoteRegistrationId()) {
-          setRemoteRegistrationId(other.getRemoteRegistrationId());
+        if (other.hasRemoteDeviceId()) {
+          setRemoteDeviceId(other.getRemoteDeviceId());
         }
-        if (other.hasLocalRegistrationId()) {
-          setLocalRegistrationId(other.getLocalRegistrationId());
+        if (other.hasLocalDeviceId()) {
+          setLocalDeviceId(other.getLocalDeviceId());
         }
         if (other.hasNeedsRefresh()) {
           setNeedsRefresh(other.getNeedsRefresh());
@@ -4717,7 +4500,6 @@ public final class StorageProtos {
       }
       private int bitField0_;
 
-      // optional uint32 sessionVersion = 1;
       private int sessionVersion_ ;
       /**
        * <code>optional uint32 sessionVersion = 1;</code>
@@ -4750,7 +4532,6 @@ public final class StorageProtos {
         return this;
       }
 
-      // optional bytes localIdentityPublic = 2;
       private com.google.protobuf.ByteString localIdentityPublic_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes localIdentityPublic = 2;</code>
@@ -4786,7 +4567,6 @@ public final class StorageProtos {
         return this;
       }
 
-      // optional bytes remoteIdentityPublic = 3;
       private com.google.protobuf.ByteString remoteIdentityPublic_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes remoteIdentityPublic = 3;</code>
@@ -4822,7 +4602,6 @@ public final class StorageProtos {
         return this;
       }
 
-      // optional bytes rootKey = 4;
       private com.google.protobuf.ByteString rootKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes rootKey = 4;</code>
@@ -4858,7 +4637,6 @@ public final class StorageProtos {
         return this;
       }
 
-      // optional uint32 previousCounter = 5;
       private int previousCounter_ ;
       /**
        * <code>optional uint32 previousCounter = 5;</code>
@@ -4891,7 +4669,6 @@ public final class StorageProtos {
         return this;
       }
 
-      // optional .textsecure.SessionStructure.Chain senderChain = 6;
       private org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain senderChain_ = org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.ChainOrBuilder> senderChainBuilder_;
@@ -5000,7 +4777,7 @@ public final class StorageProtos {
         if (senderChainBuilder_ == null) {
           senderChainBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.ChainOrBuilder>(
-                  senderChain_,
+                  getSenderChain(),
                   getParentForChildren(),
                   isClean());
           senderChain_ = null;
@@ -5008,7 +4785,6 @@ public final class StorageProtos {
         return senderChainBuilder_;
       }
 
-      // repeated .textsecure.SessionStructure.Chain receiverChains = 7;
       private java.util.List<org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain> receiverChains_ =
         java.util.Collections.emptyList();
       private void ensureReceiverChainsIsMutable() {
@@ -5150,7 +4926,8 @@ public final class StorageProtos {
           java.lang.Iterable<? extends org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Chain> values) {
         if (receiverChainsBuilder_ == null) {
           ensureReceiverChainsIsMutable();
-          super.addAll(values, receiverChains_);
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, receiverChains_);
           onChanged();
         } else {
           receiverChainsBuilder_.addAllMessages(values);
@@ -5248,7 +5025,6 @@ public final class StorageProtos {
         return receiverChainsBuilder_;
       }
 
-      // optional .textsecure.SessionStructure.PendingKeyExchange pendingKeyExchange = 8;
       private org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchange pendingKeyExchange_ = org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchange.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchange, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchange.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchangeOrBuilder> pendingKeyExchangeBuilder_;
@@ -5357,7 +5133,7 @@ public final class StorageProtos {
         if (pendingKeyExchangeBuilder_ == null) {
           pendingKeyExchangeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchange, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchange.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingKeyExchangeOrBuilder>(
-                  pendingKeyExchange_,
+                  getPendingKeyExchange(),
                   getParentForChildren(),
                   isClean());
           pendingKeyExchange_ = null;
@@ -5365,7 +5141,6 @@ public final class StorageProtos {
         return pendingKeyExchangeBuilder_;
       }
 
-      // optional .textsecure.SessionStructure.PendingPreKey pendingPreKey = 9;
       private org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKey pendingPreKey_ = org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKey.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKey, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKey.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKeyOrBuilder> pendingPreKeyBuilder_;
@@ -5474,7 +5249,7 @@ public final class StorageProtos {
         if (pendingPreKeyBuilder_ == null) {
           pendingPreKeyBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKey, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKey.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.PendingPreKeyOrBuilder>(
-                  pendingPreKey_,
+                  getPendingPreKey(),
                   getParentForChildren(),
                   isClean());
           pendingPreKey_ = null;
@@ -5482,73 +5257,70 @@ public final class StorageProtos {
         return pendingPreKeyBuilder_;
       }
 
-      // optional uint32 remoteRegistrationId = 10;
-      private int remoteRegistrationId_ ;
+      private int remoteDeviceId_ ;
       /**
-       * <code>optional uint32 remoteRegistrationId = 10;</code>
+       * <code>optional uint32 remoteDeviceId = 10;</code>
        */
-      public boolean hasRemoteRegistrationId() {
+      public boolean hasRemoteDeviceId() {
         return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional uint32 remoteRegistrationId = 10;</code>
+       * <code>optional uint32 remoteDeviceId = 10;</code>
        */
-      public int getRemoteRegistrationId() {
-        return remoteRegistrationId_;
+      public int getRemoteDeviceId() {
+        return remoteDeviceId_;
       }
       /**
-       * <code>optional uint32 remoteRegistrationId = 10;</code>
+       * <code>optional uint32 remoteDeviceId = 10;</code>
        */
-      public Builder setRemoteRegistrationId(int value) {
+      public Builder setRemoteDeviceId(int value) {
         bitField0_ |= 0x00000200;
-        remoteRegistrationId_ = value;
+        remoteDeviceId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 remoteRegistrationId = 10;</code>
+       * <code>optional uint32 remoteDeviceId = 10;</code>
        */
-      public Builder clearRemoteRegistrationId() {
+      public Builder clearRemoteDeviceId() {
         bitField0_ = (bitField0_ & ~0x00000200);
-        remoteRegistrationId_ = 0;
+        remoteDeviceId_ = 0;
         onChanged();
         return this;
       }
 
-      // optional uint32 localRegistrationId = 11;
-      private int localRegistrationId_ ;
+      private int localDeviceId_ ;
       /**
-       * <code>optional uint32 localRegistrationId = 11;</code>
+       * <code>optional uint32 localDeviceId = 11;</code>
        */
-      public boolean hasLocalRegistrationId() {
+      public boolean hasLocalDeviceId() {
         return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
-       * <code>optional uint32 localRegistrationId = 11;</code>
+       * <code>optional uint32 localDeviceId = 11;</code>
        */
-      public int getLocalRegistrationId() {
-        return localRegistrationId_;
+      public int getLocalDeviceId() {
+        return localDeviceId_;
       }
       /**
-       * <code>optional uint32 localRegistrationId = 11;</code>
+       * <code>optional uint32 localDeviceId = 11;</code>
        */
-      public Builder setLocalRegistrationId(int value) {
+      public Builder setLocalDeviceId(int value) {
         bitField0_ |= 0x00000400;
-        localRegistrationId_ = value;
+        localDeviceId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 localRegistrationId = 11;</code>
+       * <code>optional uint32 localDeviceId = 11;</code>
        */
-      public Builder clearLocalRegistrationId() {
+      public Builder clearLocalDeviceId() {
         bitField0_ = (bitField0_ & ~0x00000400);
-        localRegistrationId_ = 0;
+        localDeviceId_ = 0;
         onChanged();
         return this;
       }
 
-      // optional bool needsRefresh = 12;
       private boolean needsRefresh_ ;
       /**
        * <code>optional bool needsRefresh = 12;</code>
@@ -5581,7 +5353,6 @@ public final class StorageProtos {
         return this;
       }
 
-      // optional bytes aliceBaseKey = 13;
       private com.google.protobuf.ByteString aliceBaseKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes aliceBaseKey = 13;</code>
@@ -5628,10 +5399,10 @@ public final class StorageProtos {
     // @@protoc_insertion_point(class_scope:textsecure.SessionStructure)
   }
 
-  public interface RecordStructureOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface RecordStructureOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.RecordStructure)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional .textsecure.SessionStructure currentSession = 1;
     /**
      * <code>optional .textsecure.SessionStructure currentSession = 1;</code>
      */
@@ -5645,7 +5416,6 @@ public final class StorageProtos {
      */
     org.whispersystems.libaxolotl.state.StorageProtos.SessionStructureOrBuilder getCurrentSessionOrBuilder();
 
-    // repeated .textsecure.SessionStructure previousSessions = 2;
     /**
      * <code>repeated .textsecure.SessionStructure previousSessions = 2;</code>
      */
@@ -5674,8 +5444,9 @@ public final class StorageProtos {
    * Protobuf type {@code textsecure.RecordStructure}
    */
   public static final class RecordStructure extends
-      com.google.protobuf.GeneratedMessage
-      implements RecordStructureOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.RecordStructure)
+      RecordStructureOrBuilder {
     // Use RecordStructure.newBuilder() to construct.
     private RecordStructure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -5785,7 +5556,6 @@ public final class StorageProtos {
     }
 
     private int bitField0_;
-    // optional .textsecure.SessionStructure currentSession = 1;
     public static final int CURRENTSESSION_FIELD_NUMBER = 1;
     private org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure currentSession_;
     /**
@@ -5807,7 +5577,6 @@ public final class StorageProtos {
       return currentSession_;
     }
 
-    // repeated .textsecure.SessionStructure previousSessions = 2;
     public static final int PREVIOUSSESSIONS_FIELD_NUMBER = 2;
     private java.util.List<org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure> previousSessions_;
     /**
@@ -5850,7 +5619,8 @@ public final class StorageProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -5964,8 +5734,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.RecordStructure}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.state.StorageProtos.RecordStructureOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.RecordStructure)
+        org.whispersystems.libaxolotl.state.StorageProtos.RecordStructureOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_RecordStructure_descriptor;
@@ -6129,7 +5900,6 @@ public final class StorageProtos {
       }
       private int bitField0_;
 
-      // optional .textsecure.SessionStructure currentSession = 1;
       private org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure currentSession_ = org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructureOrBuilder> currentSessionBuilder_;
@@ -6238,7 +6008,7 @@ public final class StorageProtos {
         if (currentSessionBuilder_ == null) {
           currentSessionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SessionStructureOrBuilder>(
-                  currentSession_,
+                  getCurrentSession(),
                   getParentForChildren(),
                   isClean());
           currentSession_ = null;
@@ -6246,7 +6016,6 @@ public final class StorageProtos {
         return currentSessionBuilder_;
       }
 
-      // repeated .textsecure.SessionStructure previousSessions = 2;
       private java.util.List<org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure> previousSessions_ =
         java.util.Collections.emptyList();
       private void ensurePreviousSessionsIsMutable() {
@@ -6388,7 +6157,8 @@ public final class StorageProtos {
           java.lang.Iterable<? extends org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure> values) {
         if (previousSessionsBuilder_ == null) {
           ensurePreviousSessionsIsMutable();
-          super.addAll(values, previousSessions_);
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, previousSessions_);
           onChanged();
         } else {
           previousSessionsBuilder_.addAllMessages(values);
@@ -6497,1303 +6267,10 @@ public final class StorageProtos {
     // @@protoc_insertion_point(class_scope:textsecure.RecordStructure)
   }
 
-  public interface PreKeyRecordStructureOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface IdentityKeyPairStructureOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.IdentityKeyPairStructure)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional uint32 id = 1;
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    boolean hasId();
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    int getId();
-
-    // optional bytes publicKey = 2;
-    /**
-     * <code>optional bytes publicKey = 2;</code>
-     */
-    boolean hasPublicKey();
-    /**
-     * <code>optional bytes publicKey = 2;</code>
-     */
-    com.google.protobuf.ByteString getPublicKey();
-
-    // optional bytes privateKey = 3;
-    /**
-     * <code>optional bytes privateKey = 3;</code>
-     */
-    boolean hasPrivateKey();
-    /**
-     * <code>optional bytes privateKey = 3;</code>
-     */
-    com.google.protobuf.ByteString getPrivateKey();
-  }
-  /**
-   * Protobuf type {@code textsecure.PreKeyRecordStructure}
-   */
-  public static final class PreKeyRecordStructure extends
-      com.google.protobuf.GeneratedMessage
-      implements PreKeyRecordStructureOrBuilder {
-    // Use PreKeyRecordStructure.newBuilder() to construct.
-    private PreKeyRecordStructure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private PreKeyRecordStructure(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final PreKeyRecordStructure defaultInstance;
-    public static PreKeyRecordStructure getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public PreKeyRecordStructure getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private PreKeyRecordStructure(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              id_ = input.readUInt32();
-              break;
-            }
-            case 18: {
-              bitField0_ |= 0x00000002;
-              publicKey_ = input.readBytes();
-              break;
-            }
-            case 26: {
-              bitField0_ |= 0x00000004;
-              privateKey_ = input.readBytes();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_PreKeyRecordStructure_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_PreKeyRecordStructure_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure.class, org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<PreKeyRecordStructure> PARSER =
-        new com.google.protobuf.AbstractParser<PreKeyRecordStructure>() {
-      public PreKeyRecordStructure parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PreKeyRecordStructure(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PreKeyRecordStructure> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional uint32 id = 1;
-    public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    public boolean hasId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    public int getId() {
-      return id_;
-    }
-
-    // optional bytes publicKey = 2;
-    public static final int PUBLICKEY_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString publicKey_;
-    /**
-     * <code>optional bytes publicKey = 2;</code>
-     */
-    public boolean hasPublicKey() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional bytes publicKey = 2;</code>
-     */
-    public com.google.protobuf.ByteString getPublicKey() {
-      return publicKey_;
-    }
-
-    // optional bytes privateKey = 3;
-    public static final int PRIVATEKEY_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString privateKey_;
-    /**
-     * <code>optional bytes privateKey = 3;</code>
-     */
-    public boolean hasPrivateKey() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional bytes privateKey = 3;</code>
-     */
-    public com.google.protobuf.ByteString getPrivateKey() {
-      return privateKey_;
-    }
-
-    private void initFields() {
-      id_ = 0;
-      publicKey_ = com.google.protobuf.ByteString.EMPTY;
-      privateKey_ = com.google.protobuf.ByteString.EMPTY;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeUInt32(1, id_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, publicKey_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, privateKey_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, id_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, publicKey_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, privateKey_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code textsecure.PreKeyRecordStructure}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructureOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_PreKeyRecordStructure_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_PreKeyRecordStructure_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure.class, org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure.Builder.class);
-      }
-
-      // Construct using org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        id_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        publicKey_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        privateKey_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_PreKeyRecordStructure_descriptor;
-      }
-
-      public org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure getDefaultInstanceForType() {
-        return org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure.getDefaultInstance();
-      }
-
-      public org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure build() {
-        org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure buildPartial() {
-        org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure result = new org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.id_ = id_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.publicKey_ = publicKey_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.privateKey_ = privateKey_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure) {
-          return mergeFrom((org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure other) {
-        if (other == org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure.getDefaultInstance()) return this;
-        if (other.hasId()) {
-          setId(other.getId());
-        }
-        if (other.hasPublicKey()) {
-          setPublicKey(other.getPublicKey());
-        }
-        if (other.hasPrivateKey()) {
-          setPrivateKey(other.getPrivateKey());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.whispersystems.libaxolotl.state.StorageProtos.PreKeyRecordStructure) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // optional uint32 id = 1;
-      private int id_ ;
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public boolean hasId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public int getId() {
-        return id_;
-      }
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public Builder setId(int value) {
-        bitField0_ |= 0x00000001;
-        id_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public Builder clearId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional bytes publicKey = 2;
-      private com.google.protobuf.ByteString publicKey_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes publicKey = 2;</code>
-       */
-      public boolean hasPublicKey() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional bytes publicKey = 2;</code>
-       */
-      public com.google.protobuf.ByteString getPublicKey() {
-        return publicKey_;
-      }
-      /**
-       * <code>optional bytes publicKey = 2;</code>
-       */
-      public Builder setPublicKey(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        publicKey_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes publicKey = 2;</code>
-       */
-      public Builder clearPublicKey() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        publicKey_ = getDefaultInstance().getPublicKey();
-        onChanged();
-        return this;
-      }
-
-      // optional bytes privateKey = 3;
-      private com.google.protobuf.ByteString privateKey_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes privateKey = 3;</code>
-       */
-      public boolean hasPrivateKey() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional bytes privateKey = 3;</code>
-       */
-      public com.google.protobuf.ByteString getPrivateKey() {
-        return privateKey_;
-      }
-      /**
-       * <code>optional bytes privateKey = 3;</code>
-       */
-      public Builder setPrivateKey(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        privateKey_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes privateKey = 3;</code>
-       */
-      public Builder clearPrivateKey() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        privateKey_ = getDefaultInstance().getPrivateKey();
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:textsecure.PreKeyRecordStructure)
-    }
-
-    static {
-      defaultInstance = new PreKeyRecordStructure(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:textsecure.PreKeyRecordStructure)
-  }
-
-  public interface SignedPreKeyRecordStructureOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // optional uint32 id = 1;
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    boolean hasId();
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    int getId();
-
-    // optional bytes publicKey = 2;
-    /**
-     * <code>optional bytes publicKey = 2;</code>
-     */
-    boolean hasPublicKey();
-    /**
-     * <code>optional bytes publicKey = 2;</code>
-     */
-    com.google.protobuf.ByteString getPublicKey();
-
-    // optional bytes privateKey = 3;
-    /**
-     * <code>optional bytes privateKey = 3;</code>
-     */
-    boolean hasPrivateKey();
-    /**
-     * <code>optional bytes privateKey = 3;</code>
-     */
-    com.google.protobuf.ByteString getPrivateKey();
-
-    // optional bytes signature = 4;
-    /**
-     * <code>optional bytes signature = 4;</code>
-     */
-    boolean hasSignature();
-    /**
-     * <code>optional bytes signature = 4;</code>
-     */
-    com.google.protobuf.ByteString getSignature();
-
-    // optional fixed64 timestamp = 5;
-    /**
-     * <code>optional fixed64 timestamp = 5;</code>
-     */
-    boolean hasTimestamp();
-    /**
-     * <code>optional fixed64 timestamp = 5;</code>
-     */
-    long getTimestamp();
-  }
-  /**
-   * Protobuf type {@code textsecure.SignedPreKeyRecordStructure}
-   */
-  public static final class SignedPreKeyRecordStructure extends
-      com.google.protobuf.GeneratedMessage
-      implements SignedPreKeyRecordStructureOrBuilder {
-    // Use SignedPreKeyRecordStructure.newBuilder() to construct.
-    private SignedPreKeyRecordStructure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private SignedPreKeyRecordStructure(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final SignedPreKeyRecordStructure defaultInstance;
-    public static SignedPreKeyRecordStructure getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public SignedPreKeyRecordStructure getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private SignedPreKeyRecordStructure(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              id_ = input.readUInt32();
-              break;
-            }
-            case 18: {
-              bitField0_ |= 0x00000002;
-              publicKey_ = input.readBytes();
-              break;
-            }
-            case 26: {
-              bitField0_ |= 0x00000004;
-              privateKey_ = input.readBytes();
-              break;
-            }
-            case 34: {
-              bitField0_ |= 0x00000008;
-              signature_ = input.readBytes();
-              break;
-            }
-            case 41: {
-              bitField0_ |= 0x00000010;
-              timestamp_ = input.readFixed64();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SignedPreKeyRecordStructure_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SignedPreKeyRecordStructure_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.class, org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<SignedPreKeyRecordStructure> PARSER =
-        new com.google.protobuf.AbstractParser<SignedPreKeyRecordStructure>() {
-      public SignedPreKeyRecordStructure parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new SignedPreKeyRecordStructure(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<SignedPreKeyRecordStructure> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional uint32 id = 1;
-    public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    public boolean hasId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional uint32 id = 1;</code>
-     */
-    public int getId() {
-      return id_;
-    }
-
-    // optional bytes publicKey = 2;
-    public static final int PUBLICKEY_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString publicKey_;
-    /**
-     * <code>optional bytes publicKey = 2;</code>
-     */
-    public boolean hasPublicKey() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional bytes publicKey = 2;</code>
-     */
-    public com.google.protobuf.ByteString getPublicKey() {
-      return publicKey_;
-    }
-
-    // optional bytes privateKey = 3;
-    public static final int PRIVATEKEY_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString privateKey_;
-    /**
-     * <code>optional bytes privateKey = 3;</code>
-     */
-    public boolean hasPrivateKey() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional bytes privateKey = 3;</code>
-     */
-    public com.google.protobuf.ByteString getPrivateKey() {
-      return privateKey_;
-    }
-
-    // optional bytes signature = 4;
-    public static final int SIGNATURE_FIELD_NUMBER = 4;
-    private com.google.protobuf.ByteString signature_;
-    /**
-     * <code>optional bytes signature = 4;</code>
-     */
-    public boolean hasSignature() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional bytes signature = 4;</code>
-     */
-    public com.google.protobuf.ByteString getSignature() {
-      return signature_;
-    }
-
-    // optional fixed64 timestamp = 5;
-    public static final int TIMESTAMP_FIELD_NUMBER = 5;
-    private long timestamp_;
-    /**
-     * <code>optional fixed64 timestamp = 5;</code>
-     */
-    public boolean hasTimestamp() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional fixed64 timestamp = 5;</code>
-     */
-    public long getTimestamp() {
-      return timestamp_;
-    }
-
-    private void initFields() {
-      id_ = 0;
-      publicKey_ = com.google.protobuf.ByteString.EMPTY;
-      privateKey_ = com.google.protobuf.ByteString.EMPTY;
-      signature_ = com.google.protobuf.ByteString.EMPTY;
-      timestamp_ = 0L;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeUInt32(1, id_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, publicKey_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, privateKey_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, signature_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeFixed64(5, timestamp_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, id_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, publicKey_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, privateKey_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, signature_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeFixed64Size(5, timestamp_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code textsecure.SignedPreKeyRecordStructure}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructureOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SignedPreKeyRecordStructure_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SignedPreKeyRecordStructure_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.class, org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.Builder.class);
-      }
-
-      // Construct using org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        id_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        publicKey_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        privateKey_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        signature_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        timestamp_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000010);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SignedPreKeyRecordStructure_descriptor;
-      }
-
-      public org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure getDefaultInstanceForType() {
-        return org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.getDefaultInstance();
-      }
-
-      public org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure build() {
-        org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure buildPartial() {
-        org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure result = new org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.id_ = id_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.publicKey_ = publicKey_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.privateKey_ = privateKey_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.signature_ = signature_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        result.timestamp_ = timestamp_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure) {
-          return mergeFrom((org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure other) {
-        if (other == org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.getDefaultInstance()) return this;
-        if (other.hasId()) {
-          setId(other.getId());
-        }
-        if (other.hasPublicKey()) {
-          setPublicKey(other.getPublicKey());
-        }
-        if (other.hasPrivateKey()) {
-          setPrivateKey(other.getPrivateKey());
-        }
-        if (other.hasSignature()) {
-          setSignature(other.getSignature());
-        }
-        if (other.hasTimestamp()) {
-          setTimestamp(other.getTimestamp());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // optional uint32 id = 1;
-      private int id_ ;
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public boolean hasId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public int getId() {
-        return id_;
-      }
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public Builder setId(int value) {
-        bitField0_ |= 0x00000001;
-        id_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional uint32 id = 1;</code>
-       */
-      public Builder clearId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional bytes publicKey = 2;
-      private com.google.protobuf.ByteString publicKey_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes publicKey = 2;</code>
-       */
-      public boolean hasPublicKey() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional bytes publicKey = 2;</code>
-       */
-      public com.google.protobuf.ByteString getPublicKey() {
-        return publicKey_;
-      }
-      /**
-       * <code>optional bytes publicKey = 2;</code>
-       */
-      public Builder setPublicKey(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        publicKey_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes publicKey = 2;</code>
-       */
-      public Builder clearPublicKey() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        publicKey_ = getDefaultInstance().getPublicKey();
-        onChanged();
-        return this;
-      }
-
-      // optional bytes privateKey = 3;
-      private com.google.protobuf.ByteString privateKey_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes privateKey = 3;</code>
-       */
-      public boolean hasPrivateKey() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional bytes privateKey = 3;</code>
-       */
-      public com.google.protobuf.ByteString getPrivateKey() {
-        return privateKey_;
-      }
-      /**
-       * <code>optional bytes privateKey = 3;</code>
-       */
-      public Builder setPrivateKey(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        privateKey_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes privateKey = 3;</code>
-       */
-      public Builder clearPrivateKey() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        privateKey_ = getDefaultInstance().getPrivateKey();
-        onChanged();
-        return this;
-      }
-
-      // optional bytes signature = 4;
-      private com.google.protobuf.ByteString signature_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes signature = 4;</code>
-       */
-      public boolean hasSignature() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional bytes signature = 4;</code>
-       */
-      public com.google.protobuf.ByteString getSignature() {
-        return signature_;
-      }
-      /**
-       * <code>optional bytes signature = 4;</code>
-       */
-      public Builder setSignature(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        signature_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes signature = 4;</code>
-       */
-      public Builder clearSignature() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        signature_ = getDefaultInstance().getSignature();
-        onChanged();
-        return this;
-      }
-
-      // optional fixed64 timestamp = 5;
-      private long timestamp_ ;
-      /**
-       * <code>optional fixed64 timestamp = 5;</code>
-       */
-      public boolean hasTimestamp() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional fixed64 timestamp = 5;</code>
-       */
-      public long getTimestamp() {
-        return timestamp_;
-      }
-      /**
-       * <code>optional fixed64 timestamp = 5;</code>
-       */
-      public Builder setTimestamp(long value) {
-        bitField0_ |= 0x00000010;
-        timestamp_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional fixed64 timestamp = 5;</code>
-       */
-      public Builder clearTimestamp() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        timestamp_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:textsecure.SignedPreKeyRecordStructure)
-    }
-
-    static {
-      defaultInstance = new SignedPreKeyRecordStructure(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:textsecure.SignedPreKeyRecordStructure)
-  }
-
-  public interface IdentityKeyPairStructureOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // optional bytes publicKey = 1;
     /**
      * <code>optional bytes publicKey = 1;</code>
      */
@@ -7803,7 +6280,6 @@ public final class StorageProtos {
      */
     com.google.protobuf.ByteString getPublicKey();
 
-    // optional bytes privateKey = 2;
     /**
      * <code>optional bytes privateKey = 2;</code>
      */
@@ -7817,8 +6293,9 @@ public final class StorageProtos {
    * Protobuf type {@code textsecure.IdentityKeyPairStructure}
    */
   public static final class IdentityKeyPairStructure extends
-      com.google.protobuf.GeneratedMessage
-      implements IdentityKeyPairStructureOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.IdentityKeyPairStructure)
+      IdentityKeyPairStructureOrBuilder {
     // Use IdentityKeyPairStructure.newBuilder() to construct.
     private IdentityKeyPairStructure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -7914,7 +6391,6 @@ public final class StorageProtos {
     }
 
     private int bitField0_;
-    // optional bytes publicKey = 1;
     public static final int PUBLICKEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString publicKey_;
     /**
@@ -7930,7 +6406,6 @@ public final class StorageProtos {
       return publicKey_;
     }
 
-    // optional bytes privateKey = 2;
     public static final int PRIVATEKEY_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString privateKey_;
     /**
@@ -7953,7 +6428,8 @@ public final class StorageProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -8067,8 +6543,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.IdentityKeyPairStructure}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.state.StorageProtos.IdentityKeyPairStructureOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.IdentityKeyPairStructure)
+        org.whispersystems.libaxolotl.state.StorageProtos.IdentityKeyPairStructureOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_IdentityKeyPairStructure_descriptor;
@@ -8190,7 +6667,6 @@ public final class StorageProtos {
       }
       private int bitField0_;
 
-      // optional bytes publicKey = 1;
       private com.google.protobuf.ByteString publicKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes publicKey = 1;</code>
@@ -8226,7 +6702,6 @@ public final class StorageProtos {
         return this;
       }
 
-      // optional bytes privateKey = 2;
       private com.google.protobuf.ByteString privateKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes privateKey = 2;</code>
@@ -8273,10 +6748,572 @@ public final class StorageProtos {
     // @@protoc_insertion_point(class_scope:textsecure.IdentityKeyPairStructure)
   }
 
-  public interface SenderKeyStateStructureOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface SignedPreKeyRecordStructureOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.SignedPreKeyRecordStructure)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional uint32 senderKeyId = 1;
+    /**
+     * <code>optional bytes publicKey = 2;</code>
+     */
+    boolean hasPublicKey();
+    /**
+     * <code>optional bytes publicKey = 2;</code>
+     */
+    com.google.protobuf.ByteString getPublicKey();
+
+    /**
+     * <code>optional bytes privateKey = 3;</code>
+     */
+    boolean hasPrivateKey();
+    /**
+     * <code>optional bytes privateKey = 3;</code>
+     */
+    com.google.protobuf.ByteString getPrivateKey();
+
+    /**
+     * <code>optional bytes signature = 4;</code>
+     */
+    boolean hasSignature();
+    /**
+     * <code>optional bytes signature = 4;</code>
+     */
+    com.google.protobuf.ByteString getSignature();
+  }
+  /**
+   * Protobuf type {@code textsecure.SignedPreKeyRecordStructure}
+   */
+  public static final class SignedPreKeyRecordStructure extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.SignedPreKeyRecordStructure)
+      SignedPreKeyRecordStructureOrBuilder {
+    // Use SignedPreKeyRecordStructure.newBuilder() to construct.
+    private SignedPreKeyRecordStructure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SignedPreKeyRecordStructure(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SignedPreKeyRecordStructure defaultInstance;
+    public static SignedPreKeyRecordStructure getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SignedPreKeyRecordStructure getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SignedPreKeyRecordStructure(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000001;
+              publicKey_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000002;
+              privateKey_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000004;
+              signature_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SignedPreKeyRecordStructure_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SignedPreKeyRecordStructure_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.class, org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SignedPreKeyRecordStructure> PARSER =
+        new com.google.protobuf.AbstractParser<SignedPreKeyRecordStructure>() {
+      public SignedPreKeyRecordStructure parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SignedPreKeyRecordStructure(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SignedPreKeyRecordStructure> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int PUBLICKEY_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString publicKey_;
+    /**
+     * <code>optional bytes publicKey = 2;</code>
+     */
+    public boolean hasPublicKey() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional bytes publicKey = 2;</code>
+     */
+    public com.google.protobuf.ByteString getPublicKey() {
+      return publicKey_;
+    }
+
+    public static final int PRIVATEKEY_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString privateKey_;
+    /**
+     * <code>optional bytes privateKey = 3;</code>
+     */
+    public boolean hasPrivateKey() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bytes privateKey = 3;</code>
+     */
+    public com.google.protobuf.ByteString getPrivateKey() {
+      return privateKey_;
+    }
+
+    public static final int SIGNATURE_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString signature_;
+    /**
+     * <code>optional bytes signature = 4;</code>
+     */
+    public boolean hasSignature() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bytes signature = 4;</code>
+     */
+    public com.google.protobuf.ByteString getSignature() {
+      return signature_;
+    }
+
+    private void initFields() {
+      publicKey_ = com.google.protobuf.ByteString.EMPTY;
+      privateKey_ = com.google.protobuf.ByteString.EMPTY;
+      signature_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(2, publicKey_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(3, privateKey_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(4, signature_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, publicKey_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, privateKey_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, signature_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code textsecure.SignedPreKeyRecordStructure}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.SignedPreKeyRecordStructure)
+        org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructureOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SignedPreKeyRecordStructure_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SignedPreKeyRecordStructure_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.class, org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.Builder.class);
+      }
+
+      // Construct using org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        publicKey_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        privateKey_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        signature_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SignedPreKeyRecordStructure_descriptor;
+      }
+
+      public org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure getDefaultInstanceForType() {
+        return org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.getDefaultInstance();
+      }
+
+      public org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure build() {
+        org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure buildPartial() {
+        org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure result = new org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.publicKey_ = publicKey_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.privateKey_ = privateKey_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.signature_ = signature_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure) {
+          return mergeFrom((org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure other) {
+        if (other == org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure.getDefaultInstance()) return this;
+        if (other.hasPublicKey()) {
+          setPublicKey(other.getPublicKey());
+        }
+        if (other.hasPrivateKey()) {
+          setPrivateKey(other.getPrivateKey());
+        }
+        if (other.hasSignature()) {
+          setSignature(other.getSignature());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.whispersystems.libaxolotl.state.StorageProtos.SignedPreKeyRecordStructure) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.ByteString publicKey_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes publicKey = 2;</code>
+       */
+      public boolean hasPublicKey() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional bytes publicKey = 2;</code>
+       */
+      public com.google.protobuf.ByteString getPublicKey() {
+        return publicKey_;
+      }
+      /**
+       * <code>optional bytes publicKey = 2;</code>
+       */
+      public Builder setPublicKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        publicKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes publicKey = 2;</code>
+       */
+      public Builder clearPublicKey() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        publicKey_ = getDefaultInstance().getPublicKey();
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString privateKey_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes privateKey = 3;</code>
+       */
+      public boolean hasPrivateKey() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bytes privateKey = 3;</code>
+       */
+      public com.google.protobuf.ByteString getPrivateKey() {
+        return privateKey_;
+      }
+      /**
+       * <code>optional bytes privateKey = 3;</code>
+       */
+      public Builder setPrivateKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        privateKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes privateKey = 3;</code>
+       */
+      public Builder clearPrivateKey() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        privateKey_ = getDefaultInstance().getPrivateKey();
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString signature_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes signature = 4;</code>
+       */
+      public boolean hasSignature() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional bytes signature = 4;</code>
+       */
+      public com.google.protobuf.ByteString getSignature() {
+        return signature_;
+      }
+      /**
+       * <code>optional bytes signature = 4;</code>
+       */
+      public Builder setSignature(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        signature_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes signature = 4;</code>
+       */
+      public Builder clearSignature() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        signature_ = getDefaultInstance().getSignature();
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:textsecure.SignedPreKeyRecordStructure)
+    }
+
+    static {
+      defaultInstance = new SignedPreKeyRecordStructure(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:textsecure.SignedPreKeyRecordStructure)
+  }
+
+  public interface SenderKeyStateStructureOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.SenderKeyStateStructure)
+      com.google.protobuf.MessageOrBuilder {
+
     /**
      * <code>optional uint32 senderKeyId = 1;</code>
      */
@@ -8286,7 +7323,6 @@ public final class StorageProtos {
      */
     int getSenderKeyId();
 
-    // optional .textsecure.SenderKeyStateStructure.SenderChainKey senderChainKey = 2;
     /**
      * <code>optional .textsecure.SenderKeyStateStructure.SenderChainKey senderChainKey = 2;</code>
      */
@@ -8300,7 +7336,6 @@ public final class StorageProtos {
      */
     org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKeyOrBuilder getSenderChainKeyOrBuilder();
 
-    // optional .textsecure.SenderKeyStateStructure.SenderSigningKey senderSigningKey = 3;
     /**
      * <code>optional .textsecure.SenderKeyStateStructure.SenderSigningKey senderSigningKey = 3;</code>
      */
@@ -8314,7 +7349,6 @@ public final class StorageProtos {
      */
     org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKeyOrBuilder getSenderSigningKeyOrBuilder();
 
-    // repeated .textsecure.SenderKeyStateStructure.SenderMessageKey senderMessageKeys = 4;
     /**
      * <code>repeated .textsecure.SenderKeyStateStructure.SenderMessageKey senderMessageKeys = 4;</code>
      */
@@ -8343,8 +7377,9 @@ public final class StorageProtos {
    * Protobuf type {@code textsecure.SenderKeyStateStructure}
    */
   public static final class SenderKeyStateStructure extends
-      com.google.protobuf.GeneratedMessage
-      implements SenderKeyStateStructureOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.SenderKeyStateStructure)
+      SenderKeyStateStructureOrBuilder {
     // Use SenderKeyStateStructure.newBuilder() to construct.
     private SenderKeyStateStructure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -8471,10 +7506,10 @@ public final class StorageProtos {
       return PARSER;
     }
 
-    public interface SenderChainKeyOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface SenderChainKeyOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.SenderKeyStateStructure.SenderChainKey)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional uint32 iteration = 1;
       /**
        * <code>optional uint32 iteration = 1;</code>
        */
@@ -8484,7 +7519,6 @@ public final class StorageProtos {
        */
       int getIteration();
 
-      // optional bytes seed = 2;
       /**
        * <code>optional bytes seed = 2;</code>
        */
@@ -8498,8 +7532,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.SenderKeyStateStructure.SenderChainKey}
      */
     public static final class SenderChainKey extends
-        com.google.protobuf.GeneratedMessage
-        implements SenderChainKeyOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.SenderKeyStateStructure.SenderChainKey)
+        SenderChainKeyOrBuilder {
       // Use SenderChainKey.newBuilder() to construct.
       private SenderChainKey(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -8595,7 +7630,6 @@ public final class StorageProtos {
       }
 
       private int bitField0_;
-      // optional uint32 iteration = 1;
       public static final int ITERATION_FIELD_NUMBER = 1;
       private int iteration_;
       /**
@@ -8611,7 +7645,6 @@ public final class StorageProtos {
         return iteration_;
       }
 
-      // optional bytes seed = 2;
       public static final int SEED_FIELD_NUMBER = 2;
       private com.google.protobuf.ByteString seed_;
       /**
@@ -8634,7 +7667,8 @@ public final class StorageProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -8748,8 +7782,9 @@ public final class StorageProtos {
        * Protobuf type {@code textsecure.SenderKeyStateStructure.SenderChainKey}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKeyOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.SenderKeyStateStructure.SenderChainKey)
+          org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKeyOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SenderKeyStateStructure_SenderChainKey_descriptor;
@@ -8871,7 +7906,6 @@ public final class StorageProtos {
         }
         private int bitField0_;
 
-        // optional uint32 iteration = 1;
         private int iteration_ ;
         /**
          * <code>optional uint32 iteration = 1;</code>
@@ -8904,7 +7938,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional bytes seed = 2;
         private com.google.protobuf.ByteString seed_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes seed = 2;</code>
@@ -8951,10 +7984,10 @@ public final class StorageProtos {
       // @@protoc_insertion_point(class_scope:textsecure.SenderKeyStateStructure.SenderChainKey)
     }
 
-    public interface SenderMessageKeyOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface SenderMessageKeyOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.SenderKeyStateStructure.SenderMessageKey)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional uint32 iteration = 1;
       /**
        * <code>optional uint32 iteration = 1;</code>
        */
@@ -8964,7 +7997,6 @@ public final class StorageProtos {
        */
       int getIteration();
 
-      // optional bytes seed = 2;
       /**
        * <code>optional bytes seed = 2;</code>
        */
@@ -8978,8 +8010,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.SenderKeyStateStructure.SenderMessageKey}
      */
     public static final class SenderMessageKey extends
-        com.google.protobuf.GeneratedMessage
-        implements SenderMessageKeyOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.SenderKeyStateStructure.SenderMessageKey)
+        SenderMessageKeyOrBuilder {
       // Use SenderMessageKey.newBuilder() to construct.
       private SenderMessageKey(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -9075,7 +8108,6 @@ public final class StorageProtos {
       }
 
       private int bitField0_;
-      // optional uint32 iteration = 1;
       public static final int ITERATION_FIELD_NUMBER = 1;
       private int iteration_;
       /**
@@ -9091,7 +8123,6 @@ public final class StorageProtos {
         return iteration_;
       }
 
-      // optional bytes seed = 2;
       public static final int SEED_FIELD_NUMBER = 2;
       private com.google.protobuf.ByteString seed_;
       /**
@@ -9114,7 +8145,8 @@ public final class StorageProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -9228,8 +8260,9 @@ public final class StorageProtos {
        * Protobuf type {@code textsecure.SenderKeyStateStructure.SenderMessageKey}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderMessageKeyOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.SenderKeyStateStructure.SenderMessageKey)
+          org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderMessageKeyOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SenderKeyStateStructure_SenderMessageKey_descriptor;
@@ -9351,7 +8384,6 @@ public final class StorageProtos {
         }
         private int bitField0_;
 
-        // optional uint32 iteration = 1;
         private int iteration_ ;
         /**
          * <code>optional uint32 iteration = 1;</code>
@@ -9384,7 +8416,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional bytes seed = 2;
         private com.google.protobuf.ByteString seed_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes seed = 2;</code>
@@ -9431,10 +8462,10 @@ public final class StorageProtos {
       // @@protoc_insertion_point(class_scope:textsecure.SenderKeyStateStructure.SenderMessageKey)
     }
 
-    public interface SenderSigningKeyOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
+    public interface SenderSigningKeyOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:textsecure.SenderKeyStateStructure.SenderSigningKey)
+        com.google.protobuf.MessageOrBuilder {
 
-      // optional bytes public = 1;
       /**
        * <code>optional bytes public = 1;</code>
        */
@@ -9444,7 +8475,6 @@ public final class StorageProtos {
        */
       com.google.protobuf.ByteString getPublic();
 
-      // optional bytes private = 2;
       /**
        * <code>optional bytes private = 2;</code>
        */
@@ -9458,8 +8488,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.SenderKeyStateStructure.SenderSigningKey}
      */
     public static final class SenderSigningKey extends
-        com.google.protobuf.GeneratedMessage
-        implements SenderSigningKeyOrBuilder {
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:textsecure.SenderKeyStateStructure.SenderSigningKey)
+        SenderSigningKeyOrBuilder {
       // Use SenderSigningKey.newBuilder() to construct.
       private SenderSigningKey(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
@@ -9555,7 +8586,6 @@ public final class StorageProtos {
       }
 
       private int bitField0_;
-      // optional bytes public = 1;
       public static final int PUBLIC_FIELD_NUMBER = 1;
       private com.google.protobuf.ByteString public_;
       /**
@@ -9571,7 +8601,6 @@ public final class StorageProtos {
         return public_;
       }
 
-      // optional bytes private = 2;
       public static final int PRIVATE_FIELD_NUMBER = 2;
       private com.google.protobuf.ByteString private_;
       /**
@@ -9594,7 +8623,8 @@ public final class StorageProtos {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
 
         memoizedIsInitialized = 1;
         return true;
@@ -9708,8 +8738,9 @@ public final class StorageProtos {
        * Protobuf type {@code textsecure.SenderKeyStateStructure.SenderSigningKey}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKeyOrBuilder {
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:textsecure.SenderKeyStateStructure.SenderSigningKey)
+          org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKeyOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
           return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SenderKeyStateStructure_SenderSigningKey_descriptor;
@@ -9831,7 +8862,6 @@ public final class StorageProtos {
         }
         private int bitField0_;
 
-        // optional bytes public = 1;
         private com.google.protobuf.ByteString public_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes public = 1;</code>
@@ -9867,7 +8897,6 @@ public final class StorageProtos {
           return this;
         }
 
-        // optional bytes private = 2;
         private com.google.protobuf.ByteString private_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>optional bytes private = 2;</code>
@@ -9915,7 +8944,6 @@ public final class StorageProtos {
     }
 
     private int bitField0_;
-    // optional uint32 senderKeyId = 1;
     public static final int SENDERKEYID_FIELD_NUMBER = 1;
     private int senderKeyId_;
     /**
@@ -9931,7 +8959,6 @@ public final class StorageProtos {
       return senderKeyId_;
     }
 
-    // optional .textsecure.SenderKeyStateStructure.SenderChainKey senderChainKey = 2;
     public static final int SENDERCHAINKEY_FIELD_NUMBER = 2;
     private org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKey senderChainKey_;
     /**
@@ -9953,7 +8980,6 @@ public final class StorageProtos {
       return senderChainKey_;
     }
 
-    // optional .textsecure.SenderKeyStateStructure.SenderSigningKey senderSigningKey = 3;
     public static final int SENDERSIGNINGKEY_FIELD_NUMBER = 3;
     private org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKey senderSigningKey_;
     /**
@@ -9975,7 +9001,6 @@ public final class StorageProtos {
       return senderSigningKey_;
     }
 
-    // repeated .textsecure.SenderKeyStateStructure.SenderMessageKey senderMessageKeys = 4;
     public static final int SENDERMESSAGEKEYS_FIELD_NUMBER = 4;
     private java.util.List<org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderMessageKey> senderMessageKeys_;
     /**
@@ -10020,7 +9045,8 @@ public final class StorageProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -10148,8 +9174,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.SenderKeyStateStructure}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructureOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.SenderKeyStateStructure)
+        org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructureOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SenderKeyStateStructure_descriptor;
@@ -10340,7 +9367,6 @@ public final class StorageProtos {
       }
       private int bitField0_;
 
-      // optional uint32 senderKeyId = 1;
       private int senderKeyId_ ;
       /**
        * <code>optional uint32 senderKeyId = 1;</code>
@@ -10373,7 +9399,6 @@ public final class StorageProtos {
         return this;
       }
 
-      // optional .textsecure.SenderKeyStateStructure.SenderChainKey senderChainKey = 2;
       private org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKey senderChainKey_ = org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKey.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKey, org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKey.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKeyOrBuilder> senderChainKeyBuilder_;
@@ -10482,7 +9507,7 @@ public final class StorageProtos {
         if (senderChainKeyBuilder_ == null) {
           senderChainKeyBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKey, org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKey.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderChainKeyOrBuilder>(
-                  senderChainKey_,
+                  getSenderChainKey(),
                   getParentForChildren(),
                   isClean());
           senderChainKey_ = null;
@@ -10490,7 +9515,6 @@ public final class StorageProtos {
         return senderChainKeyBuilder_;
       }
 
-      // optional .textsecure.SenderKeyStateStructure.SenderSigningKey senderSigningKey = 3;
       private org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKey senderSigningKey_ = org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKey.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKey, org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKey.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKeyOrBuilder> senderSigningKeyBuilder_;
@@ -10599,7 +9623,7 @@ public final class StorageProtos {
         if (senderSigningKeyBuilder_ == null) {
           senderSigningKeyBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKey, org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKey.Builder, org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderSigningKeyOrBuilder>(
-                  senderSigningKey_,
+                  getSenderSigningKey(),
                   getParentForChildren(),
                   isClean());
           senderSigningKey_ = null;
@@ -10607,7 +9631,6 @@ public final class StorageProtos {
         return senderSigningKeyBuilder_;
       }
 
-      // repeated .textsecure.SenderKeyStateStructure.SenderMessageKey senderMessageKeys = 4;
       private java.util.List<org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderMessageKey> senderMessageKeys_ =
         java.util.Collections.emptyList();
       private void ensureSenderMessageKeysIsMutable() {
@@ -10749,7 +9772,8 @@ public final class StorageProtos {
           java.lang.Iterable<? extends org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure.SenderMessageKey> values) {
         if (senderMessageKeysBuilder_ == null) {
           ensureSenderMessageKeysIsMutable();
-          super.addAll(values, senderMessageKeys_);
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, senderMessageKeys_);
           onChanged();
         } else {
           senderMessageKeysBuilder_.addAllMessages(values);
@@ -10858,10 +9882,10 @@ public final class StorageProtos {
     // @@protoc_insertion_point(class_scope:textsecure.SenderKeyStateStructure)
   }
 
-  public interface SenderKeyRecordStructureOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface SenderKeyRecordStructureOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.SenderKeyRecordStructure)
+      com.google.protobuf.MessageOrBuilder {
 
-    // repeated .textsecure.SenderKeyStateStructure senderKeyStates = 1;
     /**
      * <code>repeated .textsecure.SenderKeyStateStructure senderKeyStates = 1;</code>
      */
@@ -10890,8 +9914,9 @@ public final class StorageProtos {
    * Protobuf type {@code textsecure.SenderKeyRecordStructure}
    */
   public static final class SenderKeyRecordStructure extends
-      com.google.protobuf.GeneratedMessage
-      implements SenderKeyRecordStructureOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.SenderKeyRecordStructure)
+      SenderKeyRecordStructureOrBuilder {
     // Use SenderKeyRecordStructure.newBuilder() to construct.
     private SenderKeyRecordStructure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -10987,7 +10012,6 @@ public final class StorageProtos {
       return PARSER;
     }
 
-    // repeated .textsecure.SenderKeyStateStructure senderKeyStates = 1;
     public static final int SENDERKEYSTATES_FIELD_NUMBER = 1;
     private java.util.List<org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure> senderKeyStates_;
     /**
@@ -11029,7 +10053,8 @@ public final class StorageProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -11136,8 +10161,9 @@ public final class StorageProtos {
      * Protobuf type {@code textsecure.SenderKeyRecordStructure}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyRecordStructureOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.SenderKeyRecordStructure)
+        org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyRecordStructureOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.libaxolotl.state.StorageProtos.internal_static_textsecure_SenderKeyRecordStructure_descriptor;
@@ -11281,7 +10307,6 @@ public final class StorageProtos {
       }
       private int bitField0_;
 
-      // repeated .textsecure.SenderKeyStateStructure senderKeyStates = 1;
       private java.util.List<org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure> senderKeyStates_ =
         java.util.Collections.emptyList();
       private void ensureSenderKeyStatesIsMutable() {
@@ -11423,7 +10448,8 @@ public final class StorageProtos {
           java.lang.Iterable<? extends org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateStructure> values) {
         if (senderKeyStatesBuilder_ == null) {
           ensureSenderKeyStatesIsMutable();
-          super.addAll(values, senderKeyStates_);
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, senderKeyStates_);
           onChanged();
         } else {
           senderKeyStatesBuilder_.addAllMessages(values);
@@ -11532,77 +10558,72 @@ public final class StorageProtos {
     // @@protoc_insertion_point(class_scope:textsecure.SenderKeyRecordStructure)
   }
 
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SessionStructure_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SessionStructure_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SessionStructure_Chain_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SessionStructure_Chain_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SessionStructure_Chain_ChainKey_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SessionStructure_Chain_ChainKey_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SessionStructure_Chain_MessageKey_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SessionStructure_Chain_MessageKey_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SessionStructure_PendingKeyExchange_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SessionStructure_PendingKeyExchange_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SessionStructure_PendingPreKey_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SessionStructure_PendingPreKey_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_RecordStructure_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_RecordStructure_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_PreKeyRecordStructure_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_PreKeyRecordStructure_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_SignedPreKeyRecordStructure_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_SignedPreKeyRecordStructure_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_IdentityKeyPairStructure_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_IdentityKeyPairStructure_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_textsecure_SignedPreKeyRecordStructure_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_textsecure_SignedPreKeyRecordStructure_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SenderKeyStateStructure_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SenderKeyStateStructure_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SenderKeyStateStructure_SenderChainKey_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SenderKeyStateStructure_SenderChainKey_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SenderKeyStateStructure_SenderMessageKey_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SenderKeyStateStructure_SenderMessageKey_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SenderKeyStateStructure_SenderSigningKey_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SenderKeyStateStructure_SenderSigningKey_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SenderKeyRecordStructure_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -11617,7 +10638,7 @@ public final class StorageProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\032LocalStorageProtocol.proto\022\ntextsecure" +
-      "\"\323\010\n\020SessionStructure\022\026\n\016sessionVersion\030" +
+      "\"\235\010\n\020SessionStructure\022\026\n\016sessionVersion\030" +
       "\001 \001(\r\022\033\n\023localIdentityPublic\030\002 \001(\014\022\034\n\024re" +
       "moteIdentityPublic\030\003 \001(\014\022\017\n\007rootKey\030\004 \001(" +
       "\014\022\027\n\017previousCounter\030\005 \001(\r\0227\n\013senderChai" +
@@ -11627,152 +10648,142 @@ public final class StorageProtos {
       "hange\030\010 \001(\0132/.textsecure.SessionStructur" +
       "e.PendingKeyExchange\022A\n\rpendingPreKey\030\t ",
       "\001(\0132*.textsecure.SessionStructure.Pendin" +
-      "gPreKey\022\034\n\024remoteRegistrationId\030\n \001(\r\022\033\n" +
-      "\023localRegistrationId\030\013 \001(\r\022\024\n\014needsRefre" +
-      "sh\030\014 \001(\010\022\024\n\014aliceBaseKey\030\r \001(\014\032\271\002\n\005Chain" +
-      "\022\030\n\020senderRatchetKey\030\001 \001(\014\022\037\n\027senderRatc" +
-      "hetKeyPrivate\030\002 \001(\014\022=\n\010chainKey\030\003 \001(\0132+." +
-      "textsecure.SessionStructure.Chain.ChainK" +
-      "ey\022B\n\013messageKeys\030\004 \003(\0132-.textsecure.Ses" +
-      "sionStructure.Chain.MessageKey\032&\n\010ChainK" +
-      "ey\022\r\n\005index\030\001 \001(\r\022\013\n\003key\030\002 \001(\014\032J\n\nMessag",
-      "eKey\022\r\n\005index\030\001 \001(\r\022\021\n\tcipherKey\030\002 \001(\014\022\016" +
-      "\n\006macKey\030\003 \001(\014\022\n\n\002iv\030\004 \001(\014\032\315\001\n\022PendingKe" +
-      "yExchange\022\020\n\010sequence\030\001 \001(\r\022\024\n\014localBase" +
-      "Key\030\002 \001(\014\022\033\n\023localBaseKeyPrivate\030\003 \001(\014\022\027" +
-      "\n\017localRatchetKey\030\004 \001(\014\022\036\n\026localRatchetK" +
-      "eyPrivate\030\005 \001(\014\022\030\n\020localIdentityKey\030\007 \001(" +
-      "\014\022\037\n\027localIdentityKeyPrivate\030\010 \001(\014\032J\n\rPe" +
-      "ndingPreKey\022\020\n\010preKeyId\030\001 \001(\r\022\026\n\016signedP" +
-      "reKeyId\030\003 \001(\005\022\017\n\007baseKey\030\002 \001(\014\"\177\n\017Record" +
-      "Structure\0224\n\016currentSession\030\001 \001(\0132\034.text",
-      "secure.SessionStructure\0226\n\020previousSessi" +
-      "ons\030\002 \003(\0132\034.textsecure.SessionStructure\"" +
-      "J\n\025PreKeyRecordStructure\022\n\n\002id\030\001 \001(\r\022\021\n\t" +
-      "publicKey\030\002 \001(\014\022\022\n\nprivateKey\030\003 \001(\014\"v\n\033S" +
-      "ignedPreKeyRecordStructure\022\n\n\002id\030\001 \001(\r\022\021" +
-      "\n\tpublicKey\030\002 \001(\014\022\022\n\nprivateKey\030\003 \001(\014\022\021\n" +
-      "\tsignature\030\004 \001(\014\022\021\n\ttimestamp\030\005 \001(\006\"A\n\030I" +
-      "dentityKeyPairStructure\022\021\n\tpublicKey\030\001 \001" +
-      "(\014\022\022\n\nprivateKey\030\002 \001(\014\"\270\003\n\027SenderKeyStat" +
-      "eStructure\022\023\n\013senderKeyId\030\001 \001(\r\022J\n\016sende",
-      "rChainKey\030\002 \001(\01322.textsecure.SenderKeySt" +
-      "ateStructure.SenderChainKey\022N\n\020senderSig" +
-      "ningKey\030\003 \001(\01324.textsecure.SenderKeyStat" +
-      "eStructure.SenderSigningKey\022O\n\021senderMes" +
-      "sageKeys\030\004 \003(\01324.textsecure.SenderKeySta" +
-      "teStructure.SenderMessageKey\0321\n\016SenderCh" +
-      "ainKey\022\021\n\titeration\030\001 \001(\r\022\014\n\004seed\030\002 \001(\014\032" +
-      "3\n\020SenderMessageKey\022\021\n\titeration\030\001 \001(\r\022\014" +
-      "\n\004seed\030\002 \001(\014\0323\n\020SenderSigningKey\022\016\n\006publ" +
-      "ic\030\001 \001(\014\022\017\n\007private\030\002 \001(\014\"X\n\030SenderKeyRe",
-      "cordStructure\022<\n\017senderKeyStates\030\001 \003(\0132#" +
-      ".textsecure.SenderKeyStateStructureB4\n#o" +
-      "rg.whispersystems.libaxolotl.stateB\rStor" +
-      "ageProtos"
+      "gPreKey\022\026\n\016remoteDeviceId\030\n \001(\r\022\025\n\rlocal" +
+      "DeviceId\030\013 \001(\r\022\024\n\014needsRefresh\030\014 \001(\010\022\024\n\014" +
+      "aliceBaseKey\030\r \001(\014\032\271\002\n\005Chain\022\030\n\020senderRa" +
+      "tchetKey\030\001 \001(\014\022\037\n\027senderRatchetKeyPrivat" +
+      "e\030\002 \001(\014\022=\n\010chainKey\030\003 \001(\0132+.textsecure.S" +
+      "essionStructure.Chain.ChainKey\022B\n\013messag" +
+      "eKeys\030\004 \003(\0132-.textsecure.SessionStructur" +
+      "e.Chain.MessageKey\032&\n\010ChainKey\022\r\n\005index\030" +
+      "\001 \001(\r\022\013\n\003key\030\002 \001(\014\032J\n\nMessageKey\022\r\n\005inde",
+      "x\030\001 \001(\r\022\021\n\tcipherKey\030\002 \001(\014\022\016\n\006macKey\030\003 \001" +
+      "(\014\022\n\n\002iv\030\004 \001(\014\032\315\001\n\022PendingKeyExchange\022\020\n" +
+      "\010sequence\030\001 \001(\r\022\024\n\014localBaseKey\030\002 \001(\014\022\033\n" +
+      "\023localBaseKeyPrivate\030\003 \001(\014\022\027\n\017localRatch" +
+      "etKey\030\004 \001(\014\022\036\n\026localRatchetKeyPrivate\030\005 " +
+      "\001(\014\022\030\n\020localIdentityKey\030\007 \001(\014\022\037\n\027localId" +
+      "entityKeyPrivate\030\010 \001(\014\032 \n\rPendingPreKey\022" +
+      "\017\n\007baseKey\030\002 \001(\014\"\177\n\017RecordStructure\0224\n\016c" +
+      "urrentSession\030\001 \001(\0132\034.textsecure.Session" +
+      "Structure\0226\n\020previousSessions\030\002 \003(\0132\034.te",
+      "xtsecure.SessionStructure\"A\n\030IdentityKey" +
+      "PairStructure\022\021\n\tpublicKey\030\001 \001(\014\022\022\n\npriv" +
+      "ateKey\030\002 \001(\014\"W\n\033SignedPreKeyRecordStruct" +
+      "ure\022\021\n\tpublicKey\030\002 \001(\014\022\022\n\nprivateKey\030\003 \001" +
+      "(\014\022\021\n\tsignature\030\004 \001(\014\"\270\003\n\027SenderKeyState" +
+      "Structure\022\023\n\013senderKeyId\030\001 \001(\r\022J\n\016sender" +
+      "ChainKey\030\002 \001(\01322.textsecure.SenderKeySta" +
+      "teStructure.SenderChainKey\022N\n\020senderSign" +
+      "ingKey\030\003 \001(\01324.textsecure.SenderKeyState" +
+      "Structure.SenderSigningKey\022O\n\021senderMess",
+      "ageKeys\030\004 \003(\01324.textsecure.SenderKeyStat" +
+      "eStructure.SenderMessageKey\0321\n\016SenderCha" +
+      "inKey\022\021\n\titeration\030\001 \001(\r\022\014\n\004seed\030\002 \001(\014\0323" +
+      "\n\020SenderMessageKey\022\021\n\titeration\030\001 \001(\r\022\014\n" +
+      "\004seed\030\002 \001(\014\0323\n\020SenderSigningKey\022\016\n\006publi" +
+      "c\030\001 \001(\014\022\017\n\007private\030\002 \001(\014\"X\n\030SenderKeyRec" +
+      "ordStructure\022<\n\017senderKeyStates\030\001 \003(\0132#." +
+      "textsecure.SenderKeyStateStructureB4\n#or" +
+      "g.whispersystems.libaxolotl.stateB\rStora" +
+      "geProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-        public com.google.protobuf.ExtensionRegistry assignDescriptors(
-            com.google.protobuf.Descriptors.FileDescriptor root) {
-          descriptor = root;
-          internal_static_textsecure_SessionStructure_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_textsecure_SessionStructure_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SessionStructure_descriptor,
-              new java.lang.String[] { "SessionVersion", "LocalIdentityPublic", "RemoteIdentityPublic", "RootKey", "PreviousCounter", "SenderChain", "ReceiverChains", "PendingKeyExchange", "PendingPreKey", "RemoteRegistrationId", "LocalRegistrationId", "NeedsRefresh", "AliceBaseKey", });
-          internal_static_textsecure_SessionStructure_Chain_descriptor =
-            internal_static_textsecure_SessionStructure_descriptor.getNestedTypes().get(0);
-          internal_static_textsecure_SessionStructure_Chain_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SessionStructure_Chain_descriptor,
-              new java.lang.String[] { "SenderRatchetKey", "SenderRatchetKeyPrivate", "ChainKey", "MessageKeys", });
-          internal_static_textsecure_SessionStructure_Chain_ChainKey_descriptor =
-            internal_static_textsecure_SessionStructure_Chain_descriptor.getNestedTypes().get(0);
-          internal_static_textsecure_SessionStructure_Chain_ChainKey_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SessionStructure_Chain_ChainKey_descriptor,
-              new java.lang.String[] { "Index", "Key", });
-          internal_static_textsecure_SessionStructure_Chain_MessageKey_descriptor =
-            internal_static_textsecure_SessionStructure_Chain_descriptor.getNestedTypes().get(1);
-          internal_static_textsecure_SessionStructure_Chain_MessageKey_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SessionStructure_Chain_MessageKey_descriptor,
-              new java.lang.String[] { "Index", "CipherKey", "MacKey", "Iv", });
-          internal_static_textsecure_SessionStructure_PendingKeyExchange_descriptor =
-            internal_static_textsecure_SessionStructure_descriptor.getNestedTypes().get(1);
-          internal_static_textsecure_SessionStructure_PendingKeyExchange_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SessionStructure_PendingKeyExchange_descriptor,
-              new java.lang.String[] { "Sequence", "LocalBaseKey", "LocalBaseKeyPrivate", "LocalRatchetKey", "LocalRatchetKeyPrivate", "LocalIdentityKey", "LocalIdentityKeyPrivate", });
-          internal_static_textsecure_SessionStructure_PendingPreKey_descriptor =
-            internal_static_textsecure_SessionStructure_descriptor.getNestedTypes().get(2);
-          internal_static_textsecure_SessionStructure_PendingPreKey_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SessionStructure_PendingPreKey_descriptor,
-              new java.lang.String[] { "PreKeyId", "SignedPreKeyId", "BaseKey", });
-          internal_static_textsecure_RecordStructure_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_textsecure_RecordStructure_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_RecordStructure_descriptor,
-              new java.lang.String[] { "CurrentSession", "PreviousSessions", });
-          internal_static_textsecure_PreKeyRecordStructure_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_textsecure_PreKeyRecordStructure_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_PreKeyRecordStructure_descriptor,
-              new java.lang.String[] { "Id", "PublicKey", "PrivateKey", });
-          internal_static_textsecure_SignedPreKeyRecordStructure_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_textsecure_SignedPreKeyRecordStructure_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SignedPreKeyRecordStructure_descriptor,
-              new java.lang.String[] { "Id", "PublicKey", "PrivateKey", "Signature", "Timestamp", });
-          internal_static_textsecure_IdentityKeyPairStructure_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_textsecure_IdentityKeyPairStructure_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_IdentityKeyPairStructure_descriptor,
-              new java.lang.String[] { "PublicKey", "PrivateKey", });
-          internal_static_textsecure_SenderKeyStateStructure_descriptor =
-            getDescriptor().getMessageTypes().get(5);
-          internal_static_textsecure_SenderKeyStateStructure_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SenderKeyStateStructure_descriptor,
-              new java.lang.String[] { "SenderKeyId", "SenderChainKey", "SenderSigningKey", "SenderMessageKeys", });
-          internal_static_textsecure_SenderKeyStateStructure_SenderChainKey_descriptor =
-            internal_static_textsecure_SenderKeyStateStructure_descriptor.getNestedTypes().get(0);
-          internal_static_textsecure_SenderKeyStateStructure_SenderChainKey_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SenderKeyStateStructure_SenderChainKey_descriptor,
-              new java.lang.String[] { "Iteration", "Seed", });
-          internal_static_textsecure_SenderKeyStateStructure_SenderMessageKey_descriptor =
-            internal_static_textsecure_SenderKeyStateStructure_descriptor.getNestedTypes().get(1);
-          internal_static_textsecure_SenderKeyStateStructure_SenderMessageKey_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SenderKeyStateStructure_SenderMessageKey_descriptor,
-              new java.lang.String[] { "Iteration", "Seed", });
-          internal_static_textsecure_SenderKeyStateStructure_SenderSigningKey_descriptor =
-            internal_static_textsecure_SenderKeyStateStructure_descriptor.getNestedTypes().get(2);
-          internal_static_textsecure_SenderKeyStateStructure_SenderSigningKey_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SenderKeyStateStructure_SenderSigningKey_descriptor,
-              new java.lang.String[] { "Public", "Private", });
-          internal_static_textsecure_SenderKeyRecordStructure_descriptor =
-            getDescriptor().getMessageTypes().get(6);
-          internal_static_textsecure_SenderKeyRecordStructure_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SenderKeyRecordStructure_descriptor,
-              new java.lang.String[] { "SenderKeyStates", });
-          return null;
-        }
-      };
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
+    internal_static_textsecure_SessionStructure_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_textsecure_SessionStructure_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SessionStructure_descriptor,
+        new java.lang.String[] { "SessionVersion", "LocalIdentityPublic", "RemoteIdentityPublic", "RootKey", "PreviousCounter", "SenderChain", "ReceiverChains", "PendingKeyExchange", "PendingPreKey", "RemoteDeviceId", "LocalDeviceId", "NeedsRefresh", "AliceBaseKey", });
+    internal_static_textsecure_SessionStructure_Chain_descriptor =
+      internal_static_textsecure_SessionStructure_descriptor.getNestedTypes().get(0);
+    internal_static_textsecure_SessionStructure_Chain_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SessionStructure_Chain_descriptor,
+        new java.lang.String[] { "SenderRatchetKey", "SenderRatchetKeyPrivate", "ChainKey", "MessageKeys", });
+    internal_static_textsecure_SessionStructure_Chain_ChainKey_descriptor =
+      internal_static_textsecure_SessionStructure_Chain_descriptor.getNestedTypes().get(0);
+    internal_static_textsecure_SessionStructure_Chain_ChainKey_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SessionStructure_Chain_ChainKey_descriptor,
+        new java.lang.String[] { "Index", "Key", });
+    internal_static_textsecure_SessionStructure_Chain_MessageKey_descriptor =
+      internal_static_textsecure_SessionStructure_Chain_descriptor.getNestedTypes().get(1);
+    internal_static_textsecure_SessionStructure_Chain_MessageKey_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SessionStructure_Chain_MessageKey_descriptor,
+        new java.lang.String[] { "Index", "CipherKey", "MacKey", "Iv", });
+    internal_static_textsecure_SessionStructure_PendingKeyExchange_descriptor =
+      internal_static_textsecure_SessionStructure_descriptor.getNestedTypes().get(1);
+    internal_static_textsecure_SessionStructure_PendingKeyExchange_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SessionStructure_PendingKeyExchange_descriptor,
+        new java.lang.String[] { "Sequence", "LocalBaseKey", "LocalBaseKeyPrivate", "LocalRatchetKey", "LocalRatchetKeyPrivate", "LocalIdentityKey", "LocalIdentityKeyPrivate", });
+    internal_static_textsecure_SessionStructure_PendingPreKey_descriptor =
+      internal_static_textsecure_SessionStructure_descriptor.getNestedTypes().get(2);
+    internal_static_textsecure_SessionStructure_PendingPreKey_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SessionStructure_PendingPreKey_descriptor,
+        new java.lang.String[] { "BaseKey", });
+    internal_static_textsecure_RecordStructure_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_textsecure_RecordStructure_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_RecordStructure_descriptor,
+        new java.lang.String[] { "CurrentSession", "PreviousSessions", });
+    internal_static_textsecure_IdentityKeyPairStructure_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_textsecure_IdentityKeyPairStructure_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_IdentityKeyPairStructure_descriptor,
+        new java.lang.String[] { "PublicKey", "PrivateKey", });
+    internal_static_textsecure_SignedPreKeyRecordStructure_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_textsecure_SignedPreKeyRecordStructure_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SignedPreKeyRecordStructure_descriptor,
+        new java.lang.String[] { "PublicKey", "PrivateKey", "Signature", });
+    internal_static_textsecure_SenderKeyStateStructure_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_textsecure_SenderKeyStateStructure_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SenderKeyStateStructure_descriptor,
+        new java.lang.String[] { "SenderKeyId", "SenderChainKey", "SenderSigningKey", "SenderMessageKeys", });
+    internal_static_textsecure_SenderKeyStateStructure_SenderChainKey_descriptor =
+      internal_static_textsecure_SenderKeyStateStructure_descriptor.getNestedTypes().get(0);
+    internal_static_textsecure_SenderKeyStateStructure_SenderChainKey_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SenderKeyStateStructure_SenderChainKey_descriptor,
+        new java.lang.String[] { "Iteration", "Seed", });
+    internal_static_textsecure_SenderKeyStateStructure_SenderMessageKey_descriptor =
+      internal_static_textsecure_SenderKeyStateStructure_descriptor.getNestedTypes().get(1);
+    internal_static_textsecure_SenderKeyStateStructure_SenderMessageKey_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SenderKeyStateStructure_SenderMessageKey_descriptor,
+        new java.lang.String[] { "Iteration", "Seed", });
+    internal_static_textsecure_SenderKeyStateStructure_SenderSigningKey_descriptor =
+      internal_static_textsecure_SenderKeyStateStructure_descriptor.getNestedTypes().get(2);
+    internal_static_textsecure_SenderKeyStateStructure_SenderSigningKey_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SenderKeyStateStructure_SenderSigningKey_descriptor,
+        new java.lang.String[] { "Public", "Private", });
+    internal_static_textsecure_SenderKeyRecordStructure_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_textsecure_SenderKeyRecordStructure_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SenderKeyRecordStructure_descriptor,
+        new java.lang.String[] { "SenderKeyStates", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

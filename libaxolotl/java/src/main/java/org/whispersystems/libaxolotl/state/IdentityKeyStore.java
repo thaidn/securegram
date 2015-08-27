@@ -1,5 +1,6 @@
 package org.whispersystems.libaxolotl.state;
 
+import org.whispersystems.libaxolotl.AxolotlAddress;
 import org.whispersystems.libaxolotl.IdentityKey;
 import org.whispersystems.libaxolotl.IdentityKeyPair;
 
@@ -18,24 +19,42 @@ public interface IdentityKeyStore {
   public IdentityKeyPair getIdentityKeyPair();
 
   /**
-   * Return the local client's registration ID.
-   * <p>
-   * Clients should maintain a registration ID, a random number
-   * between 1 and 16380 that's generated once at install time.
+   * Save the local client's identity key pair.
    *
-   * @return the local client's registration ID.
+   * @param keyPair
    */
-  public int             getLocalRegistrationId();
+  public void saveIdentityKeyPair(IdentityKeyPair keyPair);
+
+  /**
+   * Get the local client's signed pre key record.
+   *
+   * @return The local client's persistent signed pre key record.
+   */
+  public SignedPreKeyRecord getSignedPreKeyRecord();
+
+  /**
+   * Save the local client's signed pre key record.
+   *
+   * @param keyRecord
+   */
+  public void saveSignedPreKeyRecord(SignedPreKeyRecord keyRecord);
+
+  /**
+   * Return the local client's device ID.
+   *
+   * @return the local client's device ID.
+   */
+  public int getLocalDeviceId();
 
   /**
    * Save a remote client's identity key
    * <p>
    * Store a remote client's identity key as trusted.
    *
-   * @param name        The name of the remote client.
+   * @param address        The address of the remote client.
    * @param identityKey The remote client's identity key.
    */
-  public void            saveIdentity(String name, IdentityKey identityKey);
+  public void            saveIdentity(AxolotlAddress address, IdentityKey identityKey);
 
 
   /**
@@ -48,10 +67,10 @@ public interface IdentityKeyStore {
    * store.  Only if it mismatches an entry in the local store is it considered
    * 'untrusted.'
    *
-   * @param name        The name of the remote client.
-   * @param identityKey The identity key to verify.
+   * @param address        The address of the remote client.
+   * @param identityKey    The identity key to verify.
    * @return true if trusted, false if untrusted.
    */
-  public boolean         isTrustedIdentity(String name, IdentityKey identityKey);
+  public boolean         isTrustedIdentity(AxolotlAddress address, IdentityKey identityKey);
 
 }

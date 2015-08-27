@@ -4,11 +4,13 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.telegram.android.ImageLoader;
 import org.telegram.android.MessagesController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.TLRPC;
+import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 
 import org.whispersystems.libaxolotl.AxolotlAddress;
@@ -24,8 +26,9 @@ import org.whispersystems.libaxolotl.SessionCipher;
 import org.whispersystems.libaxolotl.state.AxolotlStore;
 import org.whispersystems.libaxolotl.state.PreKeyBundle;
 import org.whispersystems.libaxolotl.state.SignedPreKeyRecord;
-import org.whispersystems.libaxolotl.util.KeyHelper;
 import org.whispersystems.libaxolotl.state.impl.InMemoryAxolotlStore;
+
+import java.io.UnsupportedEncodingException;
 
 import xyz.securegram.QrCode;
 import xyz.securegram.axolotl.AbelianProtos.AbelianEnvelope;
@@ -34,10 +37,6 @@ import xyz.securegram.axolotl.AbelianProtos.AbelianIdentity;
 public class AxolotlController {
   private static final String TAG = AxolotlController.class.getName();
   private static volatile AxolotlController Instance = null;
-
-  private static final int DEVICE_ID = 0;
-  private static final int PRE_KEY_ID = 1;
-  private static final int SIGNED_PRE_KEY_ID = 2;
 
   private AbelianIdentity abelianIdentity;
   private AxolotlStore axolotlStore;
@@ -56,74 +55,61 @@ public class AxolotlController {
   }
 
   public AxolotlController() {
-    try {
-      IdentityKeyPair identityKeyPair = KeyHelper.generateIdentityKeyPair();
-      int registrationId = KeyHelper.generateRegistrationId(false /* extendedRange */);
-      axolotlStore = new InMemoryAxolotlStore(identityKeyPair, registrationId);
-      SignedPreKeyRecord signedPreKey = KeyHelper.generateSignedPreKey(
-          identityKeyPair, SIGNED_PRE_KEY_ID);
-      axolotlStore.storeSignedPreKey(SIGNED_PRE_KEY_ID, signedPreKey);
+    IdentityKeyPair identityKeyPair = UserConfig.identityKeyPair;
+    int deviceId = UserConfig.deviceId;
+    SignedPreKeyRecord signedPreKey = UserConfig.signedPreKeyRecord;
+    axolotlStore = new InMemoryAxolotlStore(identityKeyPair, signedPreKey, deviceId);
 
-      abelianIdentity = AbelianIdentity.newBuilder()
-          .setRegistrationId(registrationId)
-          .setIdentityKey(ByteString.copyFrom(identityKeyPair.getPublicKey().serialize()))
-          .setSignedPreKey(
-              ByteString.copyFrom(signedPreKey.getKeyPair().getPublicKey().serialize()))
-          .setSignPreKeySiganture(ByteString.copyFrom(signedPreKey.getSignature()))
-          .build();
-
-    } catch (Exception e) {
-      Log.e(TAG, e.toString());
-    }
-  }
-
-  public AbelianIdentity getLocalAbelianIdentity() {
-    return abelianIdentity;
+    abelianIdentity = AbelianIdentity.newBuilder()
+        .setDeviceId(deviceId)
+        .setIdentityKey(ByteString.copyFrom(identityKeyPair.getPublicKey().serialize()))
+        .setSignedPreKey(
+            ByteString.copyFrom(signedPreKey.getKeyPair().getPublicKey().serialize()))
+        .setSignPreKeySiganture(ByteString.copyFrom(signedPreKey.getSignature()))
+        .build();
   }
 
   public void registerLocalAxolotlIdentity() {
-    try {
-      Bitmap bitmap = QrCode.encodeAsBitmap(
-          Utilities.base64EncodeToString(abelianIdentity.toByteArray()), 640);
-      TLRPC.PhotoSize bigPhoto = ImageLoader.scaleAndSaveImage(
-          bitmap, 640 /* maxWidth */, 640 /* maxHeight */, 100 /* quality */,
-          false /* cached */, 320 /* minWidth */, 320 /* minHeight */);
-      MessagesController.getInstance().uploadAndApplyUserAvatar(bigPhoto);
-    } catch (Exception e) {
-      Log.e(TAG, e.toString());
+    if (!UserConfig.registeredForAbelian) {
+      try {
+        Bitmap bitmap = QrCode.encodeAsBitmap(
+            Utilities.base64EncodeToString(abelianIdentity.toByteArray()), 640);
+        TLRPC.PhotoSize bigPhoto = ImageLoader.scaleAndSaveImage(
+            bitmap, 640 /* maxWidth */, 640 /* maxHeight */, 100 /* quality */,
+            false /* cached */, 320 /* minWidth */, 320 /* minHeight */);
+        MessagesController.getInstance().uploadAndApplyUserAvatar(bigPhoto);
+        UserConfig.registeredForAbelian = true;
+        UserConfig.saveIdentity();
+      } catch (Exception e) {
+        Log.e(TAG, "Cannot register", e);
+      }
     }
   }
 
-  public AbelianIdentity getRemoteAbelianIdentity(int userId) {
+  public AbelianIdentity getRemoteAbelianIdentity(int userId)
+      throws UnsupportedEncodingException, InvalidProtocolBufferException {
     TLRPC.User user = MessagesController.getInstance().getUser(userId);
-    try {
-      String avatar =
-          FileLoader.getInstance().getDirectory(FileLoader.MEDIA_DIR_CACHE)
-              + "/"
-              + user.photo.photo_big.volume_id
-              + "_"
-              + user.photo.photo_big.local_id
-              + ".jpg";
-      String identity = QrCode.decodeAsString(avatar);
-      return AbelianIdentity.parseFrom(Utilities.base64Decode(identity.getBytes("UTF-8")));
-    } catch (Exception e) {
-      Log.e(TAG, e.toString());
-      return null;
-    }
+    String avatar =
+        FileLoader.getInstance().getDirectory(FileLoader.MEDIA_DIR_CACHE)
+            + "/"
+            + user.photo.photo_big.volume_id
+            + "_"
+            + user.photo.photo_big.local_id
+            + ".jpg";
+    String identity = QrCode.decodeAsString(avatar);
+    return AbelianIdentity.parseFrom(Utilities.base64Decode(identity.getBytes("UTF-8")));
   }
 
   public String encryptMessage(String message, int userId) {
     try {
       AbelianIdentity theirIdentity = getRemoteAbelianIdentity(userId);
       AxolotlAddress theirAddress = new AxolotlAddress(String.valueOf(userId),
-          theirIdentity.getRegistrationId());
+          theirIdentity.getDeviceId());
       if (!axolotlStore.containsSession(theirAddress)) {
         SessionBuilder sessionBuilder = new SessionBuilder(axolotlStore, theirAddress);
         PreKeyBundle theirPreKey = new PreKeyBundle(
-            theirIdentity.getRegistrationId(),
-            DEVICE_ID,
-            PRE_KEY_ID, null,
-            SIGNED_PRE_KEY_ID, Curve.decodePoint(theirIdentity.getSignedPreKey().toByteArray(), 0),
+            theirIdentity.getDeviceId(),
+            Curve.decodePoint(theirIdentity.getSignedPreKey().toByteArray(), 0),
             theirIdentity.getSignPreKeySiganture().toByteArray(),
             new IdentityKey(Curve.decodePoint(theirIdentity.getIdentityKey().toByteArray(), 0)));
         sessionBuilder.process(theirPreKey);
@@ -140,17 +126,18 @@ public class AxolotlController {
       }
       return Utilities.base64EncodeToString(builder.build().toByteArray());
     } catch (Exception e) {
-      Log.e(TAG, e.toString());
+      Log.e(TAG, "Cannot encrypt", e);
     }
     return "Not encrypted: " + message;
   }
 
   public String decryptMessage(String ciphertext, int userId) {
-    AxolotlAddress myAddress = new AxolotlAddress(String.valueOf(userId),
-        axolotlStore.getLocalRegistrationId());
-
-    SessionCipher sessionCipher = new SessionCipher(axolotlStore, myAddress);
     try {
+      AbelianIdentity theirIdentity = getRemoteAbelianIdentity(userId);
+      AxolotlAddress theirAddress = new AxolotlAddress(String.valueOf(userId),
+          theirIdentity.getDeviceId());
+
+      SessionCipher sessionCipher = new SessionCipher(axolotlStore, theirAddress);
       AbelianEnvelope envelope = AbelianEnvelope.parseFrom(
           Utilities.base64Decode(ciphertext.getBytes("UTF-8")));
       String result;
@@ -161,10 +148,9 @@ public class AxolotlController {
         result = new String(sessionCipher.decrypt(new PreKeyWhisperMessage(
             envelope.getContent().toByteArray())));
       }
-      Log.i(TAG, "Decrypted message: " + result);
       return result;
     } catch (Exception e) {
-      Log.e(TAG, e.toString());
+      Log.e(TAG, "Cannot decrypt", e);
     }
     return "Can't decrypt: " + ciphertext;
   }

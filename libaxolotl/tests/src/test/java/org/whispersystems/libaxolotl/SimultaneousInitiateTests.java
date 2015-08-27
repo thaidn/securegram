@@ -9,7 +9,6 @@ import org.whispersystems.libaxolotl.protocol.PreKeyWhisperMessage;
 import org.whispersystems.libaxolotl.protocol.WhisperMessage;
 import org.whispersystems.libaxolotl.state.AxolotlStore;
 import org.whispersystems.libaxolotl.state.PreKeyBundle;
-import org.whispersystems.libaxolotl.state.PreKeyRecord;
 import org.whispersystems.libaxolotl.state.SignedPreKeyRecord;
 import org.whispersystems.libaxolotl.util.Medium;
 
@@ -457,13 +456,11 @@ public class SimultaneousInitiateTests extends TestCase {
     byte[]    aliceSignature        = Curve.calculateSignature(aliceStore.getIdentityKeyPair().getPrivateKey(),
                                                                aliceSignedPreKey.getPublicKey().serialize());
 
-    PreKeyBundle alicePreKeyBundle = new PreKeyBundle(1, 1,
-                                                      aliceUnsignedPreKeyId, aliceUnsignedPreKey.getPublicKey(),
-                                                      aliceSignedPreKeyId, aliceSignedPreKey.getPublicKey(),
+    PreKeyBundle alicePreKeyBundle = new PreKeyBundle(1,
+                                                      aliceSignedPreKey.getPublicKey(),
                                                       aliceSignature, aliceStore.getIdentityKeyPair().getPublicKey());
 
-    aliceStore.storeSignedPreKey(aliceSignedPreKeyId, new SignedPreKeyRecord(aliceSignedPreKeyId, System.currentTimeMillis(), aliceSignedPreKey, aliceSignature));
-    aliceStore.storePreKey(aliceUnsignedPreKeyId, new PreKeyRecord(aliceUnsignedPreKeyId, aliceUnsignedPreKey));
+    aliceStore.saveSignedPreKeyRecord(new SignedPreKeyRecord(aliceSignedPreKey, aliceSignature));
 
     return alicePreKeyBundle;
   }
@@ -474,13 +471,11 @@ public class SimultaneousInitiateTests extends TestCase {
     byte[]    bobSignature        = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(),
                                                              bobSignedPreKey.getPublicKey().serialize());
 
-    PreKeyBundle bobPreKeyBundle = new PreKeyBundle(1, 1,
-                                                    bobUnsignedPreKeyId, bobUnsignedPreKey.getPublicKey(),
-                                                    bobSignedPreKeyId, bobSignedPreKey.getPublicKey(),
+    PreKeyBundle bobPreKeyBundle = new PreKeyBundle(1,
+                                                    bobSignedPreKey.getPublicKey(),
                                                     bobSignature, bobStore.getIdentityKeyPair().getPublicKey());
 
-    bobStore.storeSignedPreKey(bobSignedPreKeyId, new SignedPreKeyRecord(bobSignedPreKeyId, System.currentTimeMillis(), bobSignedPreKey, bobSignature));
-    bobStore.storePreKey(bobUnsignedPreKeyId, new PreKeyRecord(bobUnsignedPreKeyId, bobUnsignedPreKey));
+    bobStore.saveSignedPreKeyRecord(new SignedPreKeyRecord(bobSignedPreKey, bobSignature));
 
     return bobPreKeyBundle;
   }

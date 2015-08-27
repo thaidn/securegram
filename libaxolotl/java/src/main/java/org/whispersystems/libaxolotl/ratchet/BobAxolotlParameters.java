@@ -10,25 +10,23 @@ public class BobAxolotlParameters {
 
   private final IdentityKeyPair     ourIdentityKey;
   private final ECKeyPair           ourSignedPreKey;
-  private final Optional<ECKeyPair> ourOneTimePreKey;
   private final ECKeyPair           ourRatchetKey;
 
   private final IdentityKey         theirIdentityKey;
   private final ECPublicKey         theirBaseKey;
 
   BobAxolotlParameters(IdentityKeyPair ourIdentityKey, ECKeyPair ourSignedPreKey,
-                       ECKeyPair ourRatchetKey, Optional<ECKeyPair> ourOneTimePreKey,
-                       IdentityKey theirIdentityKey, ECPublicKey theirBaseKey)
+                       ECKeyPair ourRatchetKey, IdentityKey theirIdentityKey,
+                       ECPublicKey theirBaseKey)
   {
     this.ourIdentityKey   = ourIdentityKey;
     this.ourSignedPreKey  = ourSignedPreKey;
     this.ourRatchetKey    = ourRatchetKey;
-    this.ourOneTimePreKey = ourOneTimePreKey;
     this.theirIdentityKey = theirIdentityKey;
     this.theirBaseKey     = theirBaseKey;
 
     if (ourIdentityKey == null || ourSignedPreKey == null || ourRatchetKey == null ||
-        ourOneTimePreKey == null || theirIdentityKey == null || theirBaseKey == null)
+        theirIdentityKey == null || theirBaseKey == null)
     {
       throw new IllegalArgumentException("Null value!");
     }
@@ -40,10 +38,6 @@ public class BobAxolotlParameters {
 
   public ECKeyPair getOurSignedPreKey() {
     return ourSignedPreKey;
-  }
-
-  public Optional<ECKeyPair> getOurOneTimePreKey() {
-    return ourOneTimePreKey;
   }
 
   public IdentityKey getTheirIdentityKey() {
@@ -65,7 +59,6 @@ public class BobAxolotlParameters {
   public static class Builder {
     private IdentityKeyPair     ourIdentityKey;
     private ECKeyPair           ourSignedPreKey;
-    private Optional<ECKeyPair> ourOneTimePreKey;
     private ECKeyPair           ourRatchetKey;
 
     private IdentityKey         theirIdentityKey;
@@ -78,11 +71,6 @@ public class BobAxolotlParameters {
 
     public Builder setOurSignedPreKey(ECKeyPair ourSignedPreKey) {
       this.ourSignedPreKey = ourSignedPreKey;
-      return this;
-    }
-
-    public Builder setOurOneTimePreKey(Optional<ECKeyPair> ourOneTimePreKey) {
-      this.ourOneTimePreKey = ourOneTimePreKey;
       return this;
     }
 
@@ -103,7 +91,7 @@ public class BobAxolotlParameters {
 
     public BobAxolotlParameters create() {
       return new BobAxolotlParameters(ourIdentityKey, ourSignedPreKey, ourRatchetKey,
-                                      ourOneTimePreKey, theirIdentityKey, theirBaseKey);
+                                      theirIdentityKey, theirBaseKey);
     }
   }
 }

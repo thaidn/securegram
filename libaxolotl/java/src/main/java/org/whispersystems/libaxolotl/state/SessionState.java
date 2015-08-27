@@ -410,14 +410,9 @@ public class SessionState {
     return sessionStructure.hasPendingKeyExchange();
   }
 
-  public void setUnacknowledgedPreKeyMessage(Optional<Integer> preKeyId, int signedPreKeyId, ECPublicKey baseKey) {
+  public void setUnacknowledgedPreKeyMessage(ECPublicKey baseKey) {
     PendingPreKey.Builder pending = PendingPreKey.newBuilder()
-                                                 .setSignedPreKeyId(signedPreKeyId)
                                                  .setBaseKey(ByteString.copyFrom(baseKey.serialize()));
-
-    if (preKeyId.isPresent()) {
-      pending.setPreKeyId(preKeyId.get());
-    }
 
     this.sessionStructure = this.sessionStructure.toBuilder()
                                                  .setPendingPreKey(pending.build())
@@ -430,18 +425,8 @@ public class SessionState {
 
   public UnacknowledgedPreKeyMessageItems getUnacknowledgedPreKeyMessageItems() {
     try {
-      Optional<Integer> preKeyId;
-
-      if (sessionStructure.getPendingPreKey().hasPreKeyId()) {
-        preKeyId = Optional.of(sessionStructure.getPendingPreKey().getPreKeyId());
-      } else {
-        preKeyId = Optional.absent();
-      }
-
       return
-          new UnacknowledgedPreKeyMessageItems(preKeyId,
-                                               sessionStructure.getPendingPreKey().getSignedPreKeyId(),
-                                               Curve.decodePoint(sessionStructure.getPendingPreKey()
+          new UnacknowledgedPreKeyMessageItems(Curve.decodePoint(sessionStructure.getPendingPreKey()
                                                                                  .getBaseKey()
                                                                                  .toByteArray(), 0));
     } catch (InvalidKeyException e) {
@@ -455,24 +440,24 @@ public class SessionState {
                                                  .build();
   }
 
-  public void setRemoteRegistrationId(int registrationId) {
+  public void setRemoteDeviceId(int registrationId) {
     this.sessionStructure = this.sessionStructure.toBuilder()
-                                                 .setRemoteRegistrationId(registrationId)
+                                                 .setRemoteDeviceId(registrationId)
                                                  .build();
   }
 
   public int getRemoteRegistrationId() {
-    return this.sessionStructure.getRemoteRegistrationId();
+    return this.sessionStructure.getRemoteDeviceId();
   }
 
-  public void setLocalRegistrationId(int registrationId) {
+  public void setLocalDeviceIdId(int registrationId) {
     this.sessionStructure = this.sessionStructure.toBuilder()
-                                                 .setLocalRegistrationId(registrationId)
+                                                 .setLocalDeviceId(registrationId)
                                                  .build();
   }
 
-  public int getLocalRegistrationId() {
-    return this.sessionStructure.getLocalRegistrationId();
+  public int getLocalDeviceId() {
+    return this.sessionStructure.getLocalDeviceId();
   }
 
   public byte[] serialize() {
@@ -480,26 +465,10 @@ public class SessionState {
   }
 
   public static class UnacknowledgedPreKeyMessageItems {
-    private final Optional<Integer> preKeyId;
-    private final int               signedPreKeyId;
     private final ECPublicKey       baseKey;
 
-    public UnacknowledgedPreKeyMessageItems(Optional<Integer> preKeyId,
-                                            int signedPreKeyId,
-                                            ECPublicKey baseKey)
-    {
-      this.preKeyId       = preKeyId;
-      this.signedPreKeyId = signedPreKeyId;
+    public UnacknowledgedPreKeyMessageItems(ECPublicKey baseKey) {
       this.baseKey        = baseKey;
-    }
-
-
-    public Optional<Integer> getPreKeyId() {
-      return preKeyId;
-    }
-
-    public int getSignedPreKeyId() {
-      return signedPreKeyId;
     }
 
     public ECPublicKey getBaseKey() {

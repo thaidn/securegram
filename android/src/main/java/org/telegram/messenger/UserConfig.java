@@ -12,9 +12,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
-import org.telegram.android.MessagesStorage;
-
-import java.io.File;
+import org.whispersystems.libaxolotl.IdentityKeyPair;
+import org.whispersystems.libaxolotl.state.SignedPreKeyRecord;
+import org.whispersystems.libaxolotl.util.KeyHelper;
 
 public class UserConfig {
 
@@ -39,6 +39,11 @@ public class UserConfig {
   public static int lastPauseTime = 0;
   public static boolean isWaitingForPasscodeEnter = false;
   public static int lastUpdateVersion;
+
+  public static IdentityKeyPair identityKeyPair = null;
+  public static SignedPreKeyRecord signedPreKeyRecord = null;
+  public static int deviceId = 0;
+  public static boolean registeredForAbelian = false;
 
   public static int getNewMessageId() {
     int id;
@@ -88,6 +93,38 @@ public class UserConfig {
         } else {
           editor.remove("user");
         }
+
+        editor.commit();
+      } catch (Exception e) {
+        FileLog.e("tmessages", e);
+      }
+    }
+  }
+
+  public static void saveIdentity() {
+    synchronized (sync) {
+      try {
+        SharedPreferences preferences =
+            ApplicationLoader.applicationContext.getSharedPreferences(
+                "userconfing", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        if (identityKeyPair != null) {
+          editor.putString("identityKeyPair",
+              Base64.encodeToString(identityKeyPair.serialize(), Base64.DEFAULT));
+        }
+
+        if (signedPreKeyRecord != null) {
+          editor.putString("signedPreKeyRecord",
+              Base64.encodeToString(signedPreKeyRecord.serialize(), Base64.DEFAULT));
+        }
+
+        if (deviceId != 0) {
+          editor.putString("signedPreKeyRecord",
+              Base64.encodeToString(signedPreKeyRecord.serialize(), Base64.DEFAULT));
+        }
+
+        editor.putBoolean("registeredForAbelian", registeredForAbelian);
 
         editor.commit();
       } catch (Exception e) {
@@ -155,6 +192,38 @@ public class UserConfig {
       passcodeSalt = Base64.decode(passcodeSaltString, Base64.DEFAULT);
     } else {
       passcodeSalt = new byte[0];
+    }
+
+    registeredForAbelian = preferences.getBoolean("registeredForAbelian", false);
+
+    identityKeyPair = KeyHelper.generateIdentityKeyPair();
+    String identity = preferences.getString("identityKeyPair", "");
+    if (identity.length() > 0) {
+      try {
+        identityKeyPair = new IdentityKeyPair(Base64.decode(identity, Base64.DEFAULT));
+      } catch (Exception e) {
+        ; // we are in deep shit.
+      }
+    }
+
+    deviceId = preferences.getInt("deviceId", 0);
+    if (deviceId == 0) {
+      deviceId = KeyHelper.generateDeviceId();
+    }
+
+    try {
+      signedPreKeyRecord = KeyHelper.generateSignedPreKey(
+          identityKeyPair);
+    } catch (Exception e) {
+      signedPreKeyRecord = null;
+    }
+    String signedPreKey = preferences.getString("signedPreKeyRecord", "");
+    if (signedPreKey.length() > 0) {
+      try {
+        signedPreKeyRecord = new SignedPreKeyRecord(Base64.decode(signedPreKey, Base64.DEFAULT));
+      } catch (Exception e) {
+        ; // we are in deep shit.
+      }
     }
   }
 

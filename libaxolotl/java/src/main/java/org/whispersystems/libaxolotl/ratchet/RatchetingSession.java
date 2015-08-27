@@ -44,8 +44,7 @@ public class RatchetingSession {
                      .setOurIdentityKey(parameters.getOurIdentityKey())
                      .setTheirRatchetKey(parameters.getTheirRatchetKey())
                      .setTheirIdentityKey(parameters.getTheirIdentityKey())
-                     .setTheirSignedPreKey(parameters.getTheirBaseKey())
-                     .setTheirOneTimePreKey(Optional.<ECPublicKey>absent());
+                     .setTheirSignedPreKey(parameters.getTheirBaseKey());
 
       RatchetingSession.initializeSession(sessionState, sessionVersion, aliceParameters.create());
     } else {
@@ -54,7 +53,6 @@ public class RatchetingSession {
       bobParameters.setOurIdentityKey(parameters.getOurIdentityKey())
                    .setOurRatchetKey(parameters.getOurRatchetKey())
                    .setOurSignedPreKey(parameters.getOurBaseKey())
-                   .setOurOneTimePreKey(Optional.<ECKeyPair>absent())
                    .setTheirBaseKey(parameters.getTheirBaseKey())
                    .setTheirIdentityKey(parameters.getTheirIdentityKey());
 
@@ -85,11 +83,6 @@ public class RatchetingSession {
                                              parameters.getOurBaseKey().getPrivateKey()));
       secrets.write(Curve.calculateAgreement(parameters.getTheirSignedPreKey(),
                                              parameters.getOurBaseKey().getPrivateKey()));
-
-      if (sessionVersion >= 3 && parameters.getTheirOneTimePreKey().isPresent()) {
-        secrets.write(Curve.calculateAgreement(parameters.getTheirOneTimePreKey().get(),
-                                               parameters.getOurBaseKey().getPrivateKey()));
-      }
 
       DerivedKeys             derivedKeys  = calculateDerivedKeys(sessionVersion, secrets.toByteArray());
       Pair<RootKey, ChainKey> sendingChain = derivedKeys.getRootKey().createChain(parameters.getTheirRatchetKey(), sendingRatchetKey);
@@ -125,11 +118,6 @@ public class RatchetingSession {
                                              parameters.getOurIdentityKey().getPrivateKey()));
       secrets.write(Curve.calculateAgreement(parameters.getTheirBaseKey(),
                                              parameters.getOurSignedPreKey().getPrivateKey()));
-
-      if (sessionVersion >= 3 && parameters.getOurOneTimePreKey().isPresent()) {
-        secrets.write(Curve.calculateAgreement(parameters.getTheirBaseKey(),
-                                               parameters.getOurOneTimePreKey().get().getPrivateKey()));
-      }
 
       DerivedKeys derivedKeys = calculateDerivedKeys(sessionVersion, secrets.toByteArray());
 

@@ -33,9 +33,7 @@ import org.whispersystems.libaxolotl.util.guava.Optional;
 public class PreKeyWhisperMessage implements CiphertextMessage {
 
   private final int               version;
-  private final int               registrationId;
-  private final Optional<Integer> preKeyId;
-  private final int               signedPreKeyId;
+  private final int               deviceId;
   private final ECPublicKey       baseKey;
   private final IdentityKey       identityKey;
   private final WhisperMessage    message;
@@ -55,19 +53,16 @@ public class PreKeyWhisperMessage implements CiphertextMessage {
           = WhisperProtos.PreKeyWhisperMessage.parseFrom(ByteString.copyFrom(serialized, 1,
                                                                              serialized.length-1));
 
-      if ((version == 2 && !preKeyWhisperMessage.hasPreKeyId())        ||
-          (version == 3 && !preKeyWhisperMessage.hasSignedPreKeyId())  ||
-          !preKeyWhisperMessage.hasBaseKey()                           ||
+      if (!preKeyWhisperMessage.hasBaseKey()                           ||
           !preKeyWhisperMessage.hasIdentityKey()                       ||
-          !preKeyWhisperMessage.hasMessage())
+          !preKeyWhisperMessage.hasMessage()                           ||
+          !preKeyWhisperMessage.hasDeviceId())
       {
         throw new InvalidMessageException("Incomplete message.");
       }
 
       this.serialized     = serialized;
-      this.registrationId = preKeyWhisperMessage.getRegistrationId();
-      this.preKeyId       = preKeyWhisperMessage.hasPreKeyId() ? Optional.of(preKeyWhisperMessage.getPreKeyId()) : Optional.<Integer>absent();
-      this.signedPreKeyId = preKeyWhisperMessage.hasSignedPreKeyId() ? preKeyWhisperMessage.getSignedPreKeyId() : -1;
+      this.deviceId       = preKeyWhisperMessage.getDeviceId();
       this.baseKey        = Curve.decodePoint(preKeyWhisperMessage.getBaseKey().toByteArray(), 0);
       this.identityKey    = new IdentityKey(Curve.decodePoint(preKeyWhisperMessage.getIdentityKey().toByteArray(), 0));
       this.message        = new WhisperMessage(preKeyWhisperMessage.getMessage().toByteArray());
@@ -76,29 +71,20 @@ public class PreKeyWhisperMessage implements CiphertextMessage {
     }
   }
 
-  public PreKeyWhisperMessage(int messageVersion, int registrationId, Optional<Integer> preKeyId,
-                              int signedPreKeyId, ECPublicKey baseKey, IdentityKey identityKey,
-                              WhisperMessage message)
-  {
+  public PreKeyWhisperMessage(int messageVersion, int deviceId, ECPublicKey baseKey,
+                              IdentityKey identityKey, WhisperMessage message) {
     this.version        = messageVersion;
-    this.registrationId = registrationId;
-    this.preKeyId       = preKeyId;
-    this.signedPreKeyId = signedPreKeyId;
+    this.deviceId       = deviceId;
     this.baseKey        = baseKey;
     this.identityKey    = identityKey;
     this.message        = message;
 
     WhisperProtos.PreKeyWhisperMessage.Builder builder =
         WhisperProtos.PreKeyWhisperMessage.newBuilder()
-                                          .setSignedPreKeyId(signedPreKeyId)
                                           .setBaseKey(ByteString.copyFrom(baseKey.serialize()))
                                           .setIdentityKey(ByteString.copyFrom(identityKey.serialize()))
                                           .setMessage(ByteString.copyFrom(message.serialize()))
-                                          .setRegistrationId(registrationId);
-
-    if (preKeyId.isPresent()) {
-      builder.setPreKeyId(preKeyId.get());
-    }
+                                          .setDeviceId(deviceId);
 
     byte[] versionBytes = {ByteUtil.intsToByteHighAndLow(this.version, CURRENT_VERSION)};
     byte[] messageBytes = builder.build().toByteArray();
@@ -114,16 +100,8 @@ public class PreKeyWhisperMessage implements CiphertextMessage {
     return identityKey;
   }
 
-  public int getRegistrationId() {
-    return registrationId;
-  }
-
-  public Optional<Integer> getPreKeyId() {
-    return preKeyId;
-  }
-
-  public int getSignedPreKeyId() {
-    return signedPreKeyId;
+  public int getDeviceId() {
+    return deviceId;
   }
 
   public ECPublicKey getBaseKey() {

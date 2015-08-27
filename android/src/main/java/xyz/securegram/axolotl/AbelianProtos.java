@@ -13,13 +13,13 @@ public final class AbelianProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional uint32 registrationId = 1;</code>
+     * <code>optional uint32 deviceId = 1;</code>
      */
-    boolean hasRegistrationId();
+    boolean hasDeviceId();
     /**
-     * <code>optional uint32 registrationId = 1;</code>
+     * <code>optional uint32 deviceId = 1;</code>
      */
-    int getRegistrationId();
+    int getDeviceId();
 
     /**
      * <code>optional bytes identityKey = 2;</code>
@@ -102,7 +102,7 @@ public final class AbelianProtos {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              registrationId_ = input.readUInt32();
+              deviceId_ = input.readUInt32();
               break;
             }
             case 18: {
@@ -160,19 +160,19 @@ public final class AbelianProtos {
     }
 
     private int bitField0_;
-    public static final int REGISTRATIONID_FIELD_NUMBER = 1;
-    private int registrationId_;
+    public static final int DEVICEID_FIELD_NUMBER = 1;
+    private int deviceId_;
     /**
-     * <code>optional uint32 registrationId = 1;</code>
+     * <code>optional uint32 deviceId = 1;</code>
      */
-    public boolean hasRegistrationId() {
+    public boolean hasDeviceId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional uint32 registrationId = 1;</code>
+     * <code>optional uint32 deviceId = 1;</code>
      */
-    public int getRegistrationId() {
-      return registrationId_;
+    public int getDeviceId() {
+      return deviceId_;
     }
 
     public static final int IDENTITYKEY_FIELD_NUMBER = 2;
@@ -221,7 +221,7 @@ public final class AbelianProtos {
     }
 
     private void initFields() {
-      registrationId_ = 0;
+      deviceId_ = 0;
       identityKey_ = com.google.protobuf.ByteString.EMPTY;
       signedPreKey_ = com.google.protobuf.ByteString.EMPTY;
       signPreKeySiganture_ = com.google.protobuf.ByteString.EMPTY;
@@ -240,7 +240,7 @@ public final class AbelianProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeUInt32(1, registrationId_);
+        output.writeUInt32(1, deviceId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, identityKey_);
@@ -262,7 +262,7 @@ public final class AbelianProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, registrationId_);
+          .computeUInt32Size(1, deviceId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -393,7 +393,7 @@ public final class AbelianProtos {
 
       public Builder clear() {
         super.clear();
-        registrationId_ = 0;
+        deviceId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         identityKey_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -432,7 +432,7 @@ public final class AbelianProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.registrationId_ = registrationId_;
+        result.deviceId_ = deviceId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
@@ -461,8 +461,8 @@ public final class AbelianProtos {
 
       public Builder mergeFrom(xyz.securegram.axolotl.AbelianProtos.AbelianIdentity other) {
         if (other == xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.getDefaultInstance()) return this;
-        if (other.hasRegistrationId()) {
-          setRegistrationId(other.getRegistrationId());
+        if (other.hasDeviceId()) {
+          setDeviceId(other.getDeviceId());
         }
         if (other.hasIdentityKey()) {
           setIdentityKey(other.getIdentityKey());
@@ -500,34 +500,34 @@ public final class AbelianProtos {
       }
       private int bitField0_;
 
-      private int registrationId_ ;
+      private int deviceId_ ;
       /**
-       * <code>optional uint32 registrationId = 1;</code>
+       * <code>optional uint32 deviceId = 1;</code>
        */
-      public boolean hasRegistrationId() {
+      public boolean hasDeviceId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional uint32 registrationId = 1;</code>
+       * <code>optional uint32 deviceId = 1;</code>
        */
-      public int getRegistrationId() {
-        return registrationId_;
+      public int getDeviceId() {
+        return deviceId_;
       }
       /**
-       * <code>optional uint32 registrationId = 1;</code>
+       * <code>optional uint32 deviceId = 1;</code>
        */
-      public Builder setRegistrationId(int value) {
+      public Builder setDeviceId(int value) {
         bitField0_ |= 0x00000001;
-        registrationId_ = value;
+        deviceId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 registrationId = 1;</code>
+       * <code>optional uint32 deviceId = 1;</code>
        */
-      public Builder clearRegistrationId() {
+      public Builder clearDeviceId() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        registrationId_ = 0;
+        deviceId_ = 0;
         onChanged();
         return this;
       }
@@ -1263,15 +1263,15 @@ public final class AbelianProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rAbelian.proto\022\nsecuregram\"q\n\017AbelianId" +
-      "entity\022\026\n\016registrationId\030\001 \001(\r\022\023\n\013identi" +
-      "tyKey\030\002 \001(\014\022\024\n\014signedPreKey\030\003 \001(\014\022\033\n\023sig" +
-      "nPreKeySiganture\030\004 \001(\014\"\251\001\n\017AbelianEnvelo" +
-      "pe\022.\n\004type\030\001 \001(\0162 .securegram.AbelianEnv" +
-      "elope.Type\022\017\n\007content\030\002 \001(\014\"U\n\004Type\022\013\n\007U" +
-      "NKNOWN\020\000\022\016\n\nCIPHERTEXT\020\001\022\020\n\014KEY_EXCHANGE" +
-      "\020\002\022\021\n\rPREKEY_BUNDLE\020\003\022\013\n\007RECEIPT\020\005B\'\n\026xy" +
-      "z.securegram.axolotlB\rAbelianProtos"
+      "\n\rAbelian.proto\022\nsecuregram\"k\n\017AbelianId" +
+      "entity\022\020\n\010deviceId\030\001 \001(\r\022\023\n\013identityKey\030" +
+      "\002 \001(\014\022\024\n\014signedPreKey\030\003 \001(\014\022\033\n\023signPreKe" +
+      "ySiganture\030\004 \001(\014\"\251\001\n\017AbelianEnvelope\022.\n\004" +
+      "type\030\001 \001(\0162 .securegram.AbelianEnvelope." +
+      "Type\022\017\n\007content\030\002 \001(\014\"U\n\004Type\022\013\n\007UNKNOWN" +
+      "\020\000\022\016\n\nCIPHERTEXT\020\001\022\020\n\014KEY_EXCHANGE\020\002\022\021\n\r" +
+      "PREKEY_BUNDLE\020\003\022\013\n\007RECEIPT\020\005B\'\n\026xyz.secu" +
+      "regram.axolotlB\rAbelianProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1290,7 +1290,7 @@ public final class AbelianProtos {
     internal_static_securegram_AbelianIdentity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_securegram_AbelianIdentity_descriptor,
-        new java.lang.String[] { "RegistrationId", "IdentityKey", "SignedPreKey", "SignPreKeySiganture", });
+        new java.lang.String[] { "DeviceId", "IdentityKey", "SignedPreKey", "SignPreKeySiganture", });
     internal_static_securegram_AbelianEnvelope_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_securegram_AbelianEnvelope_fieldAccessorTable = new

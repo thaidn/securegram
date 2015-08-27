@@ -109,7 +109,6 @@ public class RatchetingSessionTest extends TestCase {
         .setOurIdentityKey(bobIdentityKey)
         .setOurSignedPreKey(bobBaseKey)
         .setOurRatchetKey(bobEphemeralKey)
-        .setOurOneTimePreKey(Optional.<ECKeyPair>absent())
         .setTheirIdentityKey(aliceIdentityPublicKey)
         .setTheirBaseKey(aliceBasePublicKey)
         .create();
@@ -217,7 +216,6 @@ public class RatchetingSessionTest extends TestCase {
         .setTheirIdentityKey(bobIdentityKey)
         .setTheirSignedPreKey(bobBasePublicKey)
         .setTheirRatchetKey(bobEphemeralPublicKey)
-        .setTheirOneTimePreKey(Optional.<ECPublicKey>absent())
         .create();
 
     RatchetingSession.initializeSession(session, 2, parameters);

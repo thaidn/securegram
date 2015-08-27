@@ -13,22 +13,20 @@ public class AliceAxolotlParameters {
 
   private final IdentityKey           theirIdentityKey;
   private final ECPublicKey           theirSignedPreKey;
-  private final Optional<ECPublicKey> theirOneTimePreKey;
   private final ECPublicKey           theirRatchetKey;
 
   private AliceAxolotlParameters(IdentityKeyPair ourIdentityKey, ECKeyPair ourBaseKey,
                                  IdentityKey theirIdentityKey, ECPublicKey theirSignedPreKey,
-                                 ECPublicKey theirRatchetKey, Optional<ECPublicKey> theirOneTimePreKey)
+                                 ECPublicKey theirRatchetKey)
   {
     this.ourIdentityKey     = ourIdentityKey;
     this.ourBaseKey         = ourBaseKey;
     this.theirIdentityKey   = theirIdentityKey;
     this.theirSignedPreKey  = theirSignedPreKey;
     this.theirRatchetKey    = theirRatchetKey;
-    this.theirOneTimePreKey = theirOneTimePreKey;
 
     if (ourIdentityKey == null || ourBaseKey == null || theirIdentityKey == null ||
-        theirSignedPreKey == null || theirRatchetKey == null || theirOneTimePreKey == null)
+        theirSignedPreKey == null || theirRatchetKey == null)
     {
       throw new IllegalArgumentException("Null values!");
     }
@@ -50,10 +48,6 @@ public class AliceAxolotlParameters {
     return theirSignedPreKey;
   }
 
-  public Optional<ECPublicKey> getTheirOneTimePreKey() {
-    return theirOneTimePreKey;
-  }
-
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -69,7 +63,6 @@ public class AliceAxolotlParameters {
     private IdentityKey           theirIdentityKey;
     private ECPublicKey           theirSignedPreKey;
     private ECPublicKey           theirRatchetKey;
-    private Optional<ECPublicKey> theirOneTimePreKey;
 
     public Builder setOurIdentityKey(IdentityKeyPair ourIdentityKey) {
       this.ourIdentityKey = ourIdentityKey;
@@ -96,14 +89,9 @@ public class AliceAxolotlParameters {
       return this;
     }
 
-    public Builder setTheirOneTimePreKey(Optional<ECPublicKey> theirOneTimePreKey) {
-      this.theirOneTimePreKey = theirOneTimePreKey;
-      return this;
-    }
-
     public AliceAxolotlParameters create() {
       return new AliceAxolotlParameters(ourIdentityKey, ourBaseKey, theirIdentityKey,
-                                        theirSignedPreKey, theirRatchetKey, theirOneTimePreKey);
+                                        theirSignedPreKey, theirRatchetKey);
     }
   }
 }

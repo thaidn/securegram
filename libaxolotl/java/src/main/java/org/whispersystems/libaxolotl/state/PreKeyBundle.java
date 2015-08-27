@@ -11,28 +11,17 @@ import org.whispersystems.libaxolotl.ecc.ECPublicKey;
  */
 public class PreKeyBundle {
 
-  private int         registrationId;
-
   private int         deviceId;
 
-  private int         preKeyId;
-  private ECPublicKey preKeyPublic;
-
-  private int         signedPreKeyId;
   private ECPublicKey signedPreKeyPublic;
   private byte[]      signedPreKeySignature;
 
   private IdentityKey identityKey;
 
-  public PreKeyBundle(int registrationId, int deviceId, int preKeyId, ECPublicKey preKeyPublic,
-                      int signedPreKeyId, ECPublicKey signedPreKeyPublic, byte[] signedPreKeySignature,
+  public PreKeyBundle(int deviceId, ECPublicKey signedPreKeyPublic, byte[] signedPreKeySignature,
                       IdentityKey identityKey)
   {
-    this.registrationId        = registrationId;
     this.deviceId              = deviceId;
-    this.preKeyId              = preKeyId;
-    this.preKeyPublic          = preKeyPublic;
-    this.signedPreKeyId        = signedPreKeyId;
     this.signedPreKeyPublic    = signedPreKeyPublic;
     this.signedPreKeySignature = signedPreKeySignature;
     this.identityKey           = identityKey;
@@ -43,27 +32,6 @@ public class PreKeyBundle {
    */
   public int getDeviceId() {
     return deviceId;
-  }
-
-  /**
-   * @return the unique key ID for this PreKey.
-   */
-  public int getPreKeyId() {
-    return preKeyId;
-  }
-
-  /**
-   * @return the public key for this PreKey.
-   */
-  public ECPublicKey getPreKey() {
-    return preKeyPublic;
-  }
-
-  /**
-   * @return the unique key ID for this signed prekey.
-   */
-  public int getSignedPreKeyId() {
-    return signedPreKeyId;
   }
 
   /**
@@ -85,12 +53,5 @@ public class PreKeyBundle {
    */
   public IdentityKey getIdentityKey() {
     return identityKey;
-  }
-
-  /**
-   * @return the registration ID associated with this PreKey.
-   */
-  public int getRegistrationId() {
-    return registrationId;
   }
 }

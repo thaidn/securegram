@@ -4,10 +4,10 @@ option java_package = "xyz.securegram.axolotl";
 option java_outer_classname = "AbelianProtos";
 
 message AbelianIdentity {
-    optional uint32 registrationId      = 1;
+    optional uint32 deviceId            = 1;
     optional bytes  identityKey         = 2;
     optional bytes  signedPreKey        = 3;
-    optional bytes  signPreKeySiganture = 4;
+    optional bytes  signPreKeySignature = 4;
 }
 
 message AbelianEnvelope {

@@ -139,12 +139,10 @@ public class SessionCipherTest extends TestCase {
         .setTheirIdentityKey(bobIdentityKey.getPublicKey())
         .setTheirSignedPreKey(bobEphemeralKey.getPublicKey())
         .setTheirRatchetKey(bobEphemeralKey.getPublicKey())
-        .setTheirOneTimePreKey(Optional.<ECPublicKey>absent())
         .create();
 
     BobAxolotlParameters bobParameters = BobAxolotlParameters.newBuilder()
         .setOurIdentityKey(bobIdentityKey)
-        .setOurOneTimePreKey(Optional.<ECKeyPair>absent())
         .setOurRatchetKey(bobEphemeralKey)
         .setOurSignedPreKey(bobBaseKey)
         .setTheirBaseKey(aliceBaseKey.getPublicKey())
@@ -177,7 +175,6 @@ public class SessionCipherTest extends TestCase {
     AliceAxolotlParameters aliceParameters = AliceAxolotlParameters.newBuilder()
         .setOurBaseKey(aliceBaseKey)
         .setOurIdentityKey(aliceIdentityKey)
-        .setTheirOneTimePreKey(Optional.<ECPublicKey>absent())
         .setTheirRatchetKey(bobEphemeralKey.getPublicKey())
         .setTheirSignedPreKey(bobBaseKey.getPublicKey())
         .setTheirIdentityKey(bobIdentityKey.getPublicKey())
@@ -186,7 +183,6 @@ public class SessionCipherTest extends TestCase {
     BobAxolotlParameters bobParameters = BobAxolotlParameters.newBuilder()
         .setOurRatchetKey(bobEphemeralKey)
         .setOurSignedPreKey(bobBaseKey)
-        .setOurOneTimePreKey(Optional.<ECKeyPair>absent())
         .setOurIdentityKey(bobIdentityKey)
         .setTheirIdentityKey(aliceIdentityKey.getPublicKey())
         .setTheirBaseKey(aliceBaseKey.getPublicKey())

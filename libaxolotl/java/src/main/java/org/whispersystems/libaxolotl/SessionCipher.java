@@ -27,14 +27,11 @@ import org.whispersystems.libaxolotl.ratchet.MessageKeys;
 import org.whispersystems.libaxolotl.ratchet.RootKey;
 import org.whispersystems.libaxolotl.state.AxolotlStore;
 import org.whispersystems.libaxolotl.state.IdentityKeyStore;
-import org.whispersystems.libaxolotl.state.PreKeyStore;
 import org.whispersystems.libaxolotl.state.SessionRecord;
 import org.whispersystems.libaxolotl.state.SessionState;
 import org.whispersystems.libaxolotl.state.SessionStore;
-import org.whispersystems.libaxolotl.state.SignedPreKeyStore;
 import org.whispersystems.libaxolotl.util.ByteUtil;
 import org.whispersystems.libaxolotl.util.Pair;
-import org.whispersystems.libaxolotl.util.guava.Optional;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
@@ -66,7 +63,6 @@ public class SessionCipher {
 
   private final SessionStore   sessionStore;
   private final SessionBuilder sessionBuilder;
-  private final PreKeyStore    preKeyStore;
   private final AxolotlAddress remoteAddress;
 
   /**
@@ -77,19 +73,16 @@ public class SessionCipher {
    * @param  sessionStore The {@link SessionStore} that contains a session for this recipient.
    * @param  remoteAddress  The remote address that messages will be encrypted to or decrypted from.
    */
-  public SessionCipher(SessionStore sessionStore, PreKeyStore preKeyStore,
-                       SignedPreKeyStore signedPreKeyStore, IdentityKeyStore identityKeyStore,
+  public SessionCipher(SessionStore sessionStore, IdentityKeyStore identityKeyStore,
                        AxolotlAddress remoteAddress)
   {
     this.sessionStore   = sessionStore;
-    this.preKeyStore    = preKeyStore;
     this.remoteAddress  = remoteAddress;
-    this.sessionBuilder = new SessionBuilder(sessionStore, preKeyStore, signedPreKeyStore,
-                                             identityKeyStore, remoteAddress);
+    this.sessionBuilder = new SessionBuilder(sessionStore, identityKeyStore, remoteAddress);
   }
 
   public SessionCipher(AxolotlStore store, AxolotlAddress remoteAddress) {
-    this(store, store, store, store, remoteAddress);
+    this(store,  store, remoteAddress);
   }
 
   /**
@@ -117,10 +110,9 @@ public class SessionCipher {
 
       if (sessionState.hasUnacknowledgedPreKeyMessage()) {
         UnacknowledgedPreKeyMessageItems items = sessionState.getUnacknowledgedPreKeyMessageItems();
-        int localRegistrationId = sessionState.getLocalRegistrationId();
+        int localDeviceId = sessionState.getLocalDeviceId();
 
-        ciphertextMessage = new PreKeyWhisperMessage(sessionVersion, localRegistrationId, items.getPreKeyId(),
-                                                     items.getSignedPreKeyId(), items.getBaseKey(),
+        ciphertextMessage = new PreKeyWhisperMessage(sessionVersion, localDeviceId, items.getBaseKey(),
                                                      sessionState.getLocalIdentityKey(),
                                                      (WhisperMessage) ciphertextMessage);
       }
@@ -141,8 +133,6 @@ public class SessionCipher {
    * @throws DuplicateMessageException if the input is a message that has already been received.
    * @throws LegacyMessageException if the input is a message formatted by a protocol version that
    *                                is no longer supported.
-   * @throws InvalidKeyIdException when there is no local {@link org.whispersystems.libaxolotl.state.PreKeyRecord}
-   *                               that corresponds to the PreKey ID in the message.
    * @throws InvalidKeyException when the message is formatted incorrectly.
    * @throws UntrustedIdentityException when the {@link IdentityKey} of the sender is untrusted.
    */
@@ -169,8 +159,6 @@ public class SessionCipher {
    * @throws DuplicateMessageException if the input is a message that has already been received.
    * @throws LegacyMessageException if the input is a message formatted by a protocol version that
    *                                is no longer supported.
-   * @throws InvalidKeyIdException when there is no local {@link org.whispersystems.libaxolotl.state.PreKeyRecord}
-   *                               that corresponds to the PreKey ID in the message.
    * @throws InvalidKeyException when the message is formatted incorrectly.
    * @throws UntrustedIdentityException when the {@link IdentityKey} of the sender is untrusted.
    */
@@ -180,16 +168,12 @@ public class SessionCipher {
   {
     synchronized (SESSION_LOCK) {
       SessionRecord     sessionRecord    = sessionStore.loadSession(remoteAddress);
-      Optional<Integer> unsignedPreKeyId = sessionBuilder.process(sessionRecord, ciphertext);
+      sessionBuilder.process(sessionRecord, ciphertext);
       byte[]            plaintext        = decrypt(sessionRecord, ciphertext.getWhisperMessage());
 
       callback.handlePlaintext(plaintext);
 
       sessionStore.storeSession(remoteAddress, sessionRecord);
-
-      if (unsignedPreKeyId.isPresent()) {
-        preKeyStore.removePreKey(unsignedPreKeyId.get());
-      }
 
       return plaintext;
     }

@@ -36,8 +36,6 @@ message SessionStructure {
     }
 
     message PendingPreKey {
-        optional uint32 preKeyId       = 1;
-        optional int32  signedPreKeyId = 3;
         optional bytes  baseKey        = 2;
     }
 
@@ -54,8 +52,8 @@ message SessionStructure {
     optional PendingKeyExchange pendingKeyExchange = 8;
     optional PendingPreKey      pendingPreKey      = 9;
 
-    optional uint32 remoteRegistrationId = 10;
-    optional uint32 localRegistrationId  = 11;
+    optional uint32 remoteDeviceId = 10;
+    optional uint32 localDeviceId  = 11;
 
     optional bool needsRefresh = 12;
     optional bytes aliceBaseKey = 13;
@@ -66,23 +64,15 @@ message RecordStructure {
     repeated SessionStructure previousSessions = 2;
 }
 
-message PreKeyRecordStructure {
-    optional uint32 id        = 1;
-    optional bytes  publicKey = 2;
-    optional bytes  privateKey = 3;
-}
-
-message SignedPreKeyRecordStructure {
-    optional uint32  id         = 1;
-    optional bytes   publicKey  = 2;
-    optional bytes   privateKey = 3;
-    optional bytes   signature  = 4;
-    optional fixed64 timestamp  = 5;
-}
-
 message IdentityKeyPairStructure {
     optional bytes publicKey  = 1;
     optional bytes privateKey = 2;
+}
+
+message SignedPreKeyRecordStructure {
+    optional bytes   publicKey  = 2;
+    optional bytes   privateKey = 3;
+    optional bytes   signature  = 4;
 }
 
 message SenderKeyStateStructure {

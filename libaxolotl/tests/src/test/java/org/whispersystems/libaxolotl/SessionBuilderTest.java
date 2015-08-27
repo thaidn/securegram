@@ -11,7 +11,6 @@ import org.whispersystems.libaxolotl.protocol.WhisperMessage;
 import org.whispersystems.libaxolotl.state.AxolotlStore;
 import org.whispersystems.libaxolotl.state.IdentityKeyStore;
 import org.whispersystems.libaxolotl.state.PreKeyBundle;
-import org.whispersystems.libaxolotl.state.PreKeyRecord;
 import org.whispersystems.libaxolotl.state.SignedPreKeyRecord;
 import org.whispersystems.libaxolotl.util.Pair;
 
@@ -23,101 +22,17 @@ public class SessionBuilderTest extends TestCase {
   private static final AxolotlAddress ALICE_ADDRESS = new AxolotlAddress("+14151111111", 1);
   private static final AxolotlAddress BOB_ADDRESS   = new AxolotlAddress("+14152222222", 1);
 
-  public void testBasicPreKeyV2()
-      throws InvalidKeyException, InvalidVersionException, InvalidMessageException, InvalidKeyIdException, DuplicateMessageException, LegacyMessageException, UntrustedIdentityException, NoSessionException {
-    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
-
-    AxolotlStore bobStore      = new TestInMemoryAxolotlStore();
-    ECKeyPair    bobPreKeyPair = Curve.generateKeyPair();
-    PreKeyBundle bobPreKey     = new PreKeyBundle(bobStore.getLocalRegistrationId(), 1,
-                                                  31337, bobPreKeyPair.getPublicKey(),
-                                                  0, null, null,
-                                                  bobStore.getIdentityKeyPair().getPublicKey());
-
-    aliceSessionBuilder.process(bobPreKey);
-
-    assertTrue(aliceStore.containsSession(BOB_ADDRESS));
-    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 2);
-
-    String            originalMessage    = "L'homme est condamné à être libre";
-    SessionCipher     aliceSessionCipher = new SessionCipher(aliceStore, BOB_ADDRESS);
-    CiphertextMessage outgoingMessage    = aliceSessionCipher.encrypt(originalMessage.getBytes());
-
-    assertTrue(outgoingMessage.getType() == CiphertextMessage.PREKEY_TYPE);
-
-    PreKeyWhisperMessage incomingMessage = new PreKeyWhisperMessage(outgoingMessage.serialize());
-    bobStore.storePreKey(31337, new PreKeyRecord(bobPreKey.getPreKeyId(), bobPreKeyPair));
-
-    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
-    byte[]        plaintext        = bobSessionCipher.decrypt(incomingMessage);
-
-    assertTrue(bobStore.containsSession(ALICE_ADDRESS));
-    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 2);
-    assertTrue(originalMessage.equals(new String(plaintext)));
-
-    CiphertextMessage bobOutgoingMessage = bobSessionCipher.encrypt(originalMessage.getBytes());
-    assertTrue(bobOutgoingMessage.getType() == CiphertextMessage.WHISPER_TYPE);
-
-    byte[] alicePlaintext = aliceSessionCipher.decrypt((WhisperMessage)bobOutgoingMessage);
-    assertTrue(new String(alicePlaintext).equals(originalMessage));
-
-    runInteraction(aliceStore, bobStore);
-
-    aliceStore          = new TestInMemoryAxolotlStore();
-    aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
-    aliceSessionCipher  = new SessionCipher(aliceStore, BOB_ADDRESS);
-
-    bobPreKeyPair = Curve.generateKeyPair();
-    bobPreKey = new PreKeyBundle(bobStore.getLocalRegistrationId(),
-                                 1, 31338, bobPreKeyPair.getPublicKey(),
-                                 0, null, null, bobStore.getIdentityKeyPair().getPublicKey());
-
-    bobStore.storePreKey(31338, new PreKeyRecord(bobPreKey.getPreKeyId(), bobPreKeyPair));
-    aliceSessionBuilder.process(bobPreKey);
-
-    outgoingMessage = aliceSessionCipher.encrypt(originalMessage.getBytes());
-
-    try {
-      bobSessionCipher.decrypt(new PreKeyWhisperMessage(outgoingMessage.serialize()));
-      throw new AssertionError("shouldn't be trusted!");
-    } catch (UntrustedIdentityException uie) {
-      bobStore.saveIdentity(ALICE_ADDRESS.getName(), new PreKeyWhisperMessage(outgoingMessage.serialize()).getIdentityKey());
-    }
-
-    plaintext = bobSessionCipher.decrypt(new PreKeyWhisperMessage(outgoingMessage.serialize()));
-
-    assertTrue(new String(plaintext).equals(originalMessage));
-
-    bobPreKey = new PreKeyBundle(bobStore.getLocalRegistrationId(), 1,
-                                 31337, Curve.generateKeyPair().getPublicKey(),
-                                 0, null, null,
-                                 aliceStore.getIdentityKeyPair().getPublicKey());
-
-    try {
-      aliceSessionBuilder.process(bobPreKey);
-      throw new AssertionError("shoulnd't be trusted!");
-    } catch (UntrustedIdentityException uie) {
-      // good
-    }
-  }
-
-  public void testBasicPreKeyV3()
+  public void testBasicPreKeyV4()
       throws InvalidKeyException, InvalidVersionException, InvalidMessageException, InvalidKeyIdException, DuplicateMessageException, LegacyMessageException, UntrustedIdentityException, NoSessionException {
     AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
     final AxolotlStore bobStore                 = new TestInMemoryAxolotlStore();
-          ECKeyPair    bobPreKeyPair            = Curve.generateKeyPair();
-          ECKeyPair    bobSignedPreKeyPair      = Curve.generateKeyPair();
-          byte[]       bobSignedPreKeySignature = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(),
-                                                                           bobSignedPreKeyPair.getPublicKey().serialize());
 
-    PreKeyBundle bobPreKey = new PreKeyBundle(bobStore.getLocalRegistrationId(), 1,
-                                              31337, bobPreKeyPair.getPublicKey(),
-                                              22, bobSignedPreKeyPair.getPublicKey(),
-                                              bobSignedPreKeySignature,
-                                              bobStore.getIdentityKeyPair().getPublicKey());
+    PreKeyBundle bobPreKey = new PreKeyBundle(bobStore.getLocalDeviceId(),
+        bobStore.getSignedPreKeyRecord().getKeyPair().getPublicKey(),
+        bobStore.getSignedPreKeyRecord().getSignature(),
+        bobStore.getIdentityKeyPair().getPublicKey());
 
     aliceSessionBuilder.process(bobPreKey);
 
@@ -131,8 +46,6 @@ public class SessionBuilderTest extends TestCase {
     assertTrue(outgoingMessage.getType() == CiphertextMessage.PREKEY_TYPE);
 
     PreKeyWhisperMessage incomingMessage = new PreKeyWhisperMessage(outgoingMessage.serialize());
-    bobStore.storePreKey(31337, new PreKeyRecord(bobPreKey.getPreKeyId(), bobPreKeyPair));
-    bobStore.storeSignedPreKey(22, new SignedPreKeyRecord(22, System.currentTimeMillis(), bobSignedPreKeyPair, bobSignedPreKeySignature));
 
     SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
     byte[] plaintext = bobSessionCipher.decrypt(incomingMessage, new DecryptionCallback() {
@@ -160,16 +73,13 @@ public class SessionBuilderTest extends TestCase {
     aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
     aliceSessionCipher  = new SessionCipher(aliceStore, BOB_ADDRESS);
 
-    bobPreKeyPair            = Curve.generateKeyPair();
-    bobSignedPreKeyPair      = Curve.generateKeyPair();
-    bobSignedPreKeySignature = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(), bobSignedPreKeyPair.getPublicKey().serialize());
-    bobPreKey = new PreKeyBundle(bobStore.getLocalRegistrationId(),
-                                 1, 31338, bobPreKeyPair.getPublicKey(),
-                                 23, bobSignedPreKeyPair.getPublicKey(), bobSignedPreKeySignature,
+    ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
+    byte bobSignedPreKeySignature[] = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(), bobSignedPreKeyPair.getPublicKey().serialize());
+    bobPreKey = new PreKeyBundle(bobStore.getLocalDeviceId(),
+                                 bobSignedPreKeyPair.getPublicKey(), bobSignedPreKeySignature,
                                  bobStore.getIdentityKeyPair().getPublicKey());
 
-    bobStore.storePreKey(31338, new PreKeyRecord(bobPreKey.getPreKeyId(), bobPreKeyPair));
-    bobStore.storeSignedPreKey(23, new SignedPreKeyRecord(23, System.currentTimeMillis(), bobSignedPreKeyPair, bobSignedPreKeySignature));
+    bobStore.saveSignedPreKeyRecord(new SignedPreKeyRecord(bobSignedPreKeyPair, bobSignedPreKeySignature));
     aliceSessionBuilder.process(bobPreKey);
 
     outgoingMessage = aliceSessionCipher.encrypt(originalMessage.getBytes());
@@ -178,16 +88,15 @@ public class SessionBuilderTest extends TestCase {
       plaintext = bobSessionCipher.decrypt(new PreKeyWhisperMessage(outgoingMessage.serialize()));
       throw new AssertionError("shouldn't be trusted!");
     } catch (UntrustedIdentityException uie) {
-      bobStore.saveIdentity(ALICE_ADDRESS.getName(), new PreKeyWhisperMessage(outgoingMessage.serialize()).getIdentityKey());
+      bobStore.saveIdentity(ALICE_ADDRESS, new PreKeyWhisperMessage(outgoingMessage.serialize()).getIdentityKey());
     }
 
     plaintext = bobSessionCipher.decrypt(new PreKeyWhisperMessage(outgoingMessage.serialize()));
     assertTrue(new String(plaintext).equals(originalMessage));
 
-    bobPreKey = new PreKeyBundle(bobStore.getLocalRegistrationId(), 1,
-                                 31337, Curve.generateKeyPair().getPublicKey(),
-                                 23, bobSignedPreKeyPair.getPublicKey(), bobSignedPreKeySignature,
-                                 aliceStore.getIdentityKeyPair().getPublicKey());
+    bobPreKey = new PreKeyBundle(bobStore.getLocalDeviceId(),
+        bobSignedPreKeyPair.getPublicKey(), bobSignedPreKeySignature,
+        aliceStore.getIdentityKeyPair().getPublicKey());
 
     try {
       aliceSessionBuilder.process(bobPreKey);
@@ -215,10 +124,9 @@ public class SessionBuilderTest extends TestCase {
 
       modifiedSignature[i/8] ^= (0x01 << (i % 8));
 
-      PreKeyBundle bobPreKey = new PreKeyBundle(bobIdentityKeyStore.getLocalRegistrationId(), 1,
-                                                31337, bobPreKeyPair.getPublicKey(),
-                                                22, bobSignedPreKeyPair.getPublicKey(), modifiedSignature,
-                                                bobIdentityKeyStore.getIdentityKeyPair().getPublicKey());
+      PreKeyBundle bobPreKey = new PreKeyBundle(bobIdentityKeyStore.getLocalDeviceId(),
+          bobSignedPreKeyPair.getPublicKey(), modifiedSignature,
+          bobIdentityKeyStore.getIdentityKeyPair().getPublicKey());
 
       try {
         aliceSessionBuilder.process(bobPreKey);
@@ -228,85 +136,23 @@ public class SessionBuilderTest extends TestCase {
       }
     }
 
-    PreKeyBundle bobPreKey = new PreKeyBundle(bobIdentityKeyStore.getLocalRegistrationId(), 1,
-                                              31337, bobPreKeyPair.getPublicKey(),
-                                              22, bobSignedPreKeyPair.getPublicKey(), bobSignedPreKeySignature,
-                                              bobIdentityKeyStore.getIdentityKeyPair().getPublicKey());
+    PreKeyBundle bobPreKey = new PreKeyBundle(bobIdentityKeyStore.getLocalDeviceId(),
+        bobSignedPreKeyPair.getPublicKey(), bobSignedPreKeySignature,
+        bobIdentityKeyStore.getIdentityKeyPair().getPublicKey());
 
     aliceSessionBuilder.process(bobPreKey);
   }
 
-  public void testRepeatBundleMessageV2() throws InvalidKeyException, UntrustedIdentityException, InvalidVersionException, InvalidMessageException, InvalidKeyIdException, DuplicateMessageException, LegacyMessageException, NoSessionException {
+  public void testRepeatBundleMessageV4() throws InvalidKeyException, UntrustedIdentityException, InvalidVersionException, InvalidMessageException, InvalidKeyIdException, DuplicateMessageException, LegacyMessageException, NoSessionException {
     AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
     AxolotlStore bobStore = new TestInMemoryAxolotlStore();
 
-    ECKeyPair bobPreKeyPair            = Curve.generateKeyPair();
-    ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
-    byte[]    bobSignedPreKeySignature = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(),
-                                                                  bobSignedPreKeyPair.getPublicKey().serialize());
-
-    PreKeyBundle bobPreKey = new PreKeyBundle(bobStore.getLocalRegistrationId(), 1,
-                                              31337, bobPreKeyPair.getPublicKey(),
-                                              0, null, null,
-                                              bobStore.getIdentityKeyPair().getPublicKey());
-
-    bobStore.storePreKey(31337, new PreKeyRecord(bobPreKey.getPreKeyId(), bobPreKeyPair));
-    bobStore.storeSignedPreKey(22, new SignedPreKeyRecord(22, System.currentTimeMillis(), bobSignedPreKeyPair, bobSignedPreKeySignature));
-
-    aliceSessionBuilder.process(bobPreKey);
-
-    String            originalMessage    = "L'homme est condamné à être libre";
-    SessionCipher     aliceSessionCipher = new SessionCipher(aliceStore, BOB_ADDRESS);
-    CiphertextMessage outgoingMessageOne = aliceSessionCipher.encrypt(originalMessage.getBytes());
-    CiphertextMessage outgoingMessageTwo = aliceSessionCipher.encrypt(originalMessage.getBytes());
-
-    assertTrue(outgoingMessageOne.getType() == CiphertextMessage.PREKEY_TYPE);
-
-    PreKeyWhisperMessage incomingMessage = new PreKeyWhisperMessage(outgoingMessageOne.serialize());
-
-    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
-
-    byte[]        plaintext        = bobSessionCipher.decrypt(incomingMessage);
-    assertTrue(originalMessage.equals(new String(plaintext)));
-
-    CiphertextMessage bobOutgoingMessage = bobSessionCipher.encrypt(originalMessage.getBytes());
-
-    byte[] alicePlaintext = aliceSessionCipher.decrypt(new WhisperMessage(bobOutgoingMessage.serialize()));
-    assertTrue(originalMessage.equals(new String(alicePlaintext)));
-
-    // The test
-
-    PreKeyWhisperMessage incomingMessageTwo = new PreKeyWhisperMessage(outgoingMessageTwo.serialize());
-
-    plaintext = bobSessionCipher.decrypt(incomingMessageTwo);
-    assertTrue(originalMessage.equals(new String(plaintext)));
-
-    bobOutgoingMessage = bobSessionCipher.encrypt(originalMessage.getBytes());
-    alicePlaintext = aliceSessionCipher.decrypt(new WhisperMessage(bobOutgoingMessage.serialize()));
-    assertTrue(originalMessage.equals(new String(alicePlaintext)));
-
-  }
-
-  public void testRepeatBundleMessageV3() throws InvalidKeyException, UntrustedIdentityException, InvalidVersionException, InvalidMessageException, InvalidKeyIdException, DuplicateMessageException, LegacyMessageException, NoSessionException {
-    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
-
-    AxolotlStore bobStore = new TestInMemoryAxolotlStore();
-
-    ECKeyPair bobPreKeyPair            = Curve.generateKeyPair();
-    ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
-    byte[]    bobSignedPreKeySignature = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(),
-                                                                  bobSignedPreKeyPair.getPublicKey().serialize());
-
-    PreKeyBundle bobPreKey = new PreKeyBundle(bobStore.getLocalRegistrationId(), 1,
-                                              31337, bobPreKeyPair.getPublicKey(),
-                                              22, bobSignedPreKeyPair.getPublicKey(), bobSignedPreKeySignature,
-                                              bobStore.getIdentityKeyPair().getPublicKey());
-
-    bobStore.storePreKey(31337, new PreKeyRecord(bobPreKey.getPreKeyId(), bobPreKeyPair));
-    bobStore.storeSignedPreKey(22, new SignedPreKeyRecord(22, System.currentTimeMillis(), bobSignedPreKeyPair, bobSignedPreKeySignature));
+    PreKeyBundle bobPreKey = new PreKeyBundle(bobStore.getLocalDeviceId(),
+        bobStore.getSignedPreKeyRecord().getKeyPair().getPublicKey(),
+        bobStore.getSignedPreKeyRecord().getSignature(),
+        bobStore.getIdentityKeyPair().getPublicKey());
 
     aliceSessionBuilder.process(bobPreKey);
 
@@ -349,18 +195,10 @@ public class SessionBuilderTest extends TestCase {
 
     AxolotlStore bobStore = new TestInMemoryAxolotlStore();
 
-    ECKeyPair bobPreKeyPair            = Curve.generateKeyPair();
-    ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
-    byte[]    bobSignedPreKeySignature = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(),
-                                                                  bobSignedPreKeyPair.getPublicKey().serialize());
-
-    PreKeyBundle bobPreKey = new PreKeyBundle(bobStore.getLocalRegistrationId(), 1,
-                                              31337, bobPreKeyPair.getPublicKey(),
-                                              22, bobSignedPreKeyPair.getPublicKey(), bobSignedPreKeySignature,
-                                              bobStore.getIdentityKeyPair().getPublicKey());
-
-    bobStore.storePreKey(31337, new PreKeyRecord(bobPreKey.getPreKeyId(), bobPreKeyPair));
-    bobStore.storeSignedPreKey(22, new SignedPreKeyRecord(22, System.currentTimeMillis(), bobSignedPreKeyPair, bobSignedPreKeySignature));
+    PreKeyBundle bobPreKey = new PreKeyBundle(bobStore.getLocalDeviceId(),
+        bobStore.getSignedPreKeyRecord().getKeyPair().getPublicKey(),
+        bobStore.getSignedPreKeyRecord().getSignature(),
+        bobStore.getIdentityKeyPair().getPublicKey());
 
     aliceSessionBuilder.process(bobPreKey);
 
@@ -388,12 +226,9 @@ public class SessionBuilderTest extends TestCase {
       // good.
     }
 
-    assertTrue(bobStore.containsPreKey(31337));
-
     plaintext = bobSessionCipher.decrypt(new PreKeyWhisperMessage(goodMessage));
 
     assertTrue(originalMessage.equals(new String(plaintext)));
-    assertTrue(!bobStore.containsPreKey(31337));
   }
 
   public void testBasicKeyExchange() throws InvalidKeyException, LegacyMessageException, InvalidMessageException, DuplicateMessageException, UntrustedIdentityException, StaleKeyExchangeException, InvalidVersionException, NoSessionException {
@@ -428,7 +263,7 @@ public class SessionBuilderTest extends TestCase {
       bobKeyExchangeMessage = bobSessionBuilder.process(aliceKeyExchangeMessage);
       throw new AssertionError("This identity shouldn't be trusted!");
     } catch (UntrustedIdentityException uie) {
-      bobStore.saveIdentity(ALICE_ADDRESS.getName(), aliceKeyExchangeMessage.getIdentityKey());
+      bobStore.saveIdentity(ALICE_ADDRESS, aliceKeyExchangeMessage.getIdentityKey());
       bobKeyExchangeMessage = bobSessionBuilder.process(aliceKeyExchangeMessage);
     }
 
@@ -465,50 +300,6 @@ public class SessionBuilderTest extends TestCase {
 
     runInteraction(aliceStore, bobStore);
   }
-
-  public void testOptionalOneTimePreKey() throws Exception {
-    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
-
-    AxolotlStore bobStore = new TestInMemoryAxolotlStore();
-
-    ECKeyPair bobPreKeyPair            = Curve.generateKeyPair();
-    ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
-    byte[]    bobSignedPreKeySignature = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(),
-                                                                  bobSignedPreKeyPair.getPublicKey().serialize());
-
-    PreKeyBundle bobPreKey = new PreKeyBundle(bobStore.getLocalRegistrationId(), 1,
-                                              0, null,
-                                              22, bobSignedPreKeyPair.getPublicKey(),
-                                              bobSignedPreKeySignature,
-                                              bobStore.getIdentityKeyPair().getPublicKey());
-
-    aliceSessionBuilder.process(bobPreKey);
-
-    assertTrue(aliceStore.containsSession(BOB_ADDRESS));
-    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
-
-    String            originalMessage    = "L'homme est condamné à être libre";
-    SessionCipher     aliceSessionCipher = new SessionCipher(aliceStore, BOB_ADDRESS);
-    CiphertextMessage outgoingMessage    = aliceSessionCipher.encrypt(originalMessage.getBytes());
-
-    assertTrue(outgoingMessage.getType() == CiphertextMessage.PREKEY_TYPE);
-
-    PreKeyWhisperMessage incomingMessage = new PreKeyWhisperMessage(outgoingMessage.serialize());
-    assertTrue(!incomingMessage.getPreKeyId().isPresent());
-
-    bobStore.storePreKey(31337, new PreKeyRecord(bobPreKey.getPreKeyId(), bobPreKeyPair));
-    bobStore.storeSignedPreKey(22, new SignedPreKeyRecord(22, System.currentTimeMillis(), bobSignedPreKeyPair, bobSignedPreKeySignature));
-
-    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
-    byte[]        plaintext        = bobSessionCipher.decrypt(incomingMessage);
-
-    assertTrue(bobStore.containsSession(ALICE_ADDRESS));
-    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
-    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getAliceBaseKey() != null);
-    assertTrue(originalMessage.equals(new String(plaintext)));
-  }
-
 
   private void runInteraction(AxolotlStore aliceStore, AxolotlStore bobStore)
       throws DuplicateMessageException, LegacyMessageException, InvalidMessageException, NoSessionException

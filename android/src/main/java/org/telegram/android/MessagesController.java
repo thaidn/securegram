@@ -1928,7 +1928,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 } else if (message.media instanceof TLRPC.TL_messageMediaWebPage) {
                   if (message.media.webpage instanceof TLRPC.TL_webPagePending
                       && message.media.webpage.date
-                          <= ConnectionsManager.getInstance().getCurrentTime()) {
+                      <= ConnectionsManager.getInstance().getCurrentTime()) {
                     if (messagesToReload == null) {
                       messagesToReload = new ArrayList<>();
                     }
@@ -2255,7 +2255,7 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                       for (TLRPC.EncryptedChat encryptedChat : encChats) {
                         if (encryptedChat instanceof TLRPC.TL_encryptedChat
                             && AndroidUtilities.getMyLayerVersion(encryptedChat.layer)
-                                < SecretChatHelper.CURRENT_SECRET_CHAT_LAYER) {
+                            < SecretChatHelper.CURRENT_SECRET_CHAT_LAYER) {
                           SecretChatHelper.getInstance()
                               .sendNotifyLayerMessage(encryptedChat, null);
                         }
@@ -3299,14 +3299,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                                         final HashMap<Long, ArrayList<MessageObject>> messages =
                                             new HashMap<>();
 
-                                        // TODO(thaidn): decrypt other message types.
-                                        for (TLRPC.Message message : res.new_messages) {
-                                          res.new_messages.remove(message);
-                                          message.message = AxolotlController.getInstance().decryptMessage(
-                                              message.message, message.from_id);
-                                          res.new_messages.add(message);
-                                        }
-
                                         for (TLRPC.EncryptedMessage encryptedMessage :
                                             res.new_encrypted_messages) {
                                           ArrayList<TLRPC.Message> decryptedMessages =
@@ -3326,7 +3318,10 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                                             new ArrayList<>();
                                         for (int a = 0; a < res.new_messages.size(); a++) {
                                           TLRPC.Message message = res.new_messages.get(a);
-
+                                          if (message instanceof TLRPC.TL_message) {
+                                            message.message = AxolotlController.getInstance().decryptMessage(
+                                                message.message, message.from_id);
+                                          }
                                           if (message.action
                                               instanceof TLRPC.TL_messageActionChatDeleteUser) {
                                             TLRPC.User user = usersDict.get(message.action.user_id);
@@ -3614,7 +3609,8 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             message.to_id.chat_id = updates.chat_id;
             message.dialog_id = -updates.chat_id;
           }
-          message.message = updates.message;
+          message.message = AxolotlController.getInstance().decryptMessage(
+              updates.message, user_id);
           message.date = updates.date;
           message.flags = updates.flags;
           message.fwd_from_id = updates.fwd_from_id;
@@ -4012,8 +4008,13 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             interfaceUpdateMask |= UPDATE_MASK_STATUS;
           }
         }
+        if (upd.message instanceof TLRPC.TL_message) {
+          upd.message.message = AxolotlController.getInstance().decryptMessage(
+              upd.message.message, upd.message.from_id);
+        }
         messagesArr.add(upd.message);
         ImageLoader.saveMessageThumbs(upd.message);
+
         MessageObject obj = new MessageObject(upd.message, usersDict, true);
         if (obj.type == MessageObject.Type.MSG_ACTION.getType()) {
           interfaceUpdateMask |= UPDATE_MASK_CHAT_AVATAR;
@@ -4194,8 +4195,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         }
         arr.add(obj);
         pushMessages.add(obj);
-      } else if (update instanceof TLRPC.TL_updateNewGeoChatMessage) {
-        //DEPRECATED
       } else if (update instanceof TLRPC.TL_updateNewEncryptedMessage) {
         ArrayList<TLRPC.Message> decryptedMessages =
             SecretChatHelper.getInstance()
@@ -4742,9 +4741,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
           || message.messageOwner.date > lastMessage.messageOwner.date) {
         lastMessage = message;
       }
-
-      message.messageText = AxolotlController.getInstance().decryptMessage(
-          message.messageText.toString(), message.messageOwner.from_id);
     }
 
     TLRPC.TL_dialog dialog = dialogs_dict.get(uid);

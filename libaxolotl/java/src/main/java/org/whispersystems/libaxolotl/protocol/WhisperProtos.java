@@ -8,10 +8,10 @@ public final class WhisperProtos {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface WhisperMessageOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface WhisperMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.WhisperMessage)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes ratchetKey = 1;
     /**
      * <code>optional bytes ratchetKey = 1;</code>
      */
@@ -21,7 +21,6 @@ public final class WhisperProtos {
      */
     com.google.protobuf.ByteString getRatchetKey();
 
-    // optional uint32 counter = 2;
     /**
      * <code>optional uint32 counter = 2;</code>
      */
@@ -31,7 +30,6 @@ public final class WhisperProtos {
      */
     int getCounter();
 
-    // optional uint32 previousCounter = 3;
     /**
      * <code>optional uint32 previousCounter = 3;</code>
      */
@@ -41,7 +39,6 @@ public final class WhisperProtos {
      */
     int getPreviousCounter();
 
-    // optional bytes ciphertext = 4;
     /**
      * <code>optional bytes ciphertext = 4;</code>
      */
@@ -55,8 +52,9 @@ public final class WhisperProtos {
    * Protobuf type {@code textsecure.WhisperMessage}
    */
   public static final class WhisperMessage extends
-      com.google.protobuf.GeneratedMessage
-      implements WhisperMessageOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.WhisperMessage)
+      WhisperMessageOrBuilder {
     // Use WhisperMessage.newBuilder() to construct.
     private WhisperMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -162,7 +160,6 @@ public final class WhisperProtos {
     }
 
     private int bitField0_;
-    // optional bytes ratchetKey = 1;
     public static final int RATCHETKEY_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString ratchetKey_;
     /**
@@ -178,7 +175,6 @@ public final class WhisperProtos {
       return ratchetKey_;
     }
 
-    // optional uint32 counter = 2;
     public static final int COUNTER_FIELD_NUMBER = 2;
     private int counter_;
     /**
@@ -194,7 +190,6 @@ public final class WhisperProtos {
       return counter_;
     }
 
-    // optional uint32 previousCounter = 3;
     public static final int PREVIOUSCOUNTER_FIELD_NUMBER = 3;
     private int previousCounter_;
     /**
@@ -210,7 +205,6 @@ public final class WhisperProtos {
       return previousCounter_;
     }
 
-    // optional bytes ciphertext = 4;
     public static final int CIPHERTEXT_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString ciphertext_;
     /**
@@ -235,7 +229,8 @@ public final class WhisperProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -363,8 +358,9 @@ public final class WhisperProtos {
      * Protobuf type {@code textsecure.WhisperMessage}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.protocol.WhisperProtos.WhisperMessageOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.WhisperMessage)
+        org.whispersystems.libaxolotl.protocol.WhisperProtos.WhisperMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.libaxolotl.protocol.WhisperProtos.internal_static_textsecure_WhisperMessage_descriptor;
@@ -504,7 +500,6 @@ public final class WhisperProtos {
       }
       private int bitField0_;
 
-      // optional bytes ratchetKey = 1;
       private com.google.protobuf.ByteString ratchetKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes ratchetKey = 1;</code>
@@ -540,7 +535,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional uint32 counter = 2;
       private int counter_ ;
       /**
        * <code>optional uint32 counter = 2;</code>
@@ -573,7 +567,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional uint32 previousCounter = 3;
       private int previousCounter_ ;
       /**
        * <code>optional uint32 previousCounter = 3;</code>
@@ -606,7 +599,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional bytes ciphertext = 4;
       private com.google.protobuf.ByteString ciphertext_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes ciphertext = 4;</code>
@@ -653,60 +645,37 @@ public final class WhisperProtos {
     // @@protoc_insertion_point(class_scope:textsecure.WhisperMessage)
   }
 
-  public interface PreKeyWhisperMessageOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface PreKeyWhisperMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.PreKeyWhisperMessage)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional uint32 registrationId = 5;
     /**
-     * <code>optional uint32 registrationId = 5;</code>
+     * <code>optional uint32 deviceId = 1;</code>
      */
-    boolean hasRegistrationId();
+    boolean hasDeviceId();
     /**
-     * <code>optional uint32 registrationId = 5;</code>
+     * <code>optional uint32 deviceId = 1;</code>
      */
-    int getRegistrationId();
+    int getDeviceId();
 
-    // optional uint32 preKeyId = 1;
     /**
-     * <code>optional uint32 preKeyId = 1;</code>
-     */
-    boolean hasPreKeyId();
-    /**
-     * <code>optional uint32 preKeyId = 1;</code>
-     */
-    int getPreKeyId();
-
-    // optional uint32 signedPreKeyId = 6;
-    /**
-     * <code>optional uint32 signedPreKeyId = 6;</code>
-     */
-    boolean hasSignedPreKeyId();
-    /**
-     * <code>optional uint32 signedPreKeyId = 6;</code>
-     */
-    int getSignedPreKeyId();
-
-    // optional bytes baseKey = 2;
-    /**
-     * <code>optional bytes baseKey = 2;</code>
-     */
-    boolean hasBaseKey();
-    /**
-     * <code>optional bytes baseKey = 2;</code>
-     */
-    com.google.protobuf.ByteString getBaseKey();
-
-    // optional bytes identityKey = 3;
-    /**
-     * <code>optional bytes identityKey = 3;</code>
+     * <code>optional bytes identityKey = 2;</code>
      */
     boolean hasIdentityKey();
     /**
-     * <code>optional bytes identityKey = 3;</code>
+     * <code>optional bytes identityKey = 2;</code>
      */
     com.google.protobuf.ByteString getIdentityKey();
 
-    // optional bytes message = 4;
+    /**
+     * <code>optional bytes baseKey = 3;</code>
+     */
+    boolean hasBaseKey();
+    /**
+     * <code>optional bytes baseKey = 3;</code>
+     */
+    com.google.protobuf.ByteString getBaseKey();
+
     /**
      * <code>optional bytes message = 4;</code>
      *
@@ -728,8 +697,9 @@ public final class WhisperProtos {
    * Protobuf type {@code textsecure.PreKeyWhisperMessage}
    */
   public static final class PreKeyWhisperMessage extends
-      com.google.protobuf.GeneratedMessage
-      implements PreKeyWhisperMessageOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.PreKeyWhisperMessage)
+      PreKeyWhisperMessageOrBuilder {
     // Use PreKeyWhisperMessage.newBuilder() to construct.
     private PreKeyWhisperMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -776,33 +746,23 @@ public final class WhisperProtos {
               break;
             }
             case 8: {
-              bitField0_ |= 0x00000002;
-              preKeyId_ = input.readUInt32();
+              bitField0_ |= 0x00000001;
+              deviceId_ = input.readUInt32();
               break;
             }
             case 18: {
-              bitField0_ |= 0x00000008;
-              baseKey_ = input.readBytes();
-              break;
-            }
-            case 26: {
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000002;
               identityKey_ = input.readBytes();
               break;
             }
-            case 34: {
-              bitField0_ |= 0x00000020;
-              message_ = input.readBytes();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000001;
-              registrationId_ = input.readUInt32();
-              break;
-            }
-            case 48: {
+            case 26: {
               bitField0_ |= 0x00000004;
-              signedPreKeyId_ = input.readUInt32();
+              baseKey_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              message_ = input.readBytes();
               break;
             }
           }
@@ -845,87 +805,51 @@ public final class WhisperProtos {
     }
 
     private int bitField0_;
-    // optional uint32 registrationId = 5;
-    public static final int REGISTRATIONID_FIELD_NUMBER = 5;
-    private int registrationId_;
+    public static final int DEVICEID_FIELD_NUMBER = 1;
+    private int deviceId_;
     /**
-     * <code>optional uint32 registrationId = 5;</code>
+     * <code>optional uint32 deviceId = 1;</code>
      */
-    public boolean hasRegistrationId() {
+    public boolean hasDeviceId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional uint32 registrationId = 5;</code>
+     * <code>optional uint32 deviceId = 1;</code>
      */
-    public int getRegistrationId() {
-      return registrationId_;
+    public int getDeviceId() {
+      return deviceId_;
     }
 
-    // optional uint32 preKeyId = 1;
-    public static final int PREKEYID_FIELD_NUMBER = 1;
-    private int preKeyId_;
+    public static final int IDENTITYKEY_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString identityKey_;
     /**
-     * <code>optional uint32 preKeyId = 1;</code>
+     * <code>optional bytes identityKey = 2;</code>
      */
-    public boolean hasPreKeyId() {
+    public boolean hasIdentityKey() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional uint32 preKeyId = 1;</code>
-     */
-    public int getPreKeyId() {
-      return preKeyId_;
-    }
-
-    // optional uint32 signedPreKeyId = 6;
-    public static final int SIGNEDPREKEYID_FIELD_NUMBER = 6;
-    private int signedPreKeyId_;
-    /**
-     * <code>optional uint32 signedPreKeyId = 6;</code>
-     */
-    public boolean hasSignedPreKeyId() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional uint32 signedPreKeyId = 6;</code>
-     */
-    public int getSignedPreKeyId() {
-      return signedPreKeyId_;
-    }
-
-    // optional bytes baseKey = 2;
-    public static final int BASEKEY_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString baseKey_;
-    /**
-     * <code>optional bytes baseKey = 2;</code>
-     */
-    public boolean hasBaseKey() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional bytes baseKey = 2;</code>
-     */
-    public com.google.protobuf.ByteString getBaseKey() {
-      return baseKey_;
-    }
-
-    // optional bytes identityKey = 3;
-    public static final int IDENTITYKEY_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString identityKey_;
-    /**
-     * <code>optional bytes identityKey = 3;</code>
-     */
-    public boolean hasIdentityKey() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional bytes identityKey = 3;</code>
+     * <code>optional bytes identityKey = 2;</code>
      */
     public com.google.protobuf.ByteString getIdentityKey() {
       return identityKey_;
     }
 
-    // optional bytes message = 4;
+    public static final int BASEKEY_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString baseKey_;
+    /**
+     * <code>optional bytes baseKey = 3;</code>
+     */
+    public boolean hasBaseKey() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bytes baseKey = 3;</code>
+     */
+    public com.google.protobuf.ByteString getBaseKey() {
+      return baseKey_;
+    }
+
     public static final int MESSAGE_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString message_;
     /**
@@ -936,7 +860,7 @@ public final class WhisperProtos {
      * </pre>
      */
     public boolean hasMessage() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>optional bytes message = 4;</code>
@@ -950,17 +874,16 @@ public final class WhisperProtos {
     }
 
     private void initFields() {
-      registrationId_ = 0;
-      preKeyId_ = 0;
-      signedPreKeyId_ = 0;
-      baseKey_ = com.google.protobuf.ByteString.EMPTY;
+      deviceId_ = 0;
       identityKey_ = com.google.protobuf.ByteString.EMPTY;
+      baseKey_ = com.google.protobuf.ByteString.EMPTY;
       message_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -969,23 +892,17 @@ public final class WhisperProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeUInt32(1, preKeyId_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(2, baseKey_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(3, identityKey_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(4, message_);
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeUInt32(5, registrationId_);
+        output.writeUInt32(1, deviceId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, identityKey_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeUInt32(6, signedPreKeyId_);
+        output.writeBytes(3, baseKey_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, message_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -996,29 +913,21 @@ public final class WhisperProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, preKeyId_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, baseKey_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, identityKey_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, message_);
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(5, registrationId_);
+          .computeUInt32Size(1, deviceId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, identityKey_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(6, signedPreKeyId_);
+          .computeBytesSize(3, baseKey_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, message_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1102,8 +1011,9 @@ public final class WhisperProtos {
      * Protobuf type {@code textsecure.PreKeyWhisperMessage}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.protocol.WhisperProtos.PreKeyWhisperMessageOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.PreKeyWhisperMessage)
+        org.whispersystems.libaxolotl.protocol.WhisperProtos.PreKeyWhisperMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.libaxolotl.protocol.WhisperProtos.internal_static_textsecure_PreKeyWhisperMessage_descriptor;
@@ -1136,18 +1046,14 @@ public final class WhisperProtos {
 
       public Builder clear() {
         super.clear();
-        registrationId_ = 0;
+        deviceId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        preKeyId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        signedPreKeyId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        baseKey_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
         identityKey_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000002);
+        baseKey_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         message_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1179,25 +1085,17 @@ public final class WhisperProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.registrationId_ = registrationId_;
+        result.deviceId_ = deviceId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.preKeyId_ = preKeyId_;
+        result.identityKey_ = identityKey_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.signedPreKeyId_ = signedPreKeyId_;
+        result.baseKey_ = baseKey_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
-        }
-        result.baseKey_ = baseKey_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        result.identityKey_ = identityKey_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000020;
         }
         result.message_ = message_;
         result.bitField0_ = to_bitField0_;
@@ -1216,20 +1114,14 @@ public final class WhisperProtos {
 
       public Builder mergeFrom(org.whispersystems.libaxolotl.protocol.WhisperProtos.PreKeyWhisperMessage other) {
         if (other == org.whispersystems.libaxolotl.protocol.WhisperProtos.PreKeyWhisperMessage.getDefaultInstance()) return this;
-        if (other.hasRegistrationId()) {
-          setRegistrationId(other.getRegistrationId());
-        }
-        if (other.hasPreKeyId()) {
-          setPreKeyId(other.getPreKeyId());
-        }
-        if (other.hasSignedPreKeyId()) {
-          setSignedPreKeyId(other.getSignedPreKeyId());
-        }
-        if (other.hasBaseKey()) {
-          setBaseKey(other.getBaseKey());
+        if (other.hasDeviceId()) {
+          setDeviceId(other.getDeviceId());
         }
         if (other.hasIdentityKey()) {
           setIdentityKey(other.getIdentityKey());
+        }
+        if (other.hasBaseKey()) {
+          setBaseKey(other.getBaseKey());
         }
         if (other.hasMessage()) {
           setMessage(other.getMessage());
@@ -1261,178 +1153,108 @@ public final class WhisperProtos {
       }
       private int bitField0_;
 
-      // optional uint32 registrationId = 5;
-      private int registrationId_ ;
+      private int deviceId_ ;
       /**
-       * <code>optional uint32 registrationId = 5;</code>
+       * <code>optional uint32 deviceId = 1;</code>
        */
-      public boolean hasRegistrationId() {
+      public boolean hasDeviceId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional uint32 registrationId = 5;</code>
+       * <code>optional uint32 deviceId = 1;</code>
        */
-      public int getRegistrationId() {
-        return registrationId_;
+      public int getDeviceId() {
+        return deviceId_;
       }
       /**
-       * <code>optional uint32 registrationId = 5;</code>
+       * <code>optional uint32 deviceId = 1;</code>
        */
-      public Builder setRegistrationId(int value) {
+      public Builder setDeviceId(int value) {
         bitField0_ |= 0x00000001;
-        registrationId_ = value;
+        deviceId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 registrationId = 5;</code>
+       * <code>optional uint32 deviceId = 1;</code>
        */
-      public Builder clearRegistrationId() {
+      public Builder clearDeviceId() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        registrationId_ = 0;
+        deviceId_ = 0;
         onChanged();
         return this;
       }
 
-      // optional uint32 preKeyId = 1;
-      private int preKeyId_ ;
+      private com.google.protobuf.ByteString identityKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional uint32 preKeyId = 1;</code>
+       * <code>optional bytes identityKey = 2;</code>
        */
-      public boolean hasPreKeyId() {
+      public boolean hasIdentityKey() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional uint32 preKeyId = 1;</code>
-       */
-      public int getPreKeyId() {
-        return preKeyId_;
-      }
-      /**
-       * <code>optional uint32 preKeyId = 1;</code>
-       */
-      public Builder setPreKeyId(int value) {
-        bitField0_ |= 0x00000002;
-        preKeyId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional uint32 preKeyId = 1;</code>
-       */
-      public Builder clearPreKeyId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        preKeyId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional uint32 signedPreKeyId = 6;
-      private int signedPreKeyId_ ;
-      /**
-       * <code>optional uint32 signedPreKeyId = 6;</code>
-       */
-      public boolean hasSignedPreKeyId() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional uint32 signedPreKeyId = 6;</code>
-       */
-      public int getSignedPreKeyId() {
-        return signedPreKeyId_;
-      }
-      /**
-       * <code>optional uint32 signedPreKeyId = 6;</code>
-       */
-      public Builder setSignedPreKeyId(int value) {
-        bitField0_ |= 0x00000004;
-        signedPreKeyId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional uint32 signedPreKeyId = 6;</code>
-       */
-      public Builder clearSignedPreKeyId() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        signedPreKeyId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional bytes baseKey = 2;
-      private com.google.protobuf.ByteString baseKey_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes baseKey = 2;</code>
-       */
-      public boolean hasBaseKey() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional bytes baseKey = 2;</code>
-       */
-      public com.google.protobuf.ByteString getBaseKey() {
-        return baseKey_;
-      }
-      /**
-       * <code>optional bytes baseKey = 2;</code>
-       */
-      public Builder setBaseKey(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        baseKey_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes baseKey = 2;</code>
-       */
-      public Builder clearBaseKey() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        baseKey_ = getDefaultInstance().getBaseKey();
-        onChanged();
-        return this;
-      }
-
-      // optional bytes identityKey = 3;
-      private com.google.protobuf.ByteString identityKey_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes identityKey = 3;</code>
-       */
-      public boolean hasIdentityKey() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional bytes identityKey = 3;</code>
+       * <code>optional bytes identityKey = 2;</code>
        */
       public com.google.protobuf.ByteString getIdentityKey() {
         return identityKey_;
       }
       /**
-       * <code>optional bytes identityKey = 3;</code>
+       * <code>optional bytes identityKey = 2;</code>
        */
       public Builder setIdentityKey(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000002;
         identityKey_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bytes identityKey = 3;</code>
+       * <code>optional bytes identityKey = 2;</code>
        */
       public Builder clearIdentityKey() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000002);
         identityKey_ = getDefaultInstance().getIdentityKey();
         onChanged();
         return this;
       }
 
-      // optional bytes message = 4;
+      private com.google.protobuf.ByteString baseKey_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes baseKey = 3;</code>
+       */
+      public boolean hasBaseKey() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional bytes baseKey = 3;</code>
+       */
+      public com.google.protobuf.ByteString getBaseKey() {
+        return baseKey_;
+      }
+      /**
+       * <code>optional bytes baseKey = 3;</code>
+       */
+      public Builder setBaseKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        baseKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes baseKey = 3;</code>
+       */
+      public Builder clearBaseKey() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        baseKey_ = getDefaultInstance().getBaseKey();
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.ByteString message_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes message = 4;</code>
@@ -1442,7 +1264,7 @@ public final class WhisperProtos {
        * </pre>
        */
       public boolean hasMessage() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>optional bytes message = 4;</code>
@@ -1465,7 +1287,7 @@ public final class WhisperProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000020;
+  bitField0_ |= 0x00000008;
         message_ = value;
         onChanged();
         return this;
@@ -1478,7 +1300,7 @@ public final class WhisperProtos {
        * </pre>
        */
       public Builder clearMessage() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000008);
         message_ = getDefaultInstance().getMessage();
         onChanged();
         return this;
@@ -1495,10 +1317,10 @@ public final class WhisperProtos {
     // @@protoc_insertion_point(class_scope:textsecure.PreKeyWhisperMessage)
   }
 
-  public interface KeyExchangeMessageOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface KeyExchangeMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.KeyExchangeMessage)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional uint32 id = 1;
     /**
      * <code>optional uint32 id = 1;</code>
      */
@@ -1508,7 +1330,6 @@ public final class WhisperProtos {
      */
     int getId();
 
-    // optional bytes baseKey = 2;
     /**
      * <code>optional bytes baseKey = 2;</code>
      */
@@ -1518,7 +1339,6 @@ public final class WhisperProtos {
      */
     com.google.protobuf.ByteString getBaseKey();
 
-    // optional bytes ratchetKey = 3;
     /**
      * <code>optional bytes ratchetKey = 3;</code>
      */
@@ -1528,7 +1348,6 @@ public final class WhisperProtos {
      */
     com.google.protobuf.ByteString getRatchetKey();
 
-    // optional bytes identityKey = 4;
     /**
      * <code>optional bytes identityKey = 4;</code>
      */
@@ -1538,7 +1357,6 @@ public final class WhisperProtos {
      */
     com.google.protobuf.ByteString getIdentityKey();
 
-    // optional bytes baseKeySignature = 5;
     /**
      * <code>optional bytes baseKeySignature = 5;</code>
      */
@@ -1552,8 +1370,9 @@ public final class WhisperProtos {
    * Protobuf type {@code textsecure.KeyExchangeMessage}
    */
   public static final class KeyExchangeMessage extends
-      com.google.protobuf.GeneratedMessage
-      implements KeyExchangeMessageOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.KeyExchangeMessage)
+      KeyExchangeMessageOrBuilder {
     // Use KeyExchangeMessage.newBuilder() to construct.
     private KeyExchangeMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -1664,7 +1483,6 @@ public final class WhisperProtos {
     }
 
     private int bitField0_;
-    // optional uint32 id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private int id_;
     /**
@@ -1680,7 +1498,6 @@ public final class WhisperProtos {
       return id_;
     }
 
-    // optional bytes baseKey = 2;
     public static final int BASEKEY_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString baseKey_;
     /**
@@ -1696,7 +1513,6 @@ public final class WhisperProtos {
       return baseKey_;
     }
 
-    // optional bytes ratchetKey = 3;
     public static final int RATCHETKEY_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString ratchetKey_;
     /**
@@ -1712,7 +1528,6 @@ public final class WhisperProtos {
       return ratchetKey_;
     }
 
-    // optional bytes identityKey = 4;
     public static final int IDENTITYKEY_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString identityKey_;
     /**
@@ -1728,7 +1543,6 @@ public final class WhisperProtos {
       return identityKey_;
     }
 
-    // optional bytes baseKeySignature = 5;
     public static final int BASEKEYSIGNATURE_FIELD_NUMBER = 5;
     private com.google.protobuf.ByteString baseKeySignature_;
     /**
@@ -1754,7 +1568,8 @@ public final class WhisperProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -1889,8 +1704,9 @@ public final class WhisperProtos {
      * Protobuf type {@code textsecure.KeyExchangeMessage}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.protocol.WhisperProtos.KeyExchangeMessageOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.KeyExchangeMessage)
+        org.whispersystems.libaxolotl.protocol.WhisperProtos.KeyExchangeMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.libaxolotl.protocol.WhisperProtos.internal_static_textsecure_KeyExchangeMessage_descriptor;
@@ -2039,7 +1855,6 @@ public final class WhisperProtos {
       }
       private int bitField0_;
 
-      // optional uint32 id = 1;
       private int id_ ;
       /**
        * <code>optional uint32 id = 1;</code>
@@ -2072,7 +1887,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional bytes baseKey = 2;
       private com.google.protobuf.ByteString baseKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes baseKey = 2;</code>
@@ -2108,7 +1922,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional bytes ratchetKey = 3;
       private com.google.protobuf.ByteString ratchetKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes ratchetKey = 3;</code>
@@ -2144,7 +1957,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional bytes identityKey = 4;
       private com.google.protobuf.ByteString identityKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes identityKey = 4;</code>
@@ -2180,7 +1992,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional bytes baseKeySignature = 5;
       private com.google.protobuf.ByteString baseKeySignature_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes baseKeySignature = 5;</code>
@@ -2227,10 +2038,10 @@ public final class WhisperProtos {
     // @@protoc_insertion_point(class_scope:textsecure.KeyExchangeMessage)
   }
 
-  public interface SenderKeyMessageOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface SenderKeyMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.SenderKeyMessage)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional uint32 id = 1;
     /**
      * <code>optional uint32 id = 1;</code>
      */
@@ -2240,7 +2051,6 @@ public final class WhisperProtos {
      */
     int getId();
 
-    // optional uint32 iteration = 2;
     /**
      * <code>optional uint32 iteration = 2;</code>
      */
@@ -2250,7 +2060,6 @@ public final class WhisperProtos {
      */
     int getIteration();
 
-    // optional bytes ciphertext = 3;
     /**
      * <code>optional bytes ciphertext = 3;</code>
      */
@@ -2264,8 +2073,9 @@ public final class WhisperProtos {
    * Protobuf type {@code textsecure.SenderKeyMessage}
    */
   public static final class SenderKeyMessage extends
-      com.google.protobuf.GeneratedMessage
-      implements SenderKeyMessageOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.SenderKeyMessage)
+      SenderKeyMessageOrBuilder {
     // Use SenderKeyMessage.newBuilder() to construct.
     private SenderKeyMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -2366,7 +2176,6 @@ public final class WhisperProtos {
     }
 
     private int bitField0_;
-    // optional uint32 id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private int id_;
     /**
@@ -2382,7 +2191,6 @@ public final class WhisperProtos {
       return id_;
     }
 
-    // optional uint32 iteration = 2;
     public static final int ITERATION_FIELD_NUMBER = 2;
     private int iteration_;
     /**
@@ -2398,7 +2206,6 @@ public final class WhisperProtos {
       return iteration_;
     }
 
-    // optional bytes ciphertext = 3;
     public static final int CIPHERTEXT_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString ciphertext_;
     /**
@@ -2422,7 +2229,8 @@ public final class WhisperProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -2543,8 +2351,9 @@ public final class WhisperProtos {
      * Protobuf type {@code textsecure.SenderKeyMessage}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.protocol.WhisperProtos.SenderKeyMessageOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.SenderKeyMessage)
+        org.whispersystems.libaxolotl.protocol.WhisperProtos.SenderKeyMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.libaxolotl.protocol.WhisperProtos.internal_static_textsecure_SenderKeyMessage_descriptor;
@@ -2675,7 +2484,6 @@ public final class WhisperProtos {
       }
       private int bitField0_;
 
-      // optional uint32 id = 1;
       private int id_ ;
       /**
        * <code>optional uint32 id = 1;</code>
@@ -2708,7 +2516,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional uint32 iteration = 2;
       private int iteration_ ;
       /**
        * <code>optional uint32 iteration = 2;</code>
@@ -2741,7 +2548,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional bytes ciphertext = 3;
       private com.google.protobuf.ByteString ciphertext_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes ciphertext = 3;</code>
@@ -2788,10 +2594,10 @@ public final class WhisperProtos {
     // @@protoc_insertion_point(class_scope:textsecure.SenderKeyMessage)
   }
 
-  public interface SenderKeyDistributionMessageOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface SenderKeyDistributionMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:textsecure.SenderKeyDistributionMessage)
+      com.google.protobuf.MessageOrBuilder {
 
-    // optional uint32 id = 1;
     /**
      * <code>optional uint32 id = 1;</code>
      */
@@ -2801,7 +2607,6 @@ public final class WhisperProtos {
      */
     int getId();
 
-    // optional uint32 iteration = 2;
     /**
      * <code>optional uint32 iteration = 2;</code>
      */
@@ -2811,7 +2616,6 @@ public final class WhisperProtos {
      */
     int getIteration();
 
-    // optional bytes chainKey = 3;
     /**
      * <code>optional bytes chainKey = 3;</code>
      */
@@ -2821,7 +2625,6 @@ public final class WhisperProtos {
      */
     com.google.protobuf.ByteString getChainKey();
 
-    // optional bytes signingKey = 4;
     /**
      * <code>optional bytes signingKey = 4;</code>
      */
@@ -2835,8 +2638,9 @@ public final class WhisperProtos {
    * Protobuf type {@code textsecure.SenderKeyDistributionMessage}
    */
   public static final class SenderKeyDistributionMessage extends
-      com.google.protobuf.GeneratedMessage
-      implements SenderKeyDistributionMessageOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:textsecure.SenderKeyDistributionMessage)
+      SenderKeyDistributionMessageOrBuilder {
     // Use SenderKeyDistributionMessage.newBuilder() to construct.
     private SenderKeyDistributionMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -2942,7 +2746,6 @@ public final class WhisperProtos {
     }
 
     private int bitField0_;
-    // optional uint32 id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private int id_;
     /**
@@ -2958,7 +2761,6 @@ public final class WhisperProtos {
       return id_;
     }
 
-    // optional uint32 iteration = 2;
     public static final int ITERATION_FIELD_NUMBER = 2;
     private int iteration_;
     /**
@@ -2974,7 +2776,6 @@ public final class WhisperProtos {
       return iteration_;
     }
 
-    // optional bytes chainKey = 3;
     public static final int CHAINKEY_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString chainKey_;
     /**
@@ -2990,7 +2791,6 @@ public final class WhisperProtos {
       return chainKey_;
     }
 
-    // optional bytes signingKey = 4;
     public static final int SIGNINGKEY_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString signingKey_;
     /**
@@ -3015,7 +2815,8 @@ public final class WhisperProtos {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       memoizedIsInitialized = 1;
       return true;
@@ -3143,8 +2944,9 @@ public final class WhisperProtos {
      * Protobuf type {@code textsecure.SenderKeyDistributionMessage}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libaxolotl.protocol.WhisperProtos.SenderKeyDistributionMessageOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:textsecure.SenderKeyDistributionMessage)
+        org.whispersystems.libaxolotl.protocol.WhisperProtos.SenderKeyDistributionMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return org.whispersystems.libaxolotl.protocol.WhisperProtos.internal_static_textsecure_SenderKeyDistributionMessage_descriptor;
@@ -3284,7 +3086,6 @@ public final class WhisperProtos {
       }
       private int bitField0_;
 
-      // optional uint32 id = 1;
       private int id_ ;
       /**
        * <code>optional uint32 id = 1;</code>
@@ -3317,7 +3118,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional uint32 iteration = 2;
       private int iteration_ ;
       /**
        * <code>optional uint32 iteration = 2;</code>
@@ -3350,7 +3150,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional bytes chainKey = 3;
       private com.google.protobuf.ByteString chainKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes chainKey = 3;</code>
@@ -3386,7 +3185,6 @@ public final class WhisperProtos {
         return this;
       }
 
-      // optional bytes signingKey = 4;
       private com.google.protobuf.ByteString signingKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes signingKey = 4;</code>
@@ -3433,27 +3231,27 @@ public final class WhisperProtos {
     // @@protoc_insertion_point(class_scope:textsecure.SenderKeyDistributionMessage)
   }
 
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_WhisperMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_WhisperMessage_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_PreKeyWhisperMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_PreKeyWhisperMessage_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_KeyExchangeMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_KeyExchangeMessage_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SenderKeyMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_textsecure_SenderKeyMessage_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_SenderKeyDistributionMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -3470,62 +3268,61 @@ public final class WhisperProtos {
       "\n\031WhisperTextProtocol.proto\022\ntextsecure\"" +
       "b\n\016WhisperMessage\022\022\n\nratchetKey\030\001 \001(\014\022\017\n" +
       "\007counter\030\002 \001(\r\022\027\n\017previousCounter\030\003 \001(\r\022" +
-      "\022\n\nciphertext\030\004 \001(\014\"\217\001\n\024PreKeyWhisperMes" +
-      "sage\022\026\n\016registrationId\030\005 \001(\r\022\020\n\010preKeyId" +
-      "\030\001 \001(\r\022\026\n\016signedPreKeyId\030\006 \001(\r\022\017\n\007baseKe" +
-      "y\030\002 \001(\014\022\023\n\013identityKey\030\003 \001(\014\022\017\n\007message\030" +
-      "\004 \001(\014\"t\n\022KeyExchangeMessage\022\n\n\002id\030\001 \001(\r\022" +
-      "\017\n\007baseKey\030\002 \001(\014\022\022\n\nratchetKey\030\003 \001(\014\022\023\n\013" +
-      "identityKey\030\004 \001(\014\022\030\n\020baseKeySignature\030\005 ",
-      "\001(\014\"E\n\020SenderKeyMessage\022\n\n\002id\030\001 \001(\r\022\021\n\ti" +
-      "teration\030\002 \001(\r\022\022\n\nciphertext\030\003 \001(\014\"c\n\034Se" +
-      "nderKeyDistributionMessage\022\n\n\002id\030\001 \001(\r\022\021" +
-      "\n\titeration\030\002 \001(\r\022\020\n\010chainKey\030\003 \001(\014\022\022\n\ns" +
-      "igningKey\030\004 \001(\014B7\n&org.whispersystems.li" +
-      "baxolotl.protocolB\rWhisperProtos"
+      "\022\n\nciphertext\030\004 \001(\014\"_\n\024PreKeyWhisperMess" +
+      "age\022\020\n\010deviceId\030\001 \001(\r\022\023\n\013identityKey\030\002 \001" +
+      "(\014\022\017\n\007baseKey\030\003 \001(\014\022\017\n\007message\030\004 \001(\014\"t\n\022" +
+      "KeyExchangeMessage\022\n\n\002id\030\001 \001(\r\022\017\n\007baseKe" +
+      "y\030\002 \001(\014\022\022\n\nratchetKey\030\003 \001(\014\022\023\n\013identityK" +
+      "ey\030\004 \001(\014\022\030\n\020baseKeySignature\030\005 \001(\014\"E\n\020Se" +
+      "nderKeyMessage\022\n\n\002id\030\001 \001(\r\022\021\n\titeration\030",
+      "\002 \001(\r\022\022\n\nciphertext\030\003 \001(\014\"c\n\034SenderKeyDi" +
+      "stributionMessage\022\n\n\002id\030\001 \001(\r\022\021\n\titerati" +
+      "on\030\002 \001(\r\022\020\n\010chainKey\030\003 \001(\014\022\022\n\nsigningKey" +
+      "\030\004 \001(\014B7\n&org.whispersystems.libaxolotl." +
+      "protocolB\rWhisperProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-        public com.google.protobuf.ExtensionRegistry assignDescriptors(
-            com.google.protobuf.Descriptors.FileDescriptor root) {
-          descriptor = root;
-          internal_static_textsecure_WhisperMessage_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_textsecure_WhisperMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_WhisperMessage_descriptor,
-              new java.lang.String[] { "RatchetKey", "Counter", "PreviousCounter", "Ciphertext", });
-          internal_static_textsecure_PreKeyWhisperMessage_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_textsecure_PreKeyWhisperMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_PreKeyWhisperMessage_descriptor,
-              new java.lang.String[] { "RegistrationId", "PreKeyId", "SignedPreKeyId", "BaseKey", "IdentityKey", "Message", });
-          internal_static_textsecure_KeyExchangeMessage_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_textsecure_KeyExchangeMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_KeyExchangeMessage_descriptor,
-              new java.lang.String[] { "Id", "BaseKey", "RatchetKey", "IdentityKey", "BaseKeySignature", });
-          internal_static_textsecure_SenderKeyMessage_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_textsecure_SenderKeyMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SenderKeyMessage_descriptor,
-              new java.lang.String[] { "Id", "Iteration", "Ciphertext", });
-          internal_static_textsecure_SenderKeyDistributionMessage_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_textsecure_SenderKeyDistributionMessage_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_SenderKeyDistributionMessage_descriptor,
-              new java.lang.String[] { "Id", "Iteration", "ChainKey", "SigningKey", });
-          return null;
-        }
-      };
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
+    internal_static_textsecure_WhisperMessage_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_textsecure_WhisperMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_WhisperMessage_descriptor,
+        new java.lang.String[] { "RatchetKey", "Counter", "PreviousCounter", "Ciphertext", });
+    internal_static_textsecure_PreKeyWhisperMessage_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_textsecure_PreKeyWhisperMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_PreKeyWhisperMessage_descriptor,
+        new java.lang.String[] { "DeviceId", "IdentityKey", "BaseKey", "Message", });
+    internal_static_textsecure_KeyExchangeMessage_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_textsecure_KeyExchangeMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_KeyExchangeMessage_descriptor,
+        new java.lang.String[] { "Id", "BaseKey", "RatchetKey", "IdentityKey", "BaseKeySignature", });
+    internal_static_textsecure_SenderKeyMessage_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_textsecure_SenderKeyMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SenderKeyMessage_descriptor,
+        new java.lang.String[] { "Id", "Iteration", "Ciphertext", });
+    internal_static_textsecure_SenderKeyDistributionMessage_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_textsecure_SenderKeyDistributionMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_textsecure_SenderKeyDistributionMessage_descriptor,
+        new java.lang.String[] { "Id", "Iteration", "ChainKey", "SigningKey", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
