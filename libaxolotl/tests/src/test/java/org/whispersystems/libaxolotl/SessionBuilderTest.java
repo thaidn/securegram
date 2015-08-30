@@ -73,13 +73,11 @@ public class SessionBuilderTest extends TestCase {
     aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
     aliceSessionCipher  = new SessionCipher(aliceStore, BOB_ADDRESS);
 
-    ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
-    byte bobSignedPreKeySignature[] = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(), bobSignedPreKeyPair.getPublicKey().serialize());
     bobPreKey = new PreKeyBundle(bobStore.getLocalDeviceId(),
-                                 bobSignedPreKeyPair.getPublicKey(), bobSignedPreKeySignature,
-                                 bobStore.getIdentityKeyPair().getPublicKey());
+        bobStore.getSignedPreKeyRecord().getKeyPair().getPublicKey(),
+        bobStore.getSignedPreKeyRecord().getSignature(),
+        bobStore.getIdentityKeyPair().getPublicKey());
 
-    bobStore.saveSignedPreKeyRecord(new SignedPreKeyRecord(bobSignedPreKeyPair, bobSignedPreKeySignature));
     aliceSessionBuilder.process(bobPreKey);
 
     outgoingMessage = aliceSessionCipher.encrypt(originalMessage.getBytes());
@@ -95,7 +93,8 @@ public class SessionBuilderTest extends TestCase {
     assertTrue(new String(plaintext).equals(originalMessage));
 
     bobPreKey = new PreKeyBundle(bobStore.getLocalDeviceId(),
-        bobSignedPreKeyPair.getPublicKey(), bobSignedPreKeySignature,
+        bobStore.getSignedPreKeyRecord().getKeyPair().getPublicKey(),
+        bobStore.getSignedPreKeyRecord().getSignature(),
         aliceStore.getIdentityKeyPair().getPublicKey());
 
     try {

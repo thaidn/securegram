@@ -242,18 +242,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             presentFragment(new SettingsActivity());
             drawerLayoutContainer.closeDrawer(false);
             break;
-          case 9:
-            // FAQ
-            try {
-              Intent pickIntent = new Intent(Intent.ACTION_VIEW,
-                  Uri.parse(LocaleController.getString("TelegramFaqUrl",
-                      R.string.TelegramFaqUrl)));
-              startActivityForResult(pickIntent, 500);
-            } catch (Exception e) {
-              FileLog.e("tmessages", e);
-            }
-            drawerLayoutContainer.closeDrawer(false);
-            break;
         }
       }
     });

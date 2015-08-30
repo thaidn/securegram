@@ -495,12 +495,12 @@ public class Utilities {
     return false;
   }
 
-  public static String base64EncodeToString(byte[] bytes) {
+  public static String base64EncodeBytes(byte[] bytes) {
     return Base64.encodeToString(bytes,
         android.util.Base64.NO_PADDING | Base64.URL_SAFE /* flag */);
   }
 
-  public static byte[] base64Decode(byte[] bytes) {
+  public static byte[] base64DecodeBytes(byte[] bytes) {
     return Base64.decode(bytes,
         android.util.Base64.NO_PADDING | Base64.URL_SAFE /* flag */);
   }

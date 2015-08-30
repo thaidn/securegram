@@ -23,9 +23,6 @@ public class SimultaneousInitiateTests extends TestCase {
   private static final ECKeyPair aliceSignedPreKey = Curve.generateKeyPair();
   private static final ECKeyPair bobSignedPreKey   = Curve.generateKeyPair();
 
-  private static final int aliceSignedPreKeyId = new Random().nextInt(Medium.MAX_VALUE);
-  private static final int bobSignedPreKeyId   = new Random().nextInt(Medium.MAX_VALUE);
-
   public void testBasicSimultaneousInitiate()
       throws InvalidKeyException, UntrustedIdentityException, InvalidVersionException,
       InvalidMessageException, DuplicateMessageException, LegacyMessageException,
@@ -451,31 +448,19 @@ public class SimultaneousInitiateTests extends TestCase {
   }
 
   private PreKeyBundle createAlicePreKeyBundle(AxolotlStore aliceStore) throws InvalidKeyException {
-    ECKeyPair aliceUnsignedPreKey   = Curve.generateKeyPair();
-    int       aliceUnsignedPreKeyId = new Random().nextInt(Medium.MAX_VALUE);
-    byte[]    aliceSignature        = Curve.calculateSignature(aliceStore.getIdentityKeyPair().getPrivateKey(),
-                                                               aliceSignedPreKey.getPublicKey().serialize());
-
     PreKeyBundle alicePreKeyBundle = new PreKeyBundle(1,
-                                                      aliceSignedPreKey.getPublicKey(),
-                                                      aliceSignature, aliceStore.getIdentityKeyPair().getPublicKey());
-
-    aliceStore.saveSignedPreKeyRecord(new SignedPreKeyRecord(aliceSignedPreKey, aliceSignature));
+        aliceStore.getSignedPreKeyRecord().getKeyPair().getPublicKey(),
+        aliceStore.getSignedPreKeyRecord().getSignature(),
+        aliceStore.getIdentityKeyPair().getPublicKey());
 
     return alicePreKeyBundle;
   }
 
   private PreKeyBundle createBobPreKeyBundle(AxolotlStore bobStore) throws InvalidKeyException {
-    ECKeyPair bobUnsignedPreKey   = Curve.generateKeyPair();
-    int       bobUnsignedPreKeyId = new Random().nextInt(Medium.MAX_VALUE);
-    byte[]    bobSignature        = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(),
-                                                             bobSignedPreKey.getPublicKey().serialize());
-
     PreKeyBundle bobPreKeyBundle = new PreKeyBundle(1,
-                                                    bobSignedPreKey.getPublicKey(),
-                                                    bobSignature, bobStore.getIdentityKeyPair().getPublicKey());
-
-    bobStore.saveSignedPreKeyRecord(new SignedPreKeyRecord(bobSignedPreKey, bobSignature));
+        bobStore.getSignedPreKeyRecord().getKeyPair().getPublicKey(),
+        bobStore.getSignedPreKeyRecord().getSignature(),
+        bobStore.getIdentityKeyPair().getPublicKey());
 
     return bobPreKeyBundle;
   }

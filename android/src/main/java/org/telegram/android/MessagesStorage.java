@@ -8,8 +8,6 @@
 
 package org.telegram.android;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
@@ -31,6 +29,9 @@ import org.telegram.phoneformat.PhoneFormat;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLitePreparedStatement;
+import org.whispersystems.libaxolotl.AxolotlAddress;
+import org.whispersystems.libaxolotl.IdentityKey;
+import org.whispersystems.libaxolotl.state.SessionRecord;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,7 +39,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 public class MessagesStorage {
@@ -107,6 +107,16 @@ public class MessagesStorage {
         database
             .executeFast(
                 "CREATE TABLE users(uid INTEGER PRIMARY KEY, name TEXT, status INTEGER, data BLOB)")
+            .stepThis()
+            .dispose();
+        database
+            .executeFast(
+                "CREATE TABLE identities(uid INTEGER, device_id INTEGER, identity_key TEXT, PRIMARY KEY (uid, device_id))")
+            .stepThis()
+            .dispose();
+        database
+            .executeFast(
+                "CREATE TABLE sessions(uid INTEGER, device_id INTEGER, session_record TEXT, PRIMARY KEY (uid, device_id))")
             .stepThis()
             .dispose();
         database

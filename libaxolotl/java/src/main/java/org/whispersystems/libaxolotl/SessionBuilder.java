@@ -88,8 +88,6 @@ public class SessionBuilder {
     int         messageVersion   = message.getMessageVersion();
     IdentityKey theirIdentityKey = message.getIdentityKey();
 
-    Optional<Integer> unsignedPreKeyId;
-
     if (!identityKeyStore.isTrustedIdentity(remoteAddress, theirIdentityKey)) {
       throw new UntrustedIdentityException(remoteAddress.toString(), theirIdentityKey);
     }

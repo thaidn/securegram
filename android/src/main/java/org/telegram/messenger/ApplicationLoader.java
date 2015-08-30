@@ -162,7 +162,7 @@ public class ApplicationLoader extends Application {
       MessagesController.getInstance().putUser(UserConfig.getCurrentUser(), true);
       ConnectionsManager.getInstance().applyCountryPortNumber(UserConfig.getCurrentUser().phone);
       ConnectionsManager.getInstance().initPushConnection();
-      AxolotlController.getInstance().registerLocalAxolotlIdentity();
+      AxolotlController.getInstance().registerAxolotlIdentity();
       MessagesController.getInstance().getBlockedUsers(true);
       SendMessagesHelper.getInstance().checkUnsentMessages();
     }

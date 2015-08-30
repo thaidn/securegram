@@ -5145,10 +5145,7 @@ public class ChatActivity extends BaseFragment
     }
 
     if (currentUser != null) {
-      MessagesController.getInstance()
-          .loadFullUser(MessagesController.getInstance().getUser(currentUser.id), classGuid);
-      FileLoader.getInstance().loadFile(currentUser.photo.photo_big,
-          "jpg", 0 /* size */, true /* cacheOnly */);
+      AxolotlController.getInstance().loadAbelianAvatar(currentUser);
     }
   }
 

@@ -19,25 +19,11 @@ public interface IdentityKeyStore {
   public IdentityKeyPair getIdentityKeyPair();
 
   /**
-   * Save the local client's identity key pair.
-   *
-   * @param keyPair
-   */
-  public void saveIdentityKeyPair(IdentityKeyPair keyPair);
-
-  /**
    * Get the local client's signed pre key record.
    *
    * @return The local client's persistent signed pre key record.
    */
   public SignedPreKeyRecord getSignedPreKeyRecord();
-
-  /**
-   * Save the local client's signed pre key record.
-   *
-   * @param keyRecord
-   */
-  public void saveSignedPreKeyRecord(SignedPreKeyRecord keyRecord);
 
   /**
    * Return the local client's device ID.

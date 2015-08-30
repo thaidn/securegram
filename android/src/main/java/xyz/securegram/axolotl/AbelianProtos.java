@@ -40,13 +40,13 @@ public final class AbelianProtos {
     com.google.protobuf.ByteString getSignedPreKey();
 
     /**
-     * <code>optional bytes signPreKeySiganture = 4;</code>
+     * <code>optional bytes signedPreKeySignature = 4;</code>
      */
-    boolean hasSignPreKeySiganture();
+    boolean hasSignedPreKeySignature();
     /**
-     * <code>optional bytes signPreKeySiganture = 4;</code>
+     * <code>optional bytes signedPreKeySignature = 4;</code>
      */
-    com.google.protobuf.ByteString getSignPreKeySiganture();
+    com.google.protobuf.ByteString getSignedPreKeySignature();
   }
   /**
    * Protobuf type {@code securegram.AbelianIdentity}
@@ -117,7 +117,7 @@ public final class AbelianProtos {
             }
             case 34: {
               bitField0_ |= 0x00000008;
-              signPreKeySiganture_ = input.readBytes();
+              signedPreKeySignature_ = input.readBytes();
               break;
             }
           }
@@ -205,26 +205,26 @@ public final class AbelianProtos {
       return signedPreKey_;
     }
 
-    public static final int SIGNPREKEYSIGANTURE_FIELD_NUMBER = 4;
-    private com.google.protobuf.ByteString signPreKeySiganture_;
+    public static final int SIGNEDPREKEYSIGNATURE_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString signedPreKeySignature_;
     /**
-     * <code>optional bytes signPreKeySiganture = 4;</code>
+     * <code>optional bytes signedPreKeySignature = 4;</code>
      */
-    public boolean hasSignPreKeySiganture() {
+    public boolean hasSignedPreKeySignature() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional bytes signPreKeySiganture = 4;</code>
+     * <code>optional bytes signedPreKeySignature = 4;</code>
      */
-    public com.google.protobuf.ByteString getSignPreKeySiganture() {
-      return signPreKeySiganture_;
+    public com.google.protobuf.ByteString getSignedPreKeySignature() {
+      return signedPreKeySignature_;
     }
 
     private void initFields() {
       deviceId_ = 0;
       identityKey_ = com.google.protobuf.ByteString.EMPTY;
       signedPreKey_ = com.google.protobuf.ByteString.EMPTY;
-      signPreKeySiganture_ = com.google.protobuf.ByteString.EMPTY;
+      signedPreKeySignature_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -249,7 +249,7 @@ public final class AbelianProtos {
         output.writeBytes(3, signedPreKey_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, signPreKeySiganture_);
+        output.writeBytes(4, signedPreKeySignature_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -274,7 +274,7 @@ public final class AbelianProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, signPreKeySiganture_);
+          .computeBytesSize(4, signedPreKeySignature_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -399,7 +399,7 @@ public final class AbelianProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         signedPreKey_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        signPreKeySiganture_ = com.google.protobuf.ByteString.EMPTY;
+        signedPreKeySignature_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
@@ -444,7 +444,7 @@ public final class AbelianProtos {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.signPreKeySiganture_ = signPreKeySiganture_;
+        result.signedPreKeySignature_ = signedPreKeySignature_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -470,8 +470,8 @@ public final class AbelianProtos {
         if (other.hasSignedPreKey()) {
           setSignedPreKey(other.getSignedPreKey());
         }
-        if (other.hasSignPreKeySiganture()) {
-          setSignPreKeySiganture(other.getSignPreKeySiganture());
+        if (other.hasSignedPreKeySignature()) {
+          setSignedPreKeySignature(other.getSignedPreKeySignature());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -602,37 +602,37 @@ public final class AbelianProtos {
         return this;
       }
 
-      private com.google.protobuf.ByteString signPreKeySiganture_ = com.google.protobuf.ByteString.EMPTY;
+      private com.google.protobuf.ByteString signedPreKeySignature_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes signPreKeySiganture = 4;</code>
+       * <code>optional bytes signedPreKeySignature = 4;</code>
        */
-      public boolean hasSignPreKeySiganture() {
+      public boolean hasSignedPreKeySignature() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional bytes signPreKeySiganture = 4;</code>
+       * <code>optional bytes signedPreKeySignature = 4;</code>
        */
-      public com.google.protobuf.ByteString getSignPreKeySiganture() {
-        return signPreKeySiganture_;
+      public com.google.protobuf.ByteString getSignedPreKeySignature() {
+        return signedPreKeySignature_;
       }
       /**
-       * <code>optional bytes signPreKeySiganture = 4;</code>
+       * <code>optional bytes signedPreKeySignature = 4;</code>
        */
-      public Builder setSignPreKeySiganture(com.google.protobuf.ByteString value) {
+      public Builder setSignedPreKeySignature(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000008;
-        signPreKeySiganture_ = value;
+        signedPreKeySignature_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bytes signPreKeySiganture = 4;</code>
+       * <code>optional bytes signedPreKeySignature = 4;</code>
        */
-      public Builder clearSignPreKeySiganture() {
+      public Builder clearSignedPreKeySignature() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        signPreKeySiganture_ = getDefaultInstance().getSignPreKeySiganture();
+        signedPreKeySignature_ = getDefaultInstance().getSignedPreKeySignature();
         onChanged();
         return this;
       }
@@ -646,6 +646,682 @@ public final class AbelianProtos {
     }
 
     // @@protoc_insertion_point(class_scope:securegram.AbelianIdentity)
+  }
+
+  public interface AbelianIdentityStructureOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:securegram.AbelianIdentityStructure)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+     */
+    java.util.List<xyz.securegram.axolotl.AbelianProtos.AbelianIdentity> 
+        getIdentitiesList();
+    /**
+     * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+     */
+    xyz.securegram.axolotl.AbelianProtos.AbelianIdentity getIdentities(int index);
+    /**
+     * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+     */
+    int getIdentitiesCount();
+    /**
+     * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+     */
+    java.util.List<? extends xyz.securegram.axolotl.AbelianProtos.AbelianIdentityOrBuilder> 
+        getIdentitiesOrBuilderList();
+    /**
+     * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+     */
+    xyz.securegram.axolotl.AbelianProtos.AbelianIdentityOrBuilder getIdentitiesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code securegram.AbelianIdentityStructure}
+   */
+  public static final class AbelianIdentityStructure extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:securegram.AbelianIdentityStructure)
+      AbelianIdentityStructureOrBuilder {
+    // Use AbelianIdentityStructure.newBuilder() to construct.
+    private AbelianIdentityStructure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private AbelianIdentityStructure(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AbelianIdentityStructure defaultInstance;
+    public static AbelianIdentityStructure getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public AbelianIdentityStructure getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AbelianIdentityStructure(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                identities_ = new java.util.ArrayList<xyz.securegram.axolotl.AbelianProtos.AbelianIdentity>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              identities_.add(input.readMessage(xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          identities_ = java.util.Collections.unmodifiableList(identities_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return xyz.securegram.axolotl.AbelianProtos.internal_static_securegram_AbelianIdentityStructure_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return xyz.securegram.axolotl.AbelianProtos.internal_static_securegram_AbelianIdentityStructure_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure.class, xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<AbelianIdentityStructure> PARSER =
+        new com.google.protobuf.AbstractParser<AbelianIdentityStructure>() {
+      public AbelianIdentityStructure parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AbelianIdentityStructure(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AbelianIdentityStructure> getParserForType() {
+      return PARSER;
+    }
+
+    public static final int IDENTITIES_FIELD_NUMBER = 1;
+    private java.util.List<xyz.securegram.axolotl.AbelianProtos.AbelianIdentity> identities_;
+    /**
+     * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+     */
+    public java.util.List<xyz.securegram.axolotl.AbelianProtos.AbelianIdentity> getIdentitiesList() {
+      return identities_;
+    }
+    /**
+     * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+     */
+    public java.util.List<? extends xyz.securegram.axolotl.AbelianProtos.AbelianIdentityOrBuilder> 
+        getIdentitiesOrBuilderList() {
+      return identities_;
+    }
+    /**
+     * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+     */
+    public int getIdentitiesCount() {
+      return identities_.size();
+    }
+    /**
+     * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+     */
+    public xyz.securegram.axolotl.AbelianProtos.AbelianIdentity getIdentities(int index) {
+      return identities_.get(index);
+    }
+    /**
+     * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+     */
+    public xyz.securegram.axolotl.AbelianProtos.AbelianIdentityOrBuilder getIdentitiesOrBuilder(
+        int index) {
+      return identities_.get(index);
+    }
+
+    private void initFields() {
+      identities_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < identities_.size(); i++) {
+        output.writeMessage(1, identities_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < identities_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, identities_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code securegram.AbelianIdentityStructure}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:securegram.AbelianIdentityStructure)
+        xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructureOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return xyz.securegram.axolotl.AbelianProtos.internal_static_securegram_AbelianIdentityStructure_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return xyz.securegram.axolotl.AbelianProtos.internal_static_securegram_AbelianIdentityStructure_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure.class, xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure.Builder.class);
+      }
+
+      // Construct using xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getIdentitiesFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (identitiesBuilder_ == null) {
+          identities_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          identitiesBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return xyz.securegram.axolotl.AbelianProtos.internal_static_securegram_AbelianIdentityStructure_descriptor;
+      }
+
+      public xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure getDefaultInstanceForType() {
+        return xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure.getDefaultInstance();
+      }
+
+      public xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure build() {
+        xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure buildPartial() {
+        xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure result = new xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure(this);
+        int from_bitField0_ = bitField0_;
+        if (identitiesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            identities_ = java.util.Collections.unmodifiableList(identities_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.identities_ = identities_;
+        } else {
+          result.identities_ = identitiesBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure) {
+          return mergeFrom((xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure other) {
+        if (other == xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure.getDefaultInstance()) return this;
+        if (identitiesBuilder_ == null) {
+          if (!other.identities_.isEmpty()) {
+            if (identities_.isEmpty()) {
+              identities_ = other.identities_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureIdentitiesIsMutable();
+              identities_.addAll(other.identities_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.identities_.isEmpty()) {
+            if (identitiesBuilder_.isEmpty()) {
+              identitiesBuilder_.dispose();
+              identitiesBuilder_ = null;
+              identities_ = other.identities_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              identitiesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getIdentitiesFieldBuilder() : null;
+            } else {
+              identitiesBuilder_.addAllMessages(other.identities_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (xyz.securegram.axolotl.AbelianProtos.AbelianIdentityStructure) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<xyz.securegram.axolotl.AbelianProtos.AbelianIdentity> identities_ =
+        java.util.Collections.emptyList();
+      private void ensureIdentitiesIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          identities_ = new java.util.ArrayList<xyz.securegram.axolotl.AbelianProtos.AbelianIdentity>(identities_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          xyz.securegram.axolotl.AbelianProtos.AbelianIdentity, xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.Builder, xyz.securegram.axolotl.AbelianProtos.AbelianIdentityOrBuilder> identitiesBuilder_;
+
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public java.util.List<xyz.securegram.axolotl.AbelianProtos.AbelianIdentity> getIdentitiesList() {
+        if (identitiesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(identities_);
+        } else {
+          return identitiesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public int getIdentitiesCount() {
+        if (identitiesBuilder_ == null) {
+          return identities_.size();
+        } else {
+          return identitiesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public xyz.securegram.axolotl.AbelianProtos.AbelianIdentity getIdentities(int index) {
+        if (identitiesBuilder_ == null) {
+          return identities_.get(index);
+        } else {
+          return identitiesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public Builder setIdentities(
+          int index, xyz.securegram.axolotl.AbelianProtos.AbelianIdentity value) {
+        if (identitiesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIdentitiesIsMutable();
+          identities_.set(index, value);
+          onChanged();
+        } else {
+          identitiesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public Builder setIdentities(
+          int index, xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.Builder builderForValue) {
+        if (identitiesBuilder_ == null) {
+          ensureIdentitiesIsMutable();
+          identities_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          identitiesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public Builder addIdentities(xyz.securegram.axolotl.AbelianProtos.AbelianIdentity value) {
+        if (identitiesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIdentitiesIsMutable();
+          identities_.add(value);
+          onChanged();
+        } else {
+          identitiesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public Builder addIdentities(
+          int index, xyz.securegram.axolotl.AbelianProtos.AbelianIdentity value) {
+        if (identitiesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIdentitiesIsMutable();
+          identities_.add(index, value);
+          onChanged();
+        } else {
+          identitiesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public Builder addIdentities(
+          xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.Builder builderForValue) {
+        if (identitiesBuilder_ == null) {
+          ensureIdentitiesIsMutable();
+          identities_.add(builderForValue.build());
+          onChanged();
+        } else {
+          identitiesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public Builder addIdentities(
+          int index, xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.Builder builderForValue) {
+        if (identitiesBuilder_ == null) {
+          ensureIdentitiesIsMutable();
+          identities_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          identitiesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public Builder addAllIdentities(
+          java.lang.Iterable<? extends xyz.securegram.axolotl.AbelianProtos.AbelianIdentity> values) {
+        if (identitiesBuilder_ == null) {
+          ensureIdentitiesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, identities_);
+          onChanged();
+        } else {
+          identitiesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public Builder clearIdentities() {
+        if (identitiesBuilder_ == null) {
+          identities_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          identitiesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public Builder removeIdentities(int index) {
+        if (identitiesBuilder_ == null) {
+          ensureIdentitiesIsMutable();
+          identities_.remove(index);
+          onChanged();
+        } else {
+          identitiesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.Builder getIdentitiesBuilder(
+          int index) {
+        return getIdentitiesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public xyz.securegram.axolotl.AbelianProtos.AbelianIdentityOrBuilder getIdentitiesOrBuilder(
+          int index) {
+        if (identitiesBuilder_ == null) {
+          return identities_.get(index);  } else {
+          return identitiesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public java.util.List<? extends xyz.securegram.axolotl.AbelianProtos.AbelianIdentityOrBuilder> 
+           getIdentitiesOrBuilderList() {
+        if (identitiesBuilder_ != null) {
+          return identitiesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(identities_);
+        }
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.Builder addIdentitiesBuilder() {
+        return getIdentitiesFieldBuilder().addBuilder(
+            xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.Builder addIdentitiesBuilder(
+          int index) {
+        return getIdentitiesFieldBuilder().addBuilder(
+            index, xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .securegram.AbelianIdentity identities = 1;</code>
+       */
+      public java.util.List<xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.Builder> 
+           getIdentitiesBuilderList() {
+        return getIdentitiesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          xyz.securegram.axolotl.AbelianProtos.AbelianIdentity, xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.Builder, xyz.securegram.axolotl.AbelianProtos.AbelianIdentityOrBuilder> 
+          getIdentitiesFieldBuilder() {
+        if (identitiesBuilder_ == null) {
+          identitiesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              xyz.securegram.axolotl.AbelianProtos.AbelianIdentity, xyz.securegram.axolotl.AbelianProtos.AbelianIdentity.Builder, xyz.securegram.axolotl.AbelianProtos.AbelianIdentityOrBuilder>(
+                  identities_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          identities_ = null;
+        }
+        return identitiesBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:securegram.AbelianIdentityStructure)
+    }
+
+    static {
+      defaultInstance = new AbelianIdentityStructure(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:securegram.AbelianIdentityStructure)
   }
 
   public interface AbelianEnvelopeOrBuilder extends
@@ -1250,6 +1926,11 @@ public final class AbelianProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_securegram_AbelianIdentity_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_securegram_AbelianIdentityStructure_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_securegram_AbelianIdentityStructure_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_securegram_AbelianEnvelope_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -1263,15 +1944,17 @@ public final class AbelianProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rAbelian.proto\022\nsecuregram\"k\n\017AbelianId" +
+      "\n\rAbelian.proto\022\nsecuregram\"m\n\017AbelianId" +
       "entity\022\020\n\010deviceId\030\001 \001(\r\022\023\n\013identityKey\030" +
-      "\002 \001(\014\022\024\n\014signedPreKey\030\003 \001(\014\022\033\n\023signPreKe" +
-      "ySiganture\030\004 \001(\014\"\251\001\n\017AbelianEnvelope\022.\n\004" +
-      "type\030\001 \001(\0162 .securegram.AbelianEnvelope." +
-      "Type\022\017\n\007content\030\002 \001(\014\"U\n\004Type\022\013\n\007UNKNOWN" +
-      "\020\000\022\016\n\nCIPHERTEXT\020\001\022\020\n\014KEY_EXCHANGE\020\002\022\021\n\r" +
-      "PREKEY_BUNDLE\020\003\022\013\n\007RECEIPT\020\005B\'\n\026xyz.secu" +
-      "regram.axolotlB\rAbelianProtos"
+      "\002 \001(\014\022\024\n\014signedPreKey\030\003 \001(\014\022\035\n\025signedPre" +
+      "KeySignature\030\004 \001(\014\"K\n\030AbelianIdentityStr" +
+      "ucture\022/\n\nidentities\030\001 \003(\0132\033.securegram." +
+      "AbelianIdentity\"\251\001\n\017AbelianEnvelope\022.\n\004t" +
+      "ype\030\001 \001(\0162 .securegram.AbelianEnvelope.T" +
+      "ype\022\017\n\007content\030\002 \001(\014\"U\n\004Type\022\013\n\007UNKNOWN\020" +
+      "\000\022\016\n\nCIPHERTEXT\020\001\022\020\n\014KEY_EXCHANGE\020\002\022\021\n\rP" +
+      "REKEY_BUNDLE\020\003\022\013\n\007RECEIPT\020\005B\'\n\026xyz.secur",
+      "egram.axolotlB\rAbelianProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1290,9 +1973,15 @@ public final class AbelianProtos {
     internal_static_securegram_AbelianIdentity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_securegram_AbelianIdentity_descriptor,
-        new java.lang.String[] { "DeviceId", "IdentityKey", "SignedPreKey", "SignPreKeySiganture", });
-    internal_static_securegram_AbelianEnvelope_descriptor =
+        new java.lang.String[] { "DeviceId", "IdentityKey", "SignedPreKey", "SignedPreKeySignature", });
+    internal_static_securegram_AbelianIdentityStructure_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_securegram_AbelianIdentityStructure_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_securegram_AbelianIdentityStructure_descriptor,
+        new java.lang.String[] { "Identities", });
+    internal_static_securegram_AbelianEnvelope_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_securegram_AbelianEnvelope_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_securegram_AbelianEnvelope_descriptor,

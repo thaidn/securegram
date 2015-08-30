@@ -1,24 +1,29 @@
 package securegram;
 
 option java_package = "xyz.securegram.axolotl";
+
 option java_outer_classname = "AbelianProtos";
 
 message AbelianIdentity {
-    optional uint32 deviceId            = 1;
-    optional bytes  identityKey         = 2;
-    optional bytes  signedPreKey        = 3;
-    optional bytes  signPreKeySignature = 4;
+    optional uint32 deviceId = 1;
+    optional bytes identityKey = 2;
+    optional bytes signedPreKey = 3;
+    optional bytes signedPreKeySignature = 4;
+}
+
+message AbelianIdentityStructure {
+    repeated AbelianIdentity identities = 1;
 }
 
 message AbelianEnvelope {
- enum Type {
-    UNKNOWN       = 0;
-    CIPHERTEXT    = 1;
-    KEY_EXCHANGE  = 2;
-    PREKEY_BUNDLE = 3;
-    RECEIPT       = 5;
-  }
+    enum Type {
+        UNKNOWN = 0;
+        CIPHERTEXT = 1;
+        KEY_EXCHANGE = 2;
+        PREKEY_BUNDLE = 3;
+        RECEIPT = 5;
+    }
 
-  optional Type   type          = 1;
-  optional bytes  content       = 2;
+    optional Type type = 1;
+    optional bytes content = 2;
 }

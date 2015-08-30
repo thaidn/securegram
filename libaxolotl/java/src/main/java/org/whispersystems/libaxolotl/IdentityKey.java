@@ -31,6 +31,10 @@ public class IdentityKey {
 
   private final ECPublicKey publicKey;
 
+  public IdentityKey() {
+    this.publicKey = null;
+  }
+
   public IdentityKey(ECPublicKey publicKey) {
     this.publicKey = publicKey;
   }

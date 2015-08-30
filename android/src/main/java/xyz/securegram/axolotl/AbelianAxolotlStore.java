@@ -1,23 +1,19 @@
-package org.whispersystems.libaxolotl.state.impl;
+package xyz.securegram.axolotl;
 
 import org.whispersystems.libaxolotl.AxolotlAddress;
 import org.whispersystems.libaxolotl.IdentityKey;
 import org.whispersystems.libaxolotl.IdentityKeyPair;
-import org.whispersystems.libaxolotl.ecc.Curve;
-import org.whispersystems.libaxolotl.ecc.ECKeyPair;
 import org.whispersystems.libaxolotl.state.AxolotlStore;
 import org.whispersystems.libaxolotl.state.SessionRecord;
 import org.whispersystems.libaxolotl.state.SignedPreKeyRecord;
-import org.whispersystems.libaxolotl.util.KeyHelper;
 
 import java.util.List;
 
-public class InMemoryAxolotlStore implements AxolotlStore {
+public class AbelianAxolotlStore implements AxolotlStore {
+  private final AbelianIdentityKeyStore identityKeyStore      = new AbelianIdentityKeyStore();
+  private final AbelianSessionStore sessionStore = new AbelianSessionStore();
 
-  private final InMemorySessionStore      sessionStore      = new InMemorySessionStore();
-  private final InMemoryIdentityKeyStore  identityKeyStore  = new InMemoryIdentityKeyStore();
-
-  public InMemoryAxolotlStore() {
+  public AbelianAxolotlStore() {
   }
 
   @Override

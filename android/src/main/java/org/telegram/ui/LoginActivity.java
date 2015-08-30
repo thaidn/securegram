@@ -2408,7 +2408,7 @@ public class LoginActivity extends BaseFragment {
                             MessagesController.getInstance().getBlockedUsers(true);
                             needFinishActivity();
                             ConnectionsManager.getInstance().initPushConnection();
-                            AxolotlController.getInstance().registerLocalAxolotlIdentity();
+                            AxolotlController.getInstance().registerAxolotlIdentity();
                             Utilities.stageQueue.postRunnable(
                                 new Runnable() {
                                   @Override
