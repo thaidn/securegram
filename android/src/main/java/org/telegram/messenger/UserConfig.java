@@ -120,8 +120,7 @@ public class UserConfig {
         }
 
         if (deviceId != 0) {
-          editor.putString("signedPreKeyRecord",
-              Base64.encodeToString(signedPreKeyRecord.serialize(), Base64.DEFAULT));
+          editor.putInt("deviceId", deviceId);
         }
 
         editor.putBoolean("registeredForAbelian", registeredForAbelian);

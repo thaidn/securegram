@@ -37,14 +37,19 @@ import java.util.regex.Pattern;
 public class MessageObject {
 
   public enum Type {
+    INVALID(-1),
     TEXT(0),
-    MEDIA_PHOTO(1),
-    MEDIA_AUDIO(2),
-    MEDIA_VIDEO(3),
-    MEDIA_VENUE(4),
+    PHOTO(1),
+    AUDIO(2),
+    VIDEO(3),
+    LOCATION(4),
+    FORWARDED(5),
+    DATE(6),
+    CONTACT(12),
+    DOC(7),
     DOC_GIF(8),
     DOC_GENERIC(9),
-    DOC_WEBP(13),
+    DOC_STICKER_WEBP(13),
     DOC_AUDIO(14),
     CHAT_ACTION_PHOTO(10),
     MSG_ACTION(11);
@@ -68,7 +73,7 @@ public class MessageObject {
   public CharSequence linkDescription;
   public CharSequence caption;
   public MessageObject replyMessageObject;
-  public int type;
+  public Type type;
   public int contentType;
   public String dateKey;
   public String monthKey;
@@ -529,66 +534,71 @@ public class MessageObject {
 
     if (message instanceof TLRPC.TL_message || message instanceof TLRPC.TL_messageForwarded_old2) {
       if (isMediaEmpty()) {
-        contentType = type = 0;
+        type = Type.TEXT;
+        contentType = type.getType();
         if (messageText.length() == 0) {
           messageText = "Empty message";
         }
       } else if (message.media instanceof TLRPC.TL_messageMediaPhoto) {
-        contentType = type = 1;
+        type = Type.PHOTO;
+        contentType = type.getType();
       } else if (message.media instanceof TLRPC.TL_messageMediaGeo
           || message.media instanceof TLRPC.TL_messageMediaVenue) {
         contentType = 1;
-        type = 4;
+        type = Type.LOCATION;
       } else if (message.media instanceof TLRPC.TL_messageMediaVideo) {
         contentType = 1;
-        type = 3;
+        type = Type.VIDEO;
       } else if (message.media instanceof TLRPC.TL_messageMediaContact) {
         contentType = 3;
-        type = 12;
+        type = Type.CONTACT;
       } else if (message.media instanceof TLRPC.TL_messageMediaUnsupported) {
-        contentType = type = 0;
+        type = Type.TEXT;
+        contentType = type.getType();
       } else if (message.media instanceof TLRPC.TL_messageMediaDocument) {
         contentType = 1;
         if (message.media.document.mime_type != null) {
           if (message.media.document.mime_type.equals("image/gif")
               && message.media.document.thumb != null
               && !(message.media.document.thumb instanceof TLRPC.TL_photoSizeEmpty)) {
-            type = 8;
+            type = Type.DOC_GIF;
           } else if (message.media.document.mime_type.equals("image/webp") && isSticker()) {
-            type = 13;
+            type = Type.DOC_STICKER_WEBP;
           } else if (isMusic()) {
-            type = 14;
+            type = Type.DOC_AUDIO;
             contentType = 8;
           } else {
-            type = 9;
+            type = Type.DOC_GENERIC;
           }
         } else {
-          type = 9;
+          type = Type.DOC_GENERIC;
         }
       } else if (message.media instanceof TLRPC.TL_messageMediaAudio) {
-        contentType = type = 2;
+        type = Type.AUDIO;
+        contentType = type.getType();
       }
     } else if (message instanceof TLRPC.TL_messageService) {
       if (message.action instanceof TLRPC.TL_messageActionLoginUnknownLocation) {
-        contentType = type = 0;
+        type = Type.TEXT;
+        contentType = type.getType();
       } else if (message.action instanceof TLRPC.TL_messageActionChatEditPhoto
           || message.action instanceof TLRPC.TL_messageActionUserUpdatedPhoto) {
         contentType = 4;
-        type = Type.MSG_ACTION.getType();
+        type = Type.MSG_ACTION;
       } else if (message.action instanceof TLRPC.TL_messageEncryptedAction) {
         if (message.action.encryptedAction
                 instanceof TLRPC.TL_decryptedMessageActionScreenshotMessages
             || message.action.encryptedAction
                 instanceof TLRPC.TL_decryptedMessageActionSetMessageTTL) {
           contentType = 4;
-          type = Type.CHAT_ACTION_PHOTO.getType();
+          type = Type.CHAT_ACTION_PHOTO;
         } else {
           contentType = -1;
-          type = -1;
+          type = Type.INVALID;
         }
       } else {
         contentType = 4;
-        type = Type.CHAT_ACTION_PHOTO.getType();
+        type = Type.CHAT_ACTION_PHOTO;
       }
     }
 
@@ -887,7 +897,7 @@ public class MessageObject {
   }
 
   private void generateLayout() {
-    if (type != Type.TEXT.getType()
+    if (type != Type.TEXT
         || messageOwner.to_id == null
         || messageText == null
         || messageText.length() == 0) {
@@ -1225,19 +1235,19 @@ public class MessageObject {
   }
 
   public int getApproximateHeight() {
-    if (type == Type.TEXT.getType()) {
+    if (type == Type.TEXT) {
       return textHeight;
     } else if (contentType == 2) {
       return AndroidUtilities.dp(68);
     } else if (contentType == 3) {
       return AndroidUtilities.dp(71);
-    } else if (type == Type.DOC_GENERIC.getType()) {
+    } else if (type == Type.DOC_GENERIC) {
       return AndroidUtilities.dp(100);
-    } else if (type == Type.MEDIA_VENUE.getType()) {
+    } else if (type == Type.LOCATION) {
       return AndroidUtilities.dp(114);
-    } else if (type == Type.DOC_AUDIO.getType()) {
+    } else if (type == Type.DOC_AUDIO) {
       return AndroidUtilities.dp(78);
-    } else if (type == Type.DOC_WEBP.getType()) {
+    } else if (type == Type.DOC_STICKER_WEBP) {
       float maxHeight = AndroidUtilities.displaySize.y * 0.4f;
       float maxWidth;
       maxWidth = AndroidUtilities.displaySize.x * 0.5f;

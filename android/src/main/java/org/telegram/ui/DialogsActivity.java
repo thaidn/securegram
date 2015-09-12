@@ -456,13 +456,6 @@ public class DialogsActivity extends BaseFragment
             dialog = dialogs.get(position);
             selectedDialog = dialog.id;
 
-            /*AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-             builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-
-
-             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-             showDialog(builder.create());*/
-
             BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity());
             int lower_id = (int) selectedDialog;
             int high_id = (int) (selectedDialog >> 32);
@@ -929,10 +922,6 @@ public class DialogsActivity extends BaseFragment
 
   public void setSearchString(String string) {
     searchString = string;
-  }
-
-  public boolean isMainDialogList() {
-    return delegate == null && searchString == null;
   }
 
   private void didSelectResult(final long dialog_id, boolean useAlert, final boolean param) {

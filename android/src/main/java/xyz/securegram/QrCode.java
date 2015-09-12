@@ -11,9 +11,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.Result;
 import com.google.zxing.BinaryBitmap;
-import com.google.zxing.ReaderException;
 
-import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
 import android.graphics.Bitmap;
@@ -39,7 +37,6 @@ public class QrCode {
    *  Encodes and returns the QrCodeEncoder object as a bitmap suitable for display.
    */
   public static Bitmap encodeAsBitmap(String content, int dimension) throws WriterException {
-    Log.i(TAG, "Encoded: " + content);
     Map<EncodeHintType, Object> hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
     hints.put(EncodeHintType.CHARACTER_SET, ENCODING);
 
@@ -86,7 +83,6 @@ public class QrCode {
       reader.setHints(hints);
       try {
         Result result = reader.decode(bBitmap);
-        Log.i(TAG, "Decode: " + result.getText());
         return result.getText();
       } catch (NotFoundException e) {
         Log.e(TAG, "decode exception", e);
@@ -94,8 +90,7 @@ public class QrCode {
       } finally {
         reader.reset();
       }
-    }
-    catch (FileNotFoundException e) {
+    } catch (FileNotFoundException e) {
       Log.e(TAG, "can not open file" + filePath, e);
       return null;
     }

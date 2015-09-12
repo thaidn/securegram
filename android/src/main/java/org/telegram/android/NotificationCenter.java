@@ -123,6 +123,7 @@ public class NotificationCenter {
   public static final int audioDidSent = totalEvents++;
   public static final int audioDidStarted = totalEvents++;
   public static final int audioRouteChanged = totalEvents++;
+  public static final int ABELIAN_IDENTITY_LOADED = totalEvents++;
 
   private HashMap<Integer, ArrayList<Object>> observers = new HashMap<>();
   private HashMap<Integer, Object> removeAfterBroadcast = new HashMap<>();

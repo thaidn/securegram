@@ -10,7 +10,6 @@ package org.telegram.ui.cells;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -262,7 +261,8 @@ public class ChatBaseCell extends BaseCell {
       TLRPC.PhotoSize photoSize =
           FileLoader.getClosestPhotoSizeWithSize(
               currentMessageObject.replyMessageObject.photoThumbs, 80);
-      if (photoSize != null && currentMessageObject.replyMessageObject.type != 13) {
+      if (photoSize != null &&
+          currentMessageObject.replyMessageObject.type !=MessageObject.Type.DOC_STICKER_WEBP) {
         newReplyPhoto = photoSize.location;
       }
     }
@@ -454,7 +454,7 @@ public class ChatBaseCell extends BaseCell {
       if (messageObject.contentType == 2 || messageObject.contentType == 3) {
         namesOffset += AndroidUtilities.dp(4);
       } else if (messageObject.contentType == 1) {
-        if (messageObject.type == 13) {
+        if (messageObject.type == MessageObject.Type.DOC_STICKER_WEBP) {
           namesOffset -= AndroidUtilities.dp(42);
         } else {
           namesOffset += AndroidUtilities.dp(5);
@@ -462,23 +462,8 @@ public class ChatBaseCell extends BaseCell {
       }
 
       int maxWidth;
-      if (messageObject.type == 13) {
-        int width;
-        if (AndroidUtilities.isTablet()) {
-          if (AndroidUtilities.isSmallTablet()
-              && getResources().getConfiguration().orientation
-                  == Configuration.ORIENTATION_PORTRAIT) {
-            width = AndroidUtilities.displaySize.x;
-          } else {
-            int leftWidth = AndroidUtilities.displaySize.x / 100 * 35;
-            if (leftWidth < AndroidUtilities.dp(320)) {
-              leftWidth = AndroidUtilities.dp(320);
-            }
-            width = AndroidUtilities.displaySize.x - leftWidth;
-          }
-        } else {
-          width = AndroidUtilities.displaySize.x;
-        }
+      if (messageObject.type == MessageObject.Type.DOC_STICKER_WEBP) {
+        int width = AndroidUtilities.displaySize.x;
         if (messageObject.isOut()) {
           maxWidth = width - backgroundWidth - AndroidUtilities.dp(60);
         } else {
@@ -498,8 +483,8 @@ public class ChatBaseCell extends BaseCell {
             FileLoader.getClosestPhotoSizeWithSize(
                 messageObject.replyMessageObject.photoThumbs, 80);
         if (photoSize == null
-            || messageObject.replyMessageObject.type == 13
-            || messageObject.type == 13 && !AndroidUtilities.isTablet()) {
+            || messageObject.replyMessageObject.type == MessageObject.Type.DOC_STICKER_WEBP
+            || messageObject.type == MessageObject.Type.DOC_STICKER_WEBP) {
           replyImageReceiver.setImageBitmap((Drawable) null);
           needReplyImage = false;
         } else {
@@ -844,7 +829,7 @@ public class ChatBaseCell extends BaseCell {
     }
 
     if (currentMessageObject.isReply()) {
-      if (currentMessageObject.type == 13) {
+      if (currentMessageObject.type == MessageObject.Type.DOC_STICKER_WEBP) {
         replyLinePaint.setColor(0xffffffff);
         replyNamePaint.setColor(0xffffffff);
         replyTextPaint.setColor(0xffffffff);
@@ -876,7 +861,7 @@ public class ChatBaseCell extends BaseCell {
           replyLinePaint.setColor(0xff8dc97a);
           replyNamePaint.setColor(0xff61a349);
           if (currentMessageObject.replyMessageObject != null
-              && currentMessageObject.replyMessageObject.type == 0) {
+              && currentMessageObject.replyMessageObject.type == MessageObject.Type.TEXT) {
             replyTextPaint.setColor(0xff000000);
           } else {
             replyTextPaint.setColor(0xff70b15c);
@@ -886,7 +871,7 @@ public class ChatBaseCell extends BaseCell {
           replyLinePaint.setColor(0xff6c9fd2);
           replyNamePaint.setColor(0xff377aae);
           if (currentMessageObject.replyMessageObject != null
-              && currentMessageObject.replyMessageObject.type == 0) {
+              && currentMessageObject.replyMessageObject.type == MessageObject.Type.TEXT) {
             replyTextPaint.setColor(0xff000000);
           } else {
             replyTextPaint.setColor(0xff999999);

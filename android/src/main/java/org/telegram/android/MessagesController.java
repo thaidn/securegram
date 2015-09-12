@@ -4016,9 +4016,9 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         ImageLoader.saveMessageThumbs(upd.message);
 
         MessageObject obj = new MessageObject(upd.message, usersDict, true);
-        if (obj.type == MessageObject.Type.MSG_ACTION.getType()) {
+        if (obj.type == MessageObject.Type.MSG_ACTION) {
           interfaceUpdateMask |= UPDATE_MASK_CHAT_AVATAR;
-        } else if (obj.type == MessageObject.Type.CHAT_ACTION_PHOTO.getType()) {
+        } else if (obj.type == MessageObject.Type.CHAT_ACTION_PHOTO) {
           interfaceUpdateMask |= UPDATE_MASK_CHAT_NAME;
         }
         long uid;

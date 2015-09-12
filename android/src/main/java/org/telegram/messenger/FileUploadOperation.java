@@ -124,10 +124,7 @@ public class FileUploadOperation {
               totalFileSize = finalSize;
               totalPartsCount = (int) (totalFileSize + uploadChunkSize - 1) / uploadChunkSize;
               if (started) {
-                SharedPreferences preferences =
-                    ApplicationLoader.applicationContext.getSharedPreferences(
-                        "uploadinfo", Activity.MODE_PRIVATE);
-                storeFileUploadInfo(preferences);
+                storeFileUploadInfo();
               }
             }
             if (requestToken == 0) {
@@ -137,7 +134,11 @@ public class FileUploadOperation {
         });
   }
 
-  private void storeFileUploadInfo(SharedPreferences preferences) {
+  private void storeFileUploadInfo() {
+    SharedPreferences preferences =
+        ApplicationLoader.applicationContext.getSharedPreferences(
+            "uploadinfo", Activity.MODE_PRIVATE);
+
     SharedPreferences.Editor editor = preferences.edit();
     editor.putInt(fileKey + "_time", uploadStartTime);
     editor.putLong(fileKey + "_size", totalFileSize);
@@ -291,7 +292,7 @@ public class FileUploadOperation {
           }
           currentFileId = Utilities.random.nextLong();
           if (estimatedSize == 0) {
-            storeFileUploadInfo(preferences);
+            storeFileUploadInfo();
           }
         }
 

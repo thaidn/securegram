@@ -28,6 +28,7 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -115,6 +116,7 @@ import org.telegram.ui.components.SizeNotifierFrameLayout;
 import org.telegram.ui.components.TimerDrawable;
 import org.telegram.ui.components.TypingDotsDrawable;
 import org.telegram.ui.components.WebFrameLayout;
+import org.whispersystems.libaxolotl.AxolotlAddress;
 
 import xyz.securegram.R;
 import xyz.securegram.axolotl.AxolotlController;
@@ -129,6 +131,7 @@ import java.util.concurrent.Semaphore;
 public class ChatActivity extends BaseFragment
     implements NotificationCenter.NotificationCenterDelegate,
         DialogsActivity.MessagesActivityDelegate, PhotoViewer.PhotoViewerProvider {
+  private static final String TAG = ChatActivity.class.getName();
 
   protected TLRPC.Chat currentChat;
   protected TLRPC.User currentUser;
@@ -262,6 +265,10 @@ public class ChatActivity extends BaseFragment
 
   private String startVideoEdit = null;
 
+  private String abelianAvatarPath = null;
+  private boolean loadingAbelianIdentity = true;
+
+
   private Runnable openSecretPhotoRunnable = null;
   private float startX = 0;
   private float startY = 0;
@@ -353,6 +360,9 @@ public class ChatActivity extends BaseFragment
         NotificationCenter.botInfoDidLoaded,
         NotificationCenter.botKeyboardDidLoaded,
         NotificationCenter.chatSearchResultsAvailable,
+        NotificationCenter.FileDidLoaded,
+        NotificationCenter.FileDidFailedLoad,
+        NotificationCenter.ABELIAN_IDENTITY_LOADED,
     };
 
   }
@@ -427,9 +437,15 @@ public class ChatActivity extends BaseFragment
         FileLog.e("tmessages", e);
       }
       if (currentUser != null) {
-        MessagesController.getInstance().putUser(currentUser, true /* fromCache */);
+        MessagesController.getInstance().putUser(currentUser, true);
       } else {
         return false;
+      }
+    }
+    abelianAvatarPath = AxolotlController.getInstance().loadAbelianAvatar(currentUser);
+    if (abelianAvatarPath != null) {
+      if (AxolotlController.getInstance().loadAbelianIdentity(currentUser)) {
+        loadingAbelianIdentity = false;
       }
     }
     dialog_id = userId;
@@ -505,9 +521,9 @@ public class ChatActivity extends BaseFragment
     startLoadFromMessageId = arguments.getInt("message_id", 0);
     scrollToTopOnResume = arguments.getBoolean("scrollToTopOnResume", false);
 
-    if (chatId != 0 && !createChatFromChatId(chatId) ||
-        userId != 0 && !createChatFromUserId(userId) ||
-        encId != 0 && !createChatFromEncId(encId)) {
+    if ((chatId != 0 && !createChatFromChatId(chatId)) ||
+        (userId != 0 && !createChatFromUserId(userId)) ||
+        (encId != 0 && !createChatFromEncId(encId))) {
       return false;
     }
 
@@ -530,6 +546,7 @@ public class ChatActivity extends BaseFragment
     }
 
     loading = true;
+    loadingAbelianIdentity = true;
 
     if (startLoadFromMessageId != 0) {
       needSelectFromMessageId = true;
@@ -740,6 +757,9 @@ public class ChatActivity extends BaseFragment
               case clear_history:
               case delete_chat:
                 clearChat(id);
+                // TODO(thaidn): remove this.
+                AxolotlController.getInstance().getStore().deleteAllSessions(
+                    String.valueOf(currentUser.id));
                 break;
               case share_contact:
                 shareContact();
@@ -973,7 +993,7 @@ public class ChatActivity extends BaseFragment
       for (HashMap.Entry<Integer, MessageObject> entry :
           selectedMessagesIds.entrySet()) {
         MessageObject msg = entry.getValue();
-        if (msg.messageOwner.random_id != 0 && msg.type != 10) {
+        if (msg.messageOwner.random_id != 0 && msg.type != MessageObject.Type.CHAT_ACTION_PHOTO) {
           random_ids.add(msg.messageOwner.random_id);
         }
       }
@@ -2407,7 +2427,7 @@ public class ChatActivity extends BaseFragment
     addBottomOverlayChatView(context, contentView);
     addPageDownButton(context, contentView);
 
-    if (loading && messages.isEmpty()) {
+    if ((loading && messages.isEmpty())) {
       progressView.setVisibility(View.VISIBLE);
       chatListView.setEmptyView(null);
     } else {
@@ -2789,14 +2809,14 @@ public class ChatActivity extends BaseFragment
         ArrayList<Integer> uids = new ArrayList<>();
         replyIconImageView.setImageResource(R.drawable.forward_blue);
         uids.add(messageObjects.get(0).messageOwner.from_id);
-        int type = messageObjects.get(0).type;
+        MessageObject.Type type = messageObjects.get(0).type;
         for (int a = 1; a < messageObjects.size(); a++) {
           Integer uid = messageObjects.get(a).messageOwner.from_id;
           if (!uids.contains(uid)) {
             uids.add(uid);
           }
           if (messageObjects.get(a).type != type) {
-            type = -1;
+            type = MessageObject.Type.INVALID;
           }
         }
         StringBuilder userNames = new StringBuilder();
@@ -2826,7 +2846,7 @@ public class ChatActivity extends BaseFragment
           }
         }
         replyNameTextView.setText(userNames);
-        if (type == -1 || type == 0) {
+        if (type == MessageObject.Type.INVALID || type == MessageObject.Type.TEXT) {
           if (messageObjects.size() == 1 && messageObjects.get(0).messageText != null) {
             String mess = messageObjects.get(0).messageText.toString();
             if (mess.length() > 150) {
@@ -2844,31 +2864,31 @@ public class ChatActivity extends BaseFragment
                 LocaleController.formatPluralString("ForwardedMessage", messageObjects.size()));
           }
         } else {
-          if (type == 1) {
+          if (type == MessageObject.Type.PHOTO) {
             replyObjectTextView.setText(
                 LocaleController.formatPluralString("ForwardedPhoto", messageObjects.size()));
             if (messageObjects.size() == 1) {
               messageObject = messageObjects.get(0);
             }
-          } else if (type == 4) {
+          } else if (type == MessageObject.Type.LOCATION) {
             replyObjectTextView.setText(
                 LocaleController.formatPluralString("ForwardedLocation", messageObjects.size()));
-          } else if (type == 3) {
+          } else if (type == MessageObject.Type.VIDEO) {
             replyObjectTextView.setText(
                 LocaleController.formatPluralString("ForwardedVideo", messageObjects.size()));
             if (messageObjects.size() == 1) {
               messageObject = messageObjects.get(0);
             }
-          } else if (type == 12) {
+          } else if (type == MessageObject.Type.CONTACT) {
             replyObjectTextView.setText(
                 LocaleController.formatPluralString("ForwardedContact", messageObjects.size()));
-          } else if (type == 2 || type == 14) {
+          } else if (type == MessageObject.Type.AUDIO || type == MessageObject.Type.DOC_AUDIO) {
             replyObjectTextView.setText(
                 LocaleController.formatPluralString("ForwardedAudio", messageObjects.size()));
-          } else if (type == 13) {
+          } else if (type == MessageObject.Type.DOC_STICKER_WEBP) {
             replyObjectTextView.setText(
                 LocaleController.formatPluralString("ForwardedSticker", messageObjects.size()));
-          } else if (type == 8 || type == 9) {
+          } else if (type == MessageObject.Type.DOC_GIF || type == MessageObject.Type.DOC_GENERIC) {
             if (messageObjects.size() == 1) {
               String name;
               if ((name =
@@ -2917,7 +2937,7 @@ public class ChatActivity extends BaseFragment
           messageObject != null
               ? FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 80)
               : null;
-      if (photoSize == null || messageObject != null && messageObject.type == 13) {
+      if (photoSize == null || messageObject != null && messageObject.type == MessageObject.Type.DOC_STICKER_WEBP) {
         replyImageView.setImageBitmap(null);
         replyImageLocation = null;
         replyImageView.setVisibility(View.INVISIBLE);
@@ -3267,9 +3287,10 @@ public class ChatActivity extends BaseFragment
           return -1;
         }
       } else {
-        if (messageObject.type == 6) {
+        if (messageObject.type == MessageObject.Type.CONTACT) {
           return -1;
-        } else if (messageObject.type == 10 || messageObject.type == 11) {
+        } else if (messageObject.type == MessageObject.Type.CHAT_ACTION_PHOTO ||
+            messageObject.type == MessageObject.Type.MSG_ACTION) {
           if (messageObject.getId() == 0) {
             return -1;
           }
@@ -3326,7 +3347,7 @@ public class ChatActivity extends BaseFragment
       if (messageObject.isSending()) {
         return -1;
       }
-      if (messageObject.type == 6) {
+      if (messageObject.type == MessageObject.Type.CONTACT) {
         return -1;
       } else if (messageObject.isSendError()) {
         if (!messageObject.isMediaEmpty()) {
@@ -3334,7 +3355,8 @@ public class ChatActivity extends BaseFragment
         } else {
           return 20;
         }
-      } else if (messageObject.type == 10 || messageObject.type == 11) {
+      } else if (messageObject.type == MessageObject.Type.CHAT_ACTION_PHOTO ||
+          messageObject.type == MessageObject.Type.MSG_ACTION) {
         if (messageObject.getId() == 0 || messageObject.isSending()) {
           return -1;
         } else {
@@ -3389,12 +3411,12 @@ public class ChatActivity extends BaseFragment
   private void addToSelectedMessages(MessageObject messageObject) {
     if (selectedMessagesIds.containsKey(messageObject.getId())) {
       selectedMessagesIds.remove(messageObject.getId());
-      if (messageObject.type == 0) {
+      if (messageObject.type == MessageObject.Type.TEXT) {
         selectedMessagesCanCopyIds.remove(messageObject.getId());
       }
     } else {
       selectedMessagesIds.put(messageObject.getId(), messageObject);
-      if (messageObject.type == 0) {
+      if (messageObject.type == MessageObject.Type.TEXT) {
         selectedMessagesCanCopyIds.put(messageObject.getId(), messageObject);
       }
     }
@@ -4039,7 +4061,7 @@ public class ChatActivity extends BaseFragment
           }
         }
 
-        if (obj.type < 0) {
+        if (obj.type.getType() < 0) {
           continue;
         }
 
@@ -4057,7 +4079,7 @@ public class ChatActivity extends BaseFragment
           dateMsg.message = LocaleController.formatDateChat(obj.messageOwner.date);
           dateMsg.id = 0;
           MessageObject dateObj = new MessageObject(dateMsg, null, false);
-          dateObj.type = 10;
+          dateObj.type = MessageObject.Type.CHAT_ACTION_PHOTO;
           dateObj.contentType = 4;
           if (load_type == 1) {
             messages.add(0, dateObj);
@@ -4080,7 +4102,8 @@ public class ChatActivity extends BaseFragment
           dateMsg.message = "";
           dateMsg.id = 0;
           MessageObject dateObj = new MessageObject(dateMsg, null, false);
-          dateObj.contentType = dateObj.type = 6;
+          dateObj.type = MessageObject.Type.DATE;
+          dateObj.contentType = dateObj.type.getType();
           boolean dateAdded = true;
           if (a != messArr.size() - 1) {
             MessageObject next = messArr.get(a + 1);
@@ -4379,8 +4402,8 @@ public class ChatActivity extends BaseFragment
             unread_to_load++;
             currentMarkAsRead = true;
           }
-          if (obj.type == MessageObject.Type.CHAT_ACTION_PHOTO.getType() ||
-              obj.type == MessageObject.Type.MSG_ACTION.getType()) {
+          if (obj.type == MessageObject.Type.CHAT_ACTION_PHOTO ||
+              obj.type == MessageObject.Type.MSG_ACTION) {
             updateChat = true;
           }
         }
@@ -4452,7 +4475,7 @@ public class ChatActivity extends BaseFragment
             dateMsg.message = LocaleController.formatDateChat(obj.messageOwner.date);
             dateMsg.id = 0;
             MessageObject dateObj = new MessageObject(dateMsg, null, false);
-            dateObj.type = 10;
+            dateObj.type = MessageObject.Type.CHAT_ACTION_PHOTO;
             dateObj.contentType = 4;
             messages.add(0, dateObj);
             addedCount++;
@@ -4472,7 +4495,8 @@ public class ChatActivity extends BaseFragment
                 dateMsg.message = "";
                 dateMsg.id = 0;
                 MessageObject dateObj = new MessageObject(dateMsg, null, false);
-                dateObj.contentType = dateObj.type = 6;
+                dateObj.type = MessageObject.Type.DATE;
+                dateObj.contentType = dateObj.type.getType();
                 messages.add(0, dateObj);
                 unreadMessageObject = dateObj;
                 scrollToMessage = unreadMessageObject;
@@ -4498,8 +4522,8 @@ public class ChatActivity extends BaseFragment
           dayArray.add(0, obj);
           messages.add(0, obj);
           addedCount++;
-          if (obj.type == MessageObject.Type.CHAT_ACTION_PHOTO.getType() ||
-              obj.type == MessageObject.Type.MSG_ACTION.getType()) {
+          if (obj.type == MessageObject.Type.CHAT_ACTION_PHOTO ||
+              obj.type == MessageObject.Type.MSG_ACTION) {
             updateChat = true;
           }
         }
@@ -4718,6 +4742,19 @@ public class ChatActivity extends BaseFragment
   public void didReceivedNotification(int id, final Object... args) {
     if (id == NotificationCenter.messagesDidLoaded) {
       processMessagesLoaded(args);
+    } else if (id == NotificationCenter.FileDidLoaded) {
+      String location = (String) args[0];
+      Log.e(TAG, "Avatar loaded at " + location);
+      if (currentUser != null && abelianAvatarPath != null &&
+          abelianAvatarPath.endsWith(location)) {
+        if (AxolotlController.getInstance().loadAbelianIdentity(currentUser)) {
+          loadingAbelianIdentity = false;
+        }
+      }
+    } else if (id == NotificationCenter.ABELIAN_IDENTITY_LOADED) {
+      AxolotlAddress address = (AxolotlAddress) args[0];
+      Log.e(TAG, "Identity for address " + address + " loaded");
+      loadingAbelianIdentity = false;
     } else if (id == NotificationCenter.emojiDidLoaded) {
       if (chatListView != null) {
         chatListView.invalidateViews();
@@ -5142,10 +5179,6 @@ public class ChatActivity extends BaseFragment
         ChatMediaCell cell = (ChatMediaCell) view;
         cell.setAllowedToSetPhoto(true);
       }
-    }
-
-    if (currentUser != null) {
-      AxolotlController.getInstance().loadAbelianAvatar(currentUser);
     }
   }
 
@@ -5828,7 +5861,7 @@ public class ChatActivity extends BaseFragment
               ArrayList<Long> random_ids = null;
               if (currentEncryptedChat != null
                   && finalSelectedObject.messageOwner.random_id != 0
-                  && finalSelectedObject.type != 10) {
+                  && finalSelectedObject.type != MessageObject.Type.CHAT_ACTION_PHOTO) {
                 random_ids = new ArrayList<>();
                 random_ids.add(finalSelectedObject.messageOwner.random_id);
               }
@@ -5875,13 +5908,13 @@ public class ChatActivity extends BaseFragment
       if (path == null || path.length() == 0) {
         path = FileLoader.getPathToMessage(selectedObject.messageOwner).toString();
       }
-      if (selectedObject.type == 3) {
+      if (selectedObject.type == MessageObject.Type.VIDEO) {
         MediaController.saveFile(path, getParentActivity(), 1, null);
-      } else if (selectedObject.type == 1) {
+      } else if (selectedObject.type == MessageObject.Type.PHOTO) {
         MediaController.saveFile(path, getParentActivity(), 0, null);
-      } else if (selectedObject.type == 8
-          || selectedObject.type == 9
-          || selectedObject.type == 14) {
+      } else if (selectedObject.type == MessageObject.Type.DOC_GIF
+          || selectedObject.type == MessageObject.Type.DOC_GENERIC
+          || selectedObject.type == MessageObject.Type.DOC_AUDIO) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType(selectedObject.messageOwner.media.document.mime_type);
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(path)));
@@ -5932,7 +5965,9 @@ public class ChatActivity extends BaseFragment
       if (path == null || path.length() == 0) {
         path = FileLoader.getPathToMessage(selectedObject.messageOwner).toString();
       }
-      if (selectedObject.type == 8 || selectedObject.type == 9 || selectedObject.type == 14) {
+      if (selectedObject.type == MessageObject.Type.DOC_GIF ||
+          selectedObject.type == MessageObject.Type.DOC_GENERIC ||
+          selectedObject.type == MessageObject.Type.DOC_AUDIO) {
         if (option == 6) {
           Intent intent = new Intent(Intent.ACTION_SEND);
           intent.setType(selectedObject.messageOwner.media.document.mime_type);
@@ -6126,7 +6161,7 @@ public class ChatActivity extends BaseFragment
     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
     builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-    if (message.type == 3) {
+    if (message.type == MessageObject.Type.VIDEO) {
       builder.setMessage(
           LocaleController.getString("NoPlayerInstalled", R.string.NoPlayerInstalled));
     } else {
@@ -6407,10 +6442,10 @@ public class ChatActivity extends BaseFragment
                       } else if (message.isSending()) {
                         return;
                       }
-                      if (message.type == MessageObject.Type.MEDIA_PHOTO.getType()) {
+                      if (message.type == MessageObject.Type.PHOTO) {
                         PhotoViewer.getInstance().setParentActivity(getParentActivity());
                         PhotoViewer.getInstance().openPhoto(message, ChatActivity.this);
-                      } else if (message.type == MessageObject.Type.MEDIA_VIDEO.getType()) {
+                      } else if (message.type == MessageObject.Type.VIDEO) {
                         sendSecretMessageRead(message);
                         try {
                           File f = null;
@@ -6427,14 +6462,14 @@ public class ChatActivity extends BaseFragment
                         } catch (Exception e) {
                           alertUserOpenError(message);
                         }
-                      } else if (message.type == MessageObject.Type.MEDIA_VENUE.getType()) {
+                      } else if (message.type == MessageObject.Type.LOCATION) {
                         if (!isGoogleMapsInstalled()) {
                           return;
                         }
                         LocationActivity fragment = new LocationActivity();
                         fragment.setMessageObject(message);
                         presentFragment(fragment);
-                      } else if (message.type == MessageObject.Type.DOC_GENERIC.getType()) {
+                      } else if (message.type == MessageObject.Type.DOC_GENERIC) {
                         File f = null;
                         String fileName = message.getFileName();
                         if (message.messageOwner.attachPath != null
@@ -6448,8 +6483,8 @@ public class ChatActivity extends BaseFragment
                           String realMimeType = null;
                           try {
                             Intent intent = new Intent(Intent.ACTION_VIEW);
-                            if (message.type == MessageObject.Type.DOC_GIF.getType() ||
-                                message.type == MessageObject.Type.DOC_GENERIC.getType()) {
+                            if (message.type == MessageObject.Type.DOC_GIF ||
+                                message.type == MessageObject.Type.DOC_GENERIC) {
                               MimeTypeMap myMime = MimeTypeMap.getSingleton();
                               int idx = fileName.lastIndexOf(".");
                               if (idx != -1) {

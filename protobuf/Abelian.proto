@@ -11,10 +11,6 @@ message AbelianIdentity {
     optional bytes signedPreKeySignature = 4;
 }
 
-message AbelianIdentityStructure {
-    repeated AbelianIdentity identities = 1;
-}
-
 message AbelianEnvelope {
     enum Type {
         UNKNOWN = 0;

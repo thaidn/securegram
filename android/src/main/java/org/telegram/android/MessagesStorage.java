@@ -111,7 +111,7 @@ public class MessagesStorage {
             .dispose();
         database
             .executeFast(
-                "CREATE TABLE identities(uid INTEGER, device_id INTEGER, identity_key TEXT, PRIMARY KEY (uid, device_id))")
+                "CREATE TABLE identities(uid INTEGER PRIMARY KEY, identity_key TEXT)")
             .stepThis()
             .dispose();
         database

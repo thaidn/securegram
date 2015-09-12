@@ -283,7 +283,7 @@ public class MediaActivity extends BaseFragment
                             selectedFiles.entrySet()) {
                           MessageObject msg = entry.getValue();
                           if (msg.messageOwner.random_id != 0 &&
-                              msg.type != MessageObject.Type.CHAT_ACTION_PHOTO.getType()) {
+                              msg.type != MessageObject.Type.CHAT_ACTION_PHOTO) {
                             random_ids.add(msg.messageOwner.random_id);
                           }
                         }

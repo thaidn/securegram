@@ -5,6 +5,7 @@ import android.util.Log;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLitePreparedStatement;
 import org.telegram.android.MessagesStorage;
+import org.telegram.android.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.whispersystems.libaxolotl.AxolotlAddress;
 import org.whispersystems.libaxolotl.state.SessionRecord;
@@ -31,7 +32,7 @@ public class AbelianSessionStore extends MessagesStorage implements SessionStore
                   "SELECT session_record FROM sessions WHERE uid = %d AND device_id = %d",
                   Integer.valueOf(address.getName()), address.getDeviceId()));
       while (cursor != null && cursor.next()) {
-        byte     serializedSessionRecord[] = cursor.stringValue(0).getBytes("UTF-8");
+        byte serializedSessionRecord[] = cursor.stringValue(0).getBytes("UTF-8");
         cursor.dispose();
         return new SessionRecord(Utilities.base64DecodeBytes(serializedSessionRecord));
       }
@@ -87,8 +88,11 @@ public class AbelianSessionStore extends MessagesStorage implements SessionStore
               state.step();
               state.dispose();
               getDatabase().commitTransaction();
+              Log.e(TAG, "Session of " + address + " stored");
+              NotificationCenter.getInstance()
+                  .postNotificationName(NotificationCenter.ABELIAN_IDENTITY_LOADED, address);
             } catch (Exception e) {
-              Log.e(TAG, "Cannot store session of " + address.toString(), e);
+              Log.e(TAG, "Cannot store session of " + address, e);
             }
           }
         });

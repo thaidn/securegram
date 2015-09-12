@@ -86,7 +86,7 @@ public class ChatActionCell extends BaseCell {
     }
     currentMessageObject = messageObject;
     previousWidth = 0;
-    if (currentMessageObject.type == 11) {
+    if (currentMessageObject.type == MessageObject.Type.MSG_ACTION) {
       int id = 0;
       if (messageObject.messageOwner.to_id != null) {
         if (messageObject.messageOwner.to_id.chat_id != 0) {
@@ -148,7 +148,7 @@ public class ChatActionCell extends BaseCell {
     boolean result = false;
     if (event.getAction() == MotionEvent.ACTION_DOWN) {
       if (delegate != null) {
-        if (currentMessageObject.type == 11 && imageReceiver.isInsideImage(x, y)) {
+        if (currentMessageObject.type == MessageObject.Type.MSG_ACTION && imageReceiver.isInsideImage(x, y)) {
           imagePressed = true;
           result = true;
         }
@@ -266,7 +266,7 @@ public class ChatActionCell extends BaseCell {
       textY = AndroidUtilities.dp(7);
       textXLeft = (width - textLayout.getWidth()) / 2;
 
-      if (currentMessageObject.type == 11) {
+      if (currentMessageObject.type == MessageObject.Type.MSG_ACTION) {
         imageReceiver.setImageCoords(
             (width - AndroidUtilities.dp(64)) / 2,
             textHeight + AndroidUtilities.dp(15),
@@ -275,7 +275,7 @@ public class ChatActionCell extends BaseCell {
       }
     }
     setMeasuredDimension(
-        width, textHeight + AndroidUtilities.dp(14 + (currentMessageObject.type == 11 ? 70 : 0)));
+        width, textHeight + AndroidUtilities.dp(14 + (currentMessageObject.type == MessageObject.Type.MSG_ACTION ? 70 : 0)));
   }
 
   @Override
@@ -297,7 +297,7 @@ public class ChatActionCell extends BaseCell {
         AndroidUtilities.dp(9) + textHeight);
     backgroundDrawable.draw(canvas);
 
-    if (currentMessageObject.type == 11) {
+    if (currentMessageObject.type == MessageObject.Type.MSG_ACTION) {
       imageReceiver.draw(canvas);
     }
 

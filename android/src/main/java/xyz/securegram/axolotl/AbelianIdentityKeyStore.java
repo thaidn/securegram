@@ -47,11 +47,10 @@ public class AbelianIdentityKeyStore extends MessagesStorage implements Identity
             try {
               getDatabase().beginTransaction();
               SQLitePreparedStatement state =
-                  getDatabase().executeFast("REPLACE INTO identities VALUES(?, ?, ?)");
+                  getDatabase().executeFast("REPLACE INTO identities VALUES(?, ?)");
               state.requery();
               state.bindInteger(1, Integer.valueOf(address.getName()));
-              state.bindInteger(2, address.getDeviceId());
-              state.bindString(3, Utilities.base64EncodeBytes(identityKey.serialize()));
+              state.bindString(2, Utilities.base64EncodeBytes(identityKey.serialize()));
               state.step();
               state.dispose();
               getDatabase().commitTransaction();
@@ -69,8 +68,8 @@ public class AbelianIdentityKeyStore extends MessagesStorage implements Identity
       cursor =
           getDatabase().queryFinalized(
               String.format(Locale.US,
-                  "SELECT identity_key FROM identities WHERE uid = %d AND device_id = %d",
-                  Integer.valueOf(address.getName()), address.getDeviceId()));
+                  "SELECT identity_key FROM identities WHERE uid = %d",
+                  Integer.valueOf(address.getName())));
       while (cursor != null && cursor.next()) {
         byte serializedIdentity[] = cursor.stringValue(0).getBytes("UTF-8");
         IdentityKey ourIdentity = new IdentityKey(
