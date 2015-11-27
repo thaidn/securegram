@@ -4317,8 +4317,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
         pushMessages.add(obj);
       } else if (update instanceof TLRPC.TL_updatePrivacy) {
         updatesOnMainThread.add(update);
-      } else if (update instanceof TLRPC.TL_updateWebPage) {
-        webPages.put(update.webpage.id, update.webpage);
       }
     }
     if (!messages.isEmpty()) {
@@ -4509,11 +4507,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
               MessagesStorage.getInstance().updateUsers(dbUsers, false, true, true);
             }
 
-            if (!webPages.isEmpty()) {
-              NotificationCenter.getInstance()
-                  .postNotificationName(NotificationCenter.didReceivedWebpagesInUpdates, webPages);
-            }
-
             if (!messages.isEmpty()) {
               for (HashMap.Entry<Long, ArrayList<MessageObject>> entry : messages.entrySet()) {
                 Long key = entry.getKey();
@@ -4633,9 +4626,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
               }
             });
 
-    if (!webPages.isEmpty()) {
-      MessagesStorage.getInstance().putWebPages(webPages);
-    }
     if (!markAsReadMessagesInbox.isEmpty()
         || !markAsReadMessagesOutbox.isEmpty()
         || !markAsReadEncrypted.isEmpty()) {

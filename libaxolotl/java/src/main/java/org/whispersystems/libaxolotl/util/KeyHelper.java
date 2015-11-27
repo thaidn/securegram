@@ -46,6 +46,27 @@ public class KeyHelper {
     }
   }
 
+  /**
+   * Generate a registration ID.  Clients should only do this once,
+   * at install time.
+   *
+   * @param extendedRange By default (false), the generated registration
+   *                      ID is sized to require the minimal possible protobuf
+   *                      encoding overhead. Specify true if the caller needs
+   *                      the full range of MAX_INT at the cost of slightly
+   *                      higher encoding overhead.
+   * @return the generated registration ID.
+   */
+  public static int generateDeviceId(boolean extendedRange) {
+    try {
+      SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+      if (extendedRange) return secureRandom.nextInt(Integer.MAX_VALUE - 1) + 1;
+      else               return secureRandom.nextInt(16380) + 1;
+    } catch (NoSuchAlgorithmException e) {
+      throw new AssertionError(e);
+    }
+  }
+
   public static int getRandomSequence(int max) {
     try {
       return SecureRandom.getInstance("SHA1PRNG").nextInt(max);

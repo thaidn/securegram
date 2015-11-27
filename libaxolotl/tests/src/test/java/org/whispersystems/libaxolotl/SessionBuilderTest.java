@@ -27,7 +27,7 @@ public class SessionBuilderTest extends TestCase {
     AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
-    final AxolotlStore bobStore                 = new TestInMemoryAxolotlStore();
+    final AxolotlStore bobStore        = new TestInMemoryAxolotlStore();
 
     PreKeyBundle bobPreKey = new PreKeyBundle(bobStore.getLocalDeviceId(),
         bobStore.getSignedPreKeyRecord().getKeyPair().getPublicKey(),
@@ -37,7 +37,7 @@ public class SessionBuilderTest extends TestCase {
     aliceSessionBuilder.process(bobPreKey);
 
     assertTrue(aliceStore.containsSession(BOB_ADDRESS));
-    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
+    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 4);
 
     final String            originalMessage    = "L'homme est condamné à être libre";
           SessionCipher     aliceSessionCipher = new SessionCipher(aliceStore, BOB_ADDRESS);
@@ -57,7 +57,7 @@ public class SessionBuilderTest extends TestCase {
     });
 
     assertTrue(bobStore.containsSession(ALICE_ADDRESS));
-    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
+    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 4);
     assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getAliceBaseKey() != null);
     assertTrue(originalMessage.equals(new String(plaintext)));
 

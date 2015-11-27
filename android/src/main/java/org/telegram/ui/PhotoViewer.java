@@ -2587,7 +2587,7 @@ public class PhotoViewer
                       && ((MediaController.SearchImage) obj).type == 0
               ? View.VISIBLE
               : View.GONE);
-      if (parentChatActivity != null && parentChatActivity.currentEncryptedChat == null) {
+      if (parentChatActivity != null) {
         mentionsAdapter.setChatInfo(parentChatActivity.info);
         mentionsAdapter.setNeedUsernames(parentChatActivity.currentChat != null);
         captionItem.setVisibility(cropItem.getVisibility());

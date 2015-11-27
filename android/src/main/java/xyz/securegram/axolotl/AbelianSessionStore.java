@@ -4,8 +4,12 @@ import android.util.Log;
 
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLitePreparedStatement;
+import org.telegram.android.AndroidUtilities;
 import org.telegram.android.MessagesStorage;
 import org.telegram.android.NotificationCenter;
+import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.FileLog;
+import org.telegram.messenger.TLObject;
 import org.telegram.messenger.Utilities;
 import org.whispersystems.libaxolotl.AxolotlAddress;
 import org.whispersystems.libaxolotl.state.SessionRecord;
@@ -14,61 +18,107 @@ import org.whispersystems.libaxolotl.state.SessionStore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Semaphore;
 
 public class AbelianSessionStore extends MessagesStorage implements SessionStore {
-  private static final String TAG = AbelianIdentityKeyStore.class.getName();
+  private static final String TAG = AbelianSessionStore.class.getName();
 
   public AbelianSessionStore() {
     super();
   }
 
   @Override
-  public SessionRecord loadSession(AxolotlAddress address) {
-    SQLiteCursor cursor = null;
+  public SessionRecord loadSession(final AxolotlAddress address) {
+    Semaphore semaphore = new Semaphore(0);
+    ArrayList<SessionRecord> result = new ArrayList<>();
+    loadSession(address, semaphore, result);
     try {
-      cursor =
-          getDatabase().queryFinalized(
-              String.format(Locale.US,
-                  "SELECT session_record FROM sessions WHERE uid = %d AND device_id = %d",
-                  Integer.valueOf(address.getName()), address.getDeviceId()));
-      while (cursor != null && cursor.next()) {
-        byte serializedSessionRecord[] = cursor.stringValue(0).getBytes("UTF-8");
-        cursor.dispose();
-        return new SessionRecord(Utilities.base64DecodeBytes(serializedSessionRecord));
-      }
+      semaphore.acquire();
     } catch (Exception e) {
       Log.e(TAG, "Cannot load session of " + address.toString(), e);
-    } finally {
-      if (cursor != null) {
-        cursor.dispose();
-      }
+    }
+    if (result.size() == 1) {
+      return result.get(0);
     }
     return new SessionRecord();
   }
 
+  private void loadSession(final AxolotlAddress address, final Semaphore semaphore,
+                           final ArrayList<SessionRecord> result) {
+    if (semaphore == null || result == null) {
+      return;
+    }
+
+    getStorageQueue().postRunnable(
+        new Runnable() {
+          @Override
+          public void run() {
+            SQLiteCursor cursor = null;
+            try {
+              cursor =
+                  getDatabase().queryFinalized(
+                      String.format(Locale.US,
+                          "SELECT session_record FROM sessions WHERE uid = %d AND device_id = %d",
+                          Integer.valueOf(address.getName()), address.getDeviceId()));
+              while (cursor != null && cursor.next()) {
+                byte serializedSessionRecord[] = cursor.stringValue(0).getBytes("UTF-8");
+                result.add(new SessionRecord(Utilities.base64DecodeBytes(serializedSessionRecord)));
+              }
+            } catch (Exception e) {
+              Log.e(TAG, "Cannot load session of " + address.toString(), e);
+            } finally {
+              if (cursor != null) {
+                cursor.dispose();
+              }
+              semaphore.release();
+            }
+          }
+        });
+  }
+
   @Override
   public List<Integer> getSubDeviceSessions(String name) {
-    SQLiteCursor cursor = null;
+    Semaphore semaphore = new Semaphore(0);
+    ArrayList<Integer> result = new ArrayList<>();
+    getSubDeviceSessions(name, semaphore, result);
     try {
-      cursor =
-          getDatabase().queryFinalized(
-              String.format(Locale.US,
-                  "SELECT device_id FROM sessions WHERE uid = %d",
-                  Integer.valueOf(name)));
-      ArrayList<Integer> devices = new ArrayList<Integer>();
-      while (cursor != null && cursor.next()) {
-        devices.add(cursor.intValue(0));
-      }
-      cursor.dispose();
-      return devices;
+      semaphore.acquire();
     } catch (Exception e) {
       Log.e(TAG, "Cannot get device ids of " + name, e);
-    } finally {
-      if (cursor != null) {
-        cursor.dispose();
-      }
     }
-    return null;
+    return result;
+  }
+
+  private void getSubDeviceSessions(final String name, final Semaphore semaphore,
+                                    final ArrayList<Integer> result) {
+    if (semaphore == null || result == null) {
+      return;
+    }
+
+    getStorageQueue().postRunnable(
+        new Runnable() {
+          @Override
+          public void run() {
+            SQLiteCursor cursor = null;
+            try {
+              cursor =
+                  getDatabase().queryFinalized(
+                      String.format(Locale.US,
+                          "SELECT device_id FROM sessions WHERE uid = %d",
+                          Integer.valueOf(name)));
+              while (cursor != null && cursor.next()) {
+                result.add(cursor.intValue(0));
+              }
+            } catch (Exception e) {
+              Log.e(TAG, "Cannot get device ids of " + name, e);
+            } finally {
+              if (cursor != null) {
+                cursor.dispose();
+              }
+              semaphore.release();
+            }
+          }
+        });
   }
 
   @Override
@@ -89,8 +139,15 @@ public class AbelianSessionStore extends MessagesStorage implements SessionStore
               state.dispose();
               getDatabase().commitTransaction();
               Log.e(TAG, "Session of " + address + " stored");
-              NotificationCenter.getInstance()
-                  .postNotificationName(NotificationCenter.ABELIAN_IDENTITY_LOADED, address);
+              AndroidUtilities.runOnUIThread(
+                  new Runnable() {
+                    @Override
+                    public void run() {
+                      NotificationCenter.getInstance()
+                          .postNotificationName(NotificationCenter.ABELIAN_IDENTITY_LOADED,
+                              address);
+                    }
+                  });
             } catch (Exception e) {
               Log.e(TAG, "Cannot store session of " + address, e);
             }
@@ -100,25 +157,8 @@ public class AbelianSessionStore extends MessagesStorage implements SessionStore
 
   @Override
   public boolean containsSession(AxolotlAddress address) {
-    SQLiteCursor cursor = null;
-    try {
-      cursor =
-          getDatabase().queryFinalized(
-              String.format(Locale.US,
-                  "SELECT session_record FROM sessions WHERE uid = %d AND device_id = %d",
-                  Integer.valueOf(address.getName()), address.getDeviceId()));
-      if (cursor != null && cursor.next()) {
-        cursor.dispose();
-        return true;
-      }
-    } catch (Exception e) {
-      Log.e(TAG, "Cannot check existence of session of " + address.toString(), e);
-    } finally {
-      if (cursor != null) {
-        cursor.dispose();
-      }
-    }
-    return false;
+    SessionRecord record = loadSession(address);
+    return !record.isFresh();
   }
 
   @Override
@@ -136,7 +176,7 @@ public class AbelianSessionStore extends MessagesStorage implements SessionStore
                   .stepThis()
                   .dispose();
             } catch (Exception e) {
-              Log.e(TAG, "Cannot delete session of " + address.toString(), e);
+              Log.e(TAG, "Cannot delete session of " + address, e);
             }
           }
         });

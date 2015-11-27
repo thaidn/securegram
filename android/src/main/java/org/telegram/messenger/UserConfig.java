@@ -101,7 +101,7 @@ public class UserConfig {
     }
   }
 
-  public static void saveIdentity() {
+  public static void saveAbelianIdentity() {
     synchronized (sync) {
       try {
         SharedPreferences preferences =
@@ -111,12 +111,12 @@ public class UserConfig {
 
         if (identityKeyPair != null) {
           editor.putString("identityKeyPair",
-              Base64.encodeToString(identityKeyPair.serialize(), Base64.DEFAULT));
+              Utilities.base64EncodeBytes(identityKeyPair.serialize()));
         }
 
         if (signedPreKeyRecord != null) {
           editor.putString("signedPreKeyRecord",
-              Base64.encodeToString(signedPreKeyRecord.serialize(), Base64.DEFAULT));
+              Utilities.base64EncodeBytes(signedPreKeyRecord.serialize()));
         }
 
         if (deviceId != 0) {
@@ -195,14 +195,16 @@ public class UserConfig {
 
     registeredForAbelian = preferences.getBoolean("registeredForAbelian", false);
 
-    identityKeyPair = KeyHelper.generateIdentityKeyPair();
     String identity = preferences.getString("identityKeyPair", "");
     if (identity.length() > 0) {
       try {
-        identityKeyPair = new IdentityKeyPair(Base64.decode(identity, Base64.DEFAULT));
+        identityKeyPair = new IdentityKeyPair(
+            Utilities.base64DecodeBytes(identity.getBytes("UTF-8")));
       } catch (Exception e) {
         ; // we are in deep shit.
       }
+    } else {
+      identityKeyPair = KeyHelper.generateIdentityKeyPair();
     }
 
     deviceId = preferences.getInt("deviceId", 0);
@@ -210,18 +212,20 @@ public class UserConfig {
       deviceId = KeyHelper.generateDeviceId();
     }
 
-    try {
-      signedPreKeyRecord = KeyHelper.generateSignedPreKey(
-          identityKeyPair);
-    } catch (Exception e) {
-      signedPreKeyRecord = null;
-    }
     String signedPreKey = preferences.getString("signedPreKeyRecord", "");
     if (signedPreKey.length() > 0) {
       try {
-        signedPreKeyRecord = new SignedPreKeyRecord(Base64.decode(signedPreKey, Base64.DEFAULT));
+        signedPreKeyRecord = new SignedPreKeyRecord(
+            Utilities.base64DecodeBytes(signedPreKey.getBytes("UTF-8")));
       } catch (Exception e) {
         ; // we are in deep shit.
+      }
+    } else {
+      try {
+        signedPreKeyRecord = KeyHelper.generateSignedPreKey(
+            identityKeyPair);
+      } catch (Exception e) {
+        signedPreKeyRecord = null;
       }
     }
   }

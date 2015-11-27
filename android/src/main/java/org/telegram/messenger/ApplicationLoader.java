@@ -42,6 +42,7 @@ import org.telegram.ui.components.ForegroundDetector;
 
 import xyz.securegram.R;
 import xyz.securegram.axolotl.AxolotlController;
+import xyz.securegram.axolotl.ExportDatabaseFileTask;
 
 import java.io.File;
 
@@ -175,6 +176,7 @@ public class ApplicationLoader extends Application {
     MediaController.getInstance();
 
     applicationInited = true;
+    new ExportDatabaseFileTask().execute("");
   }
 
   @Override

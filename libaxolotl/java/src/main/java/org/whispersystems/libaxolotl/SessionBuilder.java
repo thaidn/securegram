@@ -260,8 +260,7 @@ public class SessionBuilder {
   }
 
   private void processResponse(KeyExchangeMessage message)
-      throws StaleKeyExchangeException, InvalidKeyException
-  {
+      throws StaleKeyExchangeException, InvalidKeyException {
     SessionRecord sessionRecord                  = sessionStore.loadSession(remoteAddress);
     SessionState  sessionState                   = sessionRecord.getSessionState();
     boolean       hasPendingKeyExchange          = sessionState.hasPendingKeyExchange();
@@ -314,7 +313,8 @@ public class SessionBuilder {
         ECKeyPair       baseKey          = Curve.generateKeyPair();
         ECKeyPair       ratchetKey       = Curve.generateKeyPair();
         IdentityKeyPair identityKey      = identityKeyStore.getIdentityKeyPair();
-        byte[]          baseKeySignature = Curve.calculateSignature(identityKey.getPrivateKey(), baseKey.getPublicKey().serialize());
+        byte[]          baseKeySignature = Curve.calculateSignature(identityKey.getPrivateKey(),
+            baseKey.getPublicKey().serialize());
         SessionRecord   sessionRecord    = sessionStore.loadSession(remoteAddress);
 
         sessionRecord.getSessionState().setPendingKeyExchange(sequence, baseKey, ratchetKey, identityKey);

@@ -24,8 +24,8 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Vector;
 
-public class QrCode {
-  private static final String TAG = QrCode.class.getName();
+public class QRCode {
+  private static final String TAG = QRCode.class.getName();
   private static final int WHITE = 0xFFFFFFFF;
   private static final int BLACK = 0xFF000000;
 
@@ -39,7 +39,6 @@ public class QrCode {
   public static Bitmap encodeAsBitmap(String content, int dimension) throws WriterException {
     Map<EncodeHintType, Object> hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
     hints.put(EncodeHintType.CHARACTER_SET, ENCODING);
-
     MultiFormatWriter writer = new MultiFormatWriter();
     BitMatrix result = writer.encode(content, FORMAT, dimension, dimension, hints);
     int width = result.getWidth();
@@ -56,6 +55,7 @@ public class QrCode {
 
     Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
     bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
     return bitmap;
   }
 
@@ -64,35 +64,40 @@ public class QrCode {
       FileInputStream is = new FileInputStream(filePath);
       Bitmap bitmap = BitmapFactory.decodeStream(is);
       if (bitmap == null) {
-        Log.e(TAG, "filePath is not a bitmap," + filePath);
+        Log.e(TAG, "FilePath is not a bitmap: " + filePath);
         return null;
       }
-      int width = bitmap.getWidth(), height = bitmap.getHeight();
-      int[] pixels = new int[width * height];
-      bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
-      bitmap.recycle();
-      bitmap = null;
-      RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
-      BinaryBitmap bBitmap = new BinaryBitmap(new HybridBinarizer(source));
-      Map<DecodeHintType, Object> hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
-      hints.put(DecodeHintType.CHARACTER_SET, ENCODING);
-      Vector<BarcodeFormat> formats = new Vector<BarcodeFormat>();
-      formats.add(BarcodeFormat.QR_CODE);
-      hints.put(DecodeHintType.POSSIBLE_FORMATS, formats);
-      MultiFormatReader reader = new MultiFormatReader();
-      reader.setHints(hints);
-      try {
-        Result result = reader.decode(bBitmap);
-        return result.getText();
-      } catch (NotFoundException e) {
-        Log.e(TAG, "decode exception", e);
-        return null;
-      } finally {
-        reader.reset();
-      }
+      return decodeAsString(bitmap);
     } catch (FileNotFoundException e) {
-      Log.e(TAG, "can not open file" + filePath, e);
+      Log.e(TAG, "Cannot open file: " + filePath, e);
       return null;
+    }
+  }
+
+  public static String decodeAsString(Bitmap bitmap) {
+    int width = bitmap.getWidth(), height = bitmap.getHeight();
+    int[] pixels = new int[width * height];
+    bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+    bitmap.recycle();
+    RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
+    BinaryBitmap bBitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+    Map<DecodeHintType, Object> hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
+    hints.put(DecodeHintType.CHARACTER_SET, ENCODING);
+    Vector<BarcodeFormat> formats = new Vector<BarcodeFormat>();
+    formats.add(BarcodeFormat.QR_CODE);
+    hints.put(DecodeHintType.POSSIBLE_FORMATS, formats);
+
+    MultiFormatReader reader = new MultiFormatReader();
+    reader.setHints(hints);
+    try {
+      Result result = reader.decode(bBitmap);
+      return result.getText();
+    } catch (NotFoundException e) {
+      Log.e(TAG, "Decode exception", e);
+      return null;
+    } finally {
+      reader.reset();
     }
   }
 }

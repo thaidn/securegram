@@ -57,8 +57,8 @@ public class SimultaneousInitiateTests extends TestCase {
     assertTrue(new String(alicePlaintext).equals("sample message"));
     assertTrue(new String(bobPlaintext).equals("hey there"));
 
-    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
-    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
+    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 4);
+    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 4);
 
     assertFalse(isSessionIdEqual(aliceStore, bobStore));
 
@@ -108,7 +108,7 @@ public class SimultaneousInitiateTests extends TestCase {
     byte[] bobPlaintext   = bobSessionCipher.decrypt(new PreKeyWhisperMessage(messageForBob.serialize()));
 
     assertTrue(new String(bobPlaintext).equals("hey there"));
-    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
+    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 4);
 
     CiphertextMessage aliceResponse = aliceSessionCipher.encrypt("second message".getBytes());
 
@@ -163,8 +163,8 @@ public class SimultaneousInitiateTests extends TestCase {
     assertTrue(new String(alicePlaintext).equals("sample message"));
     assertTrue(new String(bobPlaintext).equals("hey there"));
 
-    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
-    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
+    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 4);
+    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 4);
 
     assertFalse(isSessionIdEqual(aliceStore, bobStore));
 
@@ -222,8 +222,8 @@ public class SimultaneousInitiateTests extends TestCase {
     assertTrue(new String(alicePlaintext).equals("sample message"));
     assertTrue(new String(bobPlaintext).equals("hey there"));
 
-    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
-    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
+    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 4);
+    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 4);
 
     assertFalse(isSessionIdEqual(aliceStore, bobStore));
 
@@ -300,8 +300,8 @@ public class SimultaneousInitiateTests extends TestCase {
       assertTrue(new String(alicePlaintext).equals("sample message"));
       assertTrue(new String(bobPlaintext).equals("hey there"));
 
-      assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
-      assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
+      assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 4);
+      assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 4);
 
       assertFalse(isSessionIdEqual(aliceStore, bobStore));
     }
@@ -388,8 +388,8 @@ public class SimultaneousInitiateTests extends TestCase {
       assertTrue(new String(alicePlaintext).equals("sample message"));
       assertTrue(new String(bobPlaintext).equals("hey there"));
 
-      assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
-      assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
+      assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 4);
+      assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 4);
 
       assertFalse(isSessionIdEqual(aliceStore, bobStore));
     }

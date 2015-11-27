@@ -30,7 +30,11 @@ public abstract class HKDF {
 
   public static HKDF createFor(int messageVersion) {
     switch (messageVersion) {
-      case 4:  return new HKDFv3();
+      case 2:
+        return new HKDFv2();
+      case 3:
+      case 4:
+        return new HKDFv3();
       default: throw new AssertionError("Unknown version: " + messageVersion);
     }
   }

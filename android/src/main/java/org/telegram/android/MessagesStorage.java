@@ -1986,8 +1986,6 @@ public class MessagesStorage {
             int last_message_id = 0;
             int first_message_id = 0;
             int max_unread_date = 0;
-            int hole_start = Integer.MAX_VALUE;
-            int hole_end = Integer.MAX_VALUE;
             try {
               ArrayList<Integer> loadedUsers = new ArrayList<>();
               ArrayList<Integer> fromUser = new ArrayList<>();
@@ -1998,6 +1996,11 @@ public class MessagesStorage {
               int lower_id = (int) dialog_id;
 
               if (lower_id != 0) {
+                switch (load_type) {
+                  case 3:
+
+                    break;
+                }
                 if (load_type == 3) {
                   cursor =
                       database.queryFinalized(
@@ -2021,6 +2024,7 @@ public class MessagesStorage {
                   }
                   cursor.dispose();
 
+                  cursor = null;
                   if (containMessage) {
                     cursor =
                         database.queryFinalized(
@@ -2034,8 +2038,6 @@ public class MessagesStorage {
                                 dialog_id,
                                 max_id,
                                 count_query / 2 - 1));
-                  } else {
-                    cursor = null;
                   }
                 } else if (load_type == 1) {
                   cursor =
@@ -3151,96 +3153,6 @@ public class MessagesStorage {
       return 0;
     }
     return -1;
-  }
-
-  public void putWebPages(final HashMap<Long, TLRPC.WebPage> webPages) {
-    if (webPages == null || webPages.isEmpty()) {
-      return;
-    }
-    storageQueue.postRunnable(
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
-              String ids = TextUtils.join(",", webPages.keySet());
-              SQLiteCursor cursor =
-                  database.queryFinalized(
-                      String.format(
-                          Locale.US, "SELECT mid FROM webpage_pending WHERE id IN (%s)", ids));
-              ArrayList<Integer> mids = new ArrayList<>();
-              while (cursor.next()) {
-                mids.add(cursor.intValue(0));
-              }
-              cursor.dispose();
-
-              if (mids.isEmpty()) {
-                return;
-              }
-              final ArrayList<TLRPC.Message> messages = new ArrayList<>();
-              cursor =
-                  database.queryFinalized(
-                      String.format(
-                          Locale.US,
-                          "SELECT mid, data FROM messages WHERE mid IN (%s)",
-                          TextUtils.join(",", mids)));
-              while (cursor.next()) {
-                int mid = cursor.intValue(0);
-                ByteBufferDesc data = buffersStorage.getFreeBuffer(cursor.byteArrayLength(1));
-                if (data != null && cursor.byteBufferValue(1, data.buffer) != 0) {
-                  TLRPC.Message message =
-                      TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
-                  if (message.media instanceof TLRPC.TL_messageMediaWebPage) {
-                    message.id = mid;
-                    message.media.webpage = webPages.get(message.media.webpage.id);
-                    messages.add(message);
-                  }
-                }
-                buffersStorage.reuseFreeBuffer(data);
-              }
-              cursor.dispose();
-
-              database
-                  .executeFast(
-                      String.format(Locale.US, "DELETE FROM webpage_pending WHERE id IN (%s)", ids))
-                  .stepThis()
-                  .dispose();
-
-              if (messages.isEmpty()) {
-                return;
-              }
-
-              database.beginTransaction();
-
-              SQLitePreparedStatement state =
-                  database.executeFast("UPDATE messages SET data = ? WHERE mid = ?");
-              for (TLRPC.Message message : messages) {
-                ByteBufferDesc data = buffersStorage.getFreeBuffer(message.getObjectSize());
-                message.serializeToStream(data);
-
-                state.requery();
-                state.bindByteBuffer(1, data.buffer);
-                state.bindInteger(2, message.id);
-                state.step();
-
-                buffersStorage.reuseFreeBuffer(data);
-              }
-              state.dispose();
-
-              database.commitTransaction();
-
-              AndroidUtilities.runOnUIThread(
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      NotificationCenter.getInstance()
-                          .postNotificationName(NotificationCenter.didReceivedWebpages, messages);
-                    }
-                  });
-            } catch (Exception e) {
-              FileLog.e("tmessages", e);
-            }
-          }
-        });
   }
 
   private void putMessagesInternal(

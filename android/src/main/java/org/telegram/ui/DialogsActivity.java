@@ -397,15 +397,6 @@ public class DialogsActivity extends BaseFragment
                   actionBar.closeSearchField();
                 }
               }
-              if (AndroidUtilities.isTablet()) {
-                if (openedDialogId == dialog_id && adapter != dialogsSearchAdapter) {
-                  return;
-                }
-                if (dialogsAdapter != null) {
-                  dialogsAdapter.setOpenedDialogId(openedDialogId = dialog_id);
-                  updateVisibleRows(MessagesController.UPDATE_MASK_SELECT_DIALOG);
-                }
-              }
               if (searchString != null) {
                 NotificationCenter.getInstance()
                     .postNotificationName(NotificationCenter.closeChats);
