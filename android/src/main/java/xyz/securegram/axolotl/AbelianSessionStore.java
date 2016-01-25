@@ -15,20 +15,35 @@ import org.whispersystems.libaxolotl.AxolotlAddress;
 import org.whispersystems.libaxolotl.state.SessionRecord;
 import org.whispersystems.libaxolotl.state.SessionStore;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 public class AbelianSessionStore extends MessagesStorage implements SessionStore {
+
   private static final String TAG = AbelianSessionStore.class.getName();
+
+  private Map<AxolotlAddress, byte[]> sessions = new HashMap<>();
 
   public AbelianSessionStore() {
     super();
   }
 
   @Override
-  public SessionRecord loadSession(final AxolotlAddress address) {
+  public synchronized SessionRecord loadSession(final AxolotlAddress address) {
+    try {
+      if (sessions.containsKey(address)) {
+        return new SessionRecord(sessions.get(address));
+      }
+    } catch (IOException e) {
+      ;
+    }
+
     Semaphore semaphore = new Semaphore(0);
     ArrayList<SessionRecord> result = new ArrayList<>();
     loadSession(address, semaphore, result);
@@ -77,7 +92,20 @@ public class AbelianSessionStore extends MessagesStorage implements SessionStore
   }
 
   @Override
-  public List<Integer> getSubDeviceSessions(String name) {
+  public synchronized List<Integer> getSubDeviceSessions(String name) {
+    List<Integer> deviceIds = new LinkedList<>();
+
+    for (AxolotlAddress key : sessions.keySet()) {
+      if (key.getName().equals(name) &&
+          key.getDeviceId() != 1)
+      {
+        deviceIds.add(key.getDeviceId());
+      }
+    }
+    if (!deviceIds.isEmpty()) {
+      return deviceIds;
+    }
+
     Semaphore semaphore = new Semaphore(0);
     ArrayList<Integer> result = new ArrayList<>();
     getSubDeviceSessions(name, semaphore, result);
@@ -122,7 +150,9 @@ public class AbelianSessionStore extends MessagesStorage implements SessionStore
   }
 
   @Override
-  public void storeSession(final AxolotlAddress address, final SessionRecord record) {
+  public synchronized void storeSession(final AxolotlAddress address, final SessionRecord record) {
+    sessions.put(address, record.serialize());
+
     getStorageQueue().postRunnable(
         new Runnable() {
           @Override
@@ -156,13 +186,18 @@ public class AbelianSessionStore extends MessagesStorage implements SessionStore
   }
 
   @Override
-  public boolean containsSession(AxolotlAddress address) {
+  public synchronized boolean containsSession(AxolotlAddress address) {
+    if (sessions.containsKey(address)) {
+      return true;
+    }
     SessionRecord record = loadSession(address);
     return !record.isFresh();
   }
 
   @Override
-  public void deleteSession(final AxolotlAddress address) {
+  public synchronized void deleteSession(final AxolotlAddress address) {
+    sessions.remove(address);
+
     getStorageQueue().postRunnable(
         new Runnable() {
           @Override
@@ -183,7 +218,13 @@ public class AbelianSessionStore extends MessagesStorage implements SessionStore
   }
 
   @Override
-  public void deleteAllSessions(final String name) {
+  public synchronized void deleteAllSessions(final String name) {
+    for (AxolotlAddress key : sessions.keySet()) {
+      if (key.getName().equals(name)) {
+        sessions.remove(key);
+      }
+    }
+
     getStorageQueue().postRunnable(
         new Runnable() {
           @Override
@@ -198,6 +239,25 @@ public class AbelianSessionStore extends MessagesStorage implements SessionStore
                   .dispose();
             } catch (Exception e) {
               Log.e(TAG, "Cannot delete session of " + name, e);
+            }
+          }
+        });
+  }
+
+  public void deleteAllSessions() {
+    getStorageQueue().postRunnable(
+        new Runnable() {
+          @Override
+          public void run() {
+            String query = String.format(Locale.US,
+                "DELETE FROM sessions WHERE 1");
+            try {
+              getDatabase()
+                  .executeFast(query)
+                  .stepThis()
+                  .dispose();
+            } catch (Exception e) {
+              Log.e(TAG, "Cannot delete any sessions", e);
             }
           }
         });

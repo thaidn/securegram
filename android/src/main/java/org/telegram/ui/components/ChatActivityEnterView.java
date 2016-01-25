@@ -802,10 +802,6 @@ public class ChatActivityEnterView extends FrameLayoutFixed
     messageWebPageSearch = searchWebPages;
   }
 
-  public boolean isMessageWebPageSearchEnabled() {
-    return messageWebPageSearch;
-  }
-
   private void sendMessage() {
     if (parentFragment != null) {
       String action;

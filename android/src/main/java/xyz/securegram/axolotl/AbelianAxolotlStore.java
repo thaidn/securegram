@@ -75,7 +75,8 @@ public class AbelianAxolotlStore implements AxolotlStore {
     sessionStore.deleteAllSessions(name);
   }
 
-  public void deleteIdentity(String name) {
-    identityKeyStore.deleteIdentity(name);
-  }
+  public void deleteAllIdentities() {identityKeyStore.deleteAllIdentities();}
+
+  public void deleteAllSessions() {sessionStore.deleteAllSessions();}
+
 }

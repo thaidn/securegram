@@ -57,6 +57,7 @@ import org.telegram.android.MessagesController;
 import org.telegram.android.MessagesStorage;
 import org.telegram.android.NotificationCenter;
 import org.telegram.android.NotificationsController;
+import org.telegram.android.SecretChatHelper;
 import org.telegram.android.SendMessagesHelper;
 import org.telegram.android.UserObject;
 import org.telegram.android.VideoEditedInfo;
@@ -108,10 +109,8 @@ import org.telegram.ui.components.SendingFileExDrawable;
 import org.telegram.ui.components.SizeNotifierFrameLayout;
 import org.telegram.ui.components.TypingDotsDrawable;
 import org.telegram.ui.components.WebFrameLayout;
-import org.whispersystems.libaxolotl.AxolotlAddress;
 
 import xyz.securegram.R;
-import xyz.securegram.axolotl.AxolotlController;
 
 import java.io.File;
 import java.net.URLDecoder;
@@ -259,6 +258,7 @@ public class ChatActivity extends BaseFragment
   private static final int copy = 10;
   private static final int forward = 11;
   private static final int delete = 12;
+  private static final int chat_enc_timer = 13;
   private static final int chat_menu_attach = 14;
   private static final int clear_history = 15;
   private static final int delete_chat = 16;
@@ -345,12 +345,11 @@ public class ChatActivity extends BaseFragment
 
   }
 
-  private boolean createGroupChat(int id) {
-    final int chatId = id;
+  private boolean createChatFromEncId(int id) {
+    final int encId = id;
 
-    currentChat = MessagesController.getInstance().getChat(chatId);
-    if (currentChat == null) {
-      // TODO(thaidn): understand why it needs to use a semaphore.
+    currentEncryptedChat = MessagesController.getInstance().getEncryptedChat(encId);
+    if (currentEncryptedChat == null) {
       final Semaphore semaphore = new Semaphore(0);
       MessagesStorage.getInstance()
           .getStorageQueue()
@@ -358,7 +357,7 @@ public class ChatActivity extends BaseFragment
               new Runnable() {
                 @Override
                 public void run() {
-                  currentChat = MessagesStorage.getInstance().getChat(chatId);
+                  currentEncryptedChat = MessagesStorage.getInstance().getEncryptedChat(encId);
                   semaphore.release();
                 }
               });
@@ -367,37 +366,14 @@ public class ChatActivity extends BaseFragment
       } catch (Exception e) {
         FileLog.e("tmessages", e);
       }
-      if (currentChat != null) {
-        MessagesController.getInstance().putChat(currentChat, true /* fromCache */);
+      if (currentEncryptedChat != null) {
+        MessagesController.getInstance().putEncryptedChat(currentEncryptedChat,
+            true /* fromCache */);
       } else {
         return false;
       }
     }
-    if (chatId > 0) {
-      dialog_id = -chatId;
-    } else {
-      isBroadcast = true;
-      dialog_id = AndroidUtilities.makeBroadcastId(chatId);
-    }
-    Semaphore semaphore = null;
-    if (isBroadcast) {
-      semaphore = new Semaphore(0);
-    }
-    MessagesController.getInstance().loadChatInfo(currentChat.id, semaphore);
-    if (isBroadcast) {
-      try {
-        semaphore.acquire();
-      } catch (Exception e) {
-        FileLog.e("tmessages", e);
-      }
-    }
-    loadingAbelianIdentity = false;
-    return true;
-  }
-
-  private boolean createPeerToPeerChat(int id) {
-    final int userId = id;
-    currentUser = MessagesController.getInstance().getUser(userId);
+    currentUser = MessagesController.getInstance().getUser(currentEncryptedChat.user_id);
     if (currentUser == null) {
       final Semaphore semaphore = new Semaphore(0);
       MessagesStorage.getInstance()
@@ -406,7 +382,8 @@ public class ChatActivity extends BaseFragment
               new Runnable() {
                 @Override
                 public void run() {
-                  currentUser = MessagesStorage.getInstance().getUser(userId);
+                  currentUser =
+                      MessagesStorage.getInstance().getUser(currentEncryptedChat.user_id);
                   semaphore.release();
                 }
               });
@@ -421,47 +398,24 @@ public class ChatActivity extends BaseFragment
         return false;
       }
     }
-    loadingAbelianIdentity = true;
-    abelianAvatarPath = AxolotlController.getInstance().loadAbelianAvatar(currentUser);
-    if (abelianAvatarPath != null) {
-      if (AxolotlController.getInstance().loadAbelianIdentity(currentUser)) {
-        loadingAbelianIdentity = false;
-      }
-    }
-    dialog_id = userId;
-    botUser = arguments.getString("botUser");
+    dialog_id = ((long) encId) << 32;
+    maxMessageId = Integer.MIN_VALUE;
+    minMessageId = Integer.MAX_VALUE;
+    MediaController.getInstance().startMediaObserver();
     return true;
   }
 
   @Override
   public boolean onFragmentCreate() {
-    final int chatId = arguments.getInt("chat_id", 0);
-    final int userId = arguments.getInt("user_id", 0);
+    final int encId = arguments.getInt("enc_id", 0);
     startLoadFromMessageId = arguments.getInt("message_id", 0);
     scrollToTopOnResume = arguments.getBoolean("scrollToTopOnResume", false);
 
-    if ((chatId != 0 && !createGroupChat(chatId)) ||
-        (userId != 0 && !createPeerToPeerChat(userId))) {
+    if (encId != 0 && !createChatFromEncId(encId)) {
       return false;
     }
 
     super.onFragmentCreate();
-
-    if (!isBroadcast) {
-      BotQuery.loadBotKeyboard(dialog_id);
-    }
-
-    if (userId != 0 && (currentUser.flags & TLRPC.USER_FLAG_BOT) != 0) {
-      BotQuery.loadBotInfo(userId, true, classGuid);
-    } else if (info != null) {
-      for (int a = 0; a < info.participants.size(); a++) {
-        TLRPC.TL_chatParticipant participant = info.participants.get(a);
-        TLRPC.User user = MessagesController.getInstance().getUser(participant.user_id);
-        if (user != null && (user.flags & TLRPC.USER_FLAG_BOT) != 0) {
-          BotQuery.loadBotInfo(user.id, true, classGuid);
-        }
-      }
-    }
 
     loading = true;
 
@@ -504,6 +458,12 @@ public class ChatActivity extends BaseFragment
     recordStatusDrawable.setIsChat(currentChat != null);
     sendingFileDrawable = new SendingFileExDrawable();
     sendingFileDrawable.setIsChat(currentChat != null);
+
+    if (currentEncryptedChat != null
+        && AndroidUtilities.getMyLayerVersion(currentEncryptedChat.layer)
+        != SecretChatHelper.CURRENT_SECRET_CHAT_LAYER) {
+      SecretChatHelper.getInstance().sendNotifyLayerMessage(currentEncryptedChat, null);
+    }
 
     return true;
   }
@@ -659,13 +619,6 @@ public class ChatActivity extends BaseFragment
                 break;
               case delete:
                 deleteChat();
-                // TODO(thaidn): remove this.
-                AxolotlController.getInstance().getStore().deleteAllSessions(
-                    String.valueOf(currentUser.id));
-                AxolotlController.getInstance().getStore().deleteIdentity(
-                    String.valueOf(currentUser.id));
-                Log.e(TAG, "My user id" + UserConfig.getCurrentUser().id);
-                Log.e(TAG, "Peer user id" + currentUser.id);
                 break;
               case forward:
                 forwardChat();
@@ -673,13 +626,6 @@ public class ChatActivity extends BaseFragment
               case clear_history:
               case delete_chat:
                 clearChat(id);
-                // TODO(thaidn): remove this.
-                AxolotlController.getInstance().getStore().deleteAllSessions(
-                    String.valueOf(currentUser.id));
-                AxolotlController.getInstance().getStore().deleteIdentity(
-                    String.valueOf(currentUser.id));
-                Log.e(TAG, "My user id" + UserConfig.getCurrentUser().id);
-                Log.e(TAG, "Peer user id" + currentUser.id);
                 break;
               case share_contact:
                 shareContact();
@@ -710,6 +656,7 @@ public class ChatActivity extends BaseFragment
     if (currentUser != null) {
       addContactItem = headerItem.addSubItem(share_contact, "", 0);
     }
+
     headerItem.addSubItem(
         clear_history, LocaleController.getString("ClearHistory", R.string.ClearHistory), 0);
     if (currentChat != null && !isBroadcast) {
@@ -720,13 +667,6 @@ public class ChatActivity extends BaseFragment
           delete_chat, LocaleController.getString("DeleteChatUser", R.string.DeleteChatUser), 0);
     }
     muteItem = headerItem.addSubItem(mute, null, 0);
-    if (currentUser != null
-        && (currentUser.flags & TLRPC.USER_FLAG_BOT) != 0) {
-      headerItem.addSubItem(
-          bot_settings, LocaleController.getString("BotSettings", R.string.BotSettings), 0);
-      headerItem.addSubItem(bot_help, LocaleController.getString("BotHelp", R.string.BotHelp), 0);
-      updateBotButtons();
-    }
 
     updateTitle();
     updateSubtitle();
@@ -780,15 +720,6 @@ public class ChatActivity extends BaseFragment
             R.drawable.bar_selector_mode,
             null,
             AndroidUtilities.dp(54)));
-    if (!isBroadcast) {
-      actionModeViews.add(
-          actionMode.addItem(
-              reply,
-              R.drawable.ic_ab_reply,
-              R.drawable.bar_selector_mode,
-              null,
-              AndroidUtilities.dp(54)));
-    }
     actionModeViews.add(
         actionMode.addItem(
             forward,
@@ -817,7 +748,7 @@ public class ChatActivity extends BaseFragment
   private void copyChat() {
     String str = "";
     ArrayList<Integer> ids = new ArrayList<>(selectedMessagesCanCopyIds.keySet());
-    Collections.sort(ids);
+    Collections.sort(ids, Collections.reverseOrder());
     for (Integer messageId : ids) {
       MessageObject messageObject = selectedMessagesCanCopyIds.get(messageId);
       if (str.length() != 0) {
@@ -858,7 +789,15 @@ public class ChatActivity extends BaseFragment
     }
 
     ArrayList<Integer> ids = new ArrayList<>(selectedMessagesIds.keySet());
-    ArrayList<Long> random_ids = null;
+    ArrayList<Long> random_ids = new ArrayList<>();
+    for (HashMap.Entry<Integer, MessageObject> entry :
+        selectedMessagesIds.entrySet()) {
+      MessageObject msg = entry.getValue();
+      if (msg.messageOwner.random_id != 0 && msg.type != MessageObject.Type.CHAT_ACTION_PHOTO) {
+        random_ids.add(msg.messageOwner.random_id);
+      }
+    };
+
     MessagesController.getInstance()
         .deleteMessages(ids, random_ids, currentEncryptedChat);
     actionBar.hideActionMode();
@@ -878,22 +817,8 @@ public class ChatActivity extends BaseFragment
       return;
     }
 
-    final boolean isGroupChat = (int) dialog_id < 0 && (int) (dialog_id >> 32) != 1;
     if (id != clear_history) {
-      if (isGroupChat) {
-        if (currentChat.left || currentChat instanceof TLRPC.TL_chatForbidden) {
-          MessagesController.getInstance().deleteDialog(dialog_id, 0, false);
-        } else {
-          MessagesController.getInstance()
-              .deleteUserFromChat(
-                  (int) -dialog_id,
-                  MessagesController.getInstance()
-                      .getUser(UserConfig.getClientUserId()),
-                  null);
-        }
-      } else {
-        MessagesController.getInstance().deleteDialog(dialog_id, 0, false);
-      }
+      MessagesController.getInstance().deleteDialog(dialog_id, 0, false);
       finishFragment();
     } else {
       MessagesController.getInstance().deleteDialog(dialog_id, 0, true);
@@ -975,29 +900,11 @@ public class ChatActivity extends BaseFragment
             if (currentUser != null) {
               Bundle args = new Bundle();
               args.putInt("user_id", currentUser.id);
+              args.putLong("dialog_id", dialog_id);
               presentFragment(new ProfileActivity(args));
-            } else if (currentChat != null) {
-              Bundle args = new Bundle();
-              args.putInt("chat_id", currentChat.id);
-              ProfileActivity fragment = new ProfileActivity(args);
-              fragment.setChatInfo(info);
-              presentFragment(fragment);
             }
           }
         });
-
-    if (currentChat != null) {
-      int count = currentChat.participants_count;
-      if (info != null) {
-        count = info.participants.size();
-      }
-      if (count == 0
-          || currentChat.left
-          || currentChat instanceof TLRPC.TL_chatForbidden
-          || info != null && info instanceof TLRPC.TL_chatParticipantsForbidden) {
-        avatarContainer.setEnabled(false);
-      }
-    }
 
     avatarImageView = new BackupImageView(context);
     avatarImageView.setRoundRadius(AndroidUtilities.dp(21));
@@ -2509,8 +2416,8 @@ public class ChatActivity extends BaseFragment
       messagesDict.clear();
       progressView.setVisibility(View.VISIBLE);
       chatListView.setEmptyView(null);
-      maxMessageId = Integer.MAX_VALUE;
-      minMessageId = Integer.MIN_VALUE;
+      maxMessageId = Integer.MIN_VALUE;
+      minMessageId = Integer.MAX_VALUE;
 
       maxDate = Integer.MIN_VALUE;
       minDate = 0;
@@ -2576,8 +2483,8 @@ public class ChatActivity extends BaseFragment
       messagesDict.clear();
       messagesByDays.clear();
       messages.clear();
-      maxMessageId = Integer.MAX_VALUE;
-      minMessageId = Integer.MIN_VALUE;
+      maxMessageId = Integer.MIN_VALUE;
+      minMessageId = Integer.MAX_VALUE;
       maxDate = Integer.MIN_VALUE;
       endReached = false;
       loading = false;
@@ -2656,8 +2563,13 @@ public class ChatActivity extends BaseFragment
     if (bottomOverlay == null) {
       return;
     }
-
-    if (loadingAbelianIdentity) {
+    boolean hideKeyboard = false;
+    if (currentEncryptedChat instanceof TLRPC.TL_encryptedChatRequested) {
+      bottomOverlayText.setText(
+          LocaleController.getString("EncryptionProcessing", R.string.EncryptionProcessing));
+      bottomOverlay.setVisibility(View.VISIBLE);
+      hideKeyboard = true;
+    } else if (currentEncryptedChat instanceof TLRPC.TL_encryptedChatWaiting) {
       bottomOverlayText.setText(
           AndroidUtilities.replaceTags(
               LocaleController.formatString(
@@ -2665,24 +2577,32 @@ public class ChatActivity extends BaseFragment
                   R.string.AwaitingEncryption,
                   "<b>" + currentUser.first_name + "</b>")));
       bottomOverlay.setVisibility(View.VISIBLE);
-
-      // hide keyboard.
+      hideKeyboard = true;
+    } else if (currentEncryptedChat instanceof TLRPC.TL_encryptedChatDiscarded) {
+      bottomOverlayText.setText(
+          LocaleController.getString("EncryptionRejected", R.string.EncryptionRejected));
+      bottomOverlay.setVisibility(View.VISIBLE);
+      chatActivityEnterView.setFieldText("");
+      SharedPreferences preferences =
+          ApplicationLoader.applicationContext.getSharedPreferences(
+              "mainconfig", Activity.MODE_PRIVATE);
+      preferences.edit().remove("dialog_" + dialog_id).commit();
+      hideKeyboard = true;
+    } else if (currentEncryptedChat instanceof TLRPC.TL_encryptedChat) {
+      bottomOverlay.setVisibility(View.INVISIBLE);
+    }
+    if (hideKeyboard) {
       chatActivityEnterView.hidePopup();
       if (getParentActivity() != null) {
         AndroidUtilities.hideKeyboard(getParentActivity().getCurrentFocus());
       }
-    } else {
-      bottomOverlay.setVisibility(View.INVISIBLE);
     }
-
     checkActionBarMenu();
   }
 
   private void checkActionBarMenu() {
-    if (currentChat != null
-            && (currentChat instanceof TLRPC.TL_chatForbidden || currentChat.left)
-        || currentUser != null && UserObject.isDeleted(currentUser) || loadingAbelianIdentity) {
-
+    if (currentEncryptedChat != null && !(currentEncryptedChat instanceof TLRPC.TL_encryptedChat)
+        || currentUser != null && UserObject.isDeleted(currentUser)) {
       if (menuItem != null) {
         menuItem.setVisibility(View.GONE);
       }
@@ -2691,7 +2611,6 @@ public class ChatActivity extends BaseFragment
         menuItem.setVisibility(View.VISIBLE);
       }
     }
-
     checkAndUpdateAvatar();
   }
 
@@ -2717,73 +2636,65 @@ public class ChatActivity extends BaseFragment
     if (messageObject == null) {
       return -1;
     }
-    boolean isBroadcastError =
-        isBroadcast && messageObject.getId() <= 0 && messageObject.isSendError();
-    if (!isBroadcast && messageObject.getId() <= 0 && messageObject.isOut() || isBroadcastError) {
-      if (messageObject.isSendError()) {
-        if (!messageObject.isMediaEmpty()) {
-          return 0;
-        } else {
-          return 20;
-        }
+    if (messageObject.isSending()) {
+      return -1;
+    }
+    if (messageObject.type == MessageObject.Type.CONTACT) {
+      return -1;
+    } else if (messageObject.isSendError()) {
+      if (!messageObject.isMediaEmpty()) {
+        return 0;
       } else {
+        return 20;
+      }
+    } else if (messageObject.type == MessageObject.Type.CHAT_ACTION_PHOTO ||
+        messageObject.type == MessageObject.Type.MSG_ACTION) {
+      if (messageObject.getId() == 0 || messageObject.isSending()) {
         return -1;
+      } else {
+        return 1;
       }
     } else {
-      if (messageObject.type == MessageObject.Type.CONTACT) {
-        return -1;
-      } else if (messageObject.type == MessageObject.Type.CHAT_ACTION_PHOTO ||
-          messageObject.type == MessageObject.Type.MSG_ACTION) {
-        if (messageObject.getId() == 0) {
-          return -1;
-        }
-        return 1;
-      } else {
-        if (!messageObject.isMediaEmpty()) {
-          if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaVideo
-              || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaPhoto
-              || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
-            if (messageObject.isSticker()) {
-              TLRPC.InputStickerSet inputStickerSet = messageObject.getInputStickerSet();
-              if (inputStickerSet != null
-                  && !StickersQuery.isStickerPackInstalled(inputStickerSet.id)) {
-                return 7;
+      if (!messageObject.isMediaEmpty()) {
+        if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaVideo
+            || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaPhoto
+            || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
+          if (messageObject.isSticker()) {
+            TLRPC.InputStickerSet inputStickerSet = messageObject.getInputStickerSet();
+            if (inputStickerSet != null
+                && !StickersQuery.isStickerPackInstalled(inputStickerSet.id)) {
+              return 7;
+            }
+          }
+          boolean canSave = false;
+          if (messageObject.messageOwner.attachPath != null
+              && messageObject.messageOwner.attachPath.length() != 0) {
+            File f = new File(messageObject.messageOwner.attachPath);
+            if (f.exists()) {
+              canSave = true;
+            }
+          }
+          if (!canSave) {
+            File f = FileLoader.getPathToMessage(messageObject.messageOwner);
+            if (f.exists()) {
+              canSave = true;
+            }
+          }
+          if (canSave) {
+            if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
+              String mime = messageObject.messageOwner.media.document.mime_type;
+              if (mime != null && mime.endsWith("text/xml")) {
+                return 5;
               }
             }
-            boolean canSave = false;
-            if (messageObject.messageOwner.attachPath != null
-                && messageObject.messageOwner.attachPath.length() != 0) {
-              File f = new File(messageObject.messageOwner.attachPath);
-              if (f.exists()) {
-                canSave = true;
-              }
-            }
-            if (!canSave) {
-              File f = FileLoader.getPathToMessage(messageObject.messageOwner);
-              if (f.exists()) {
-                canSave = true;
-              }
-            }
-            if (canSave) {
-              if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
-                String mime = messageObject.messageOwner.media.document.mime_type;
-                if (mime != null) {
-                  if (mime.endsWith("/xml")) {
-                    return 5;
-                  } else if (mime.endsWith("/png")
-                      || mime.endsWith("/jpg")
-                      || mime.endsWith("/jpeg")) {
-                    return 6;
-                  }
-                }
-              }
+            if (messageObject.messageOwner.ttl <= 0) {
               return 4;
             }
           }
-          return 2;
-        } else {
-          return 3;
         }
+        return 2;
+      } else {
+        return 3;
       }
     }
   }
@@ -3402,8 +3313,8 @@ public class ChatActivity extends BaseFragment
           messages.clear();
           messagesByDays.clear();
           messagesDict.clear();
-          maxMessageId = Integer.MAX_VALUE;
-          minMessageId = Integer.MIN_VALUE;
+          maxMessageId = Integer.MIN_VALUE;
+          minMessageId = Integer.MAX_VALUE;
           maxDate = Integer.MIN_VALUE;
           minDate = 0;
         }
@@ -3422,8 +3333,8 @@ public class ChatActivity extends BaseFragment
         }
 
         if (obj.getId() > 0) {
-          maxMessageId = Math.min(obj.getId(), maxMessageId);
-          minMessageId = Math.max(obj.getId(), minMessageId);
+          maxMessageId = Math.max(obj.getId(), maxMessageId);
+          minMessageId = Math.min(obj.getId(), minMessageId);
         }
         if (obj.messageOwner.date != 0) {
           maxDate = Math.max(maxDate, obj.messageOwner.date);
@@ -3704,6 +3615,33 @@ public class ChatActivity extends BaseFragment
       boolean hasFromMe = false;
       ArrayList<MessageObject> arr = (ArrayList<MessageObject>) args[1];
 
+      if (currentEncryptedChat != null && arr.size() == 1) {
+        MessageObject obj = arr.get(0);
+
+        if (currentEncryptedChat != null
+            && obj.isOut()
+            && obj.messageOwner.action != null
+            && obj.messageOwner.action instanceof TLRPC.TL_messageEncryptedAction
+            && obj.messageOwner.action.encryptedAction
+            instanceof TLRPC.TL_decryptedMessageActionSetMessageTTL
+            && getParentActivity() != null) {
+          if (AndroidUtilities.getPeerLayerVersion(currentEncryptedChat.layer) < 17
+              && currentEncryptedChat.ttl > 0
+              && currentEncryptedChat.ttl <= 60) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+            builder.setMessage(
+                LocaleController.formatString(
+                    "CompatibilityChat",
+                    R.string.CompatibilityChat,
+                    currentUser.first_name,
+                    currentUser.first_name));
+            showDialog(builder.create());
+          }
+        }
+      }
+
       ReplyMessageQuery.loadReplyMessagesForMessages(arr, dialog_id);
       if (!forwardEndReached) {
         int currentMaxDate = Integer.MIN_VALUE;
@@ -3720,8 +3658,8 @@ public class ChatActivity extends BaseFragment
           }
           currentMaxDate = Math.max(currentMaxDate, obj.messageOwner.date);
           if (obj.getId() > 0) {
-            currentMinMsgId = Math.max(obj.getId(), currentMinMsgId);
-            last_message_id = Math.max(last_message_id, obj.getId());
+            currentMinMsgId = Math.min(obj.getId(), currentMinMsgId);
+            last_message_id = Math.min(last_message_id, obj.getId());
           }
 
           if (!obj.isOut() && obj.isUnread()) {
@@ -3773,8 +3711,8 @@ public class ChatActivity extends BaseFragment
           }
 
           if (obj.getId() > 0) {
-            maxMessageId = Math.min(obj.getId(), maxMessageId);
-            minMessageId = Math.max(obj.getId(), minMessageId);
+            maxMessageId = Math.max(obj.getId(), maxMessageId);
+            minMessageId = Math.min(obj.getId(), minMessageId);
           }
           maxDate = Math.max(maxDate, obj.messageOwner.date);
           messagesDict.put(obj.getId(), obj);
@@ -3974,8 +3912,8 @@ public class ChatActivity extends BaseFragment
         if (chatListView != null) {
           chatListView.setEmptyView(null);
         }
-        maxMessageId = Integer.MAX_VALUE;
-        minMessageId = Integer.MIN_VALUE;
+        maxMessageId = Integer.MIN_VALUE;
+        minMessageId = Integer.MAX_VALUE;
         maxDate = Integer.MIN_VALUE;
         minDate = 0;
         MessagesController.getInstance()
@@ -3987,12 +3925,6 @@ public class ChatActivity extends BaseFragment
           if (chatActivityEnterView != null) {
             chatActivityEnterView.setButtons(null, false);
           }
-        }
-        if (currentUser != null
-            && (currentUser.flags & TLRPC.USER_FLAG_BOT) != 0
-            && botUser == null) {
-          botUser = "";
-          updateBottomOverlay();
         }
       }
     }
@@ -4048,20 +3980,6 @@ public class ChatActivity extends BaseFragment
   public void didReceivedNotification(int id, final Object... args) {
     if (id == NotificationCenter.messagesDidLoaded) {
       processMessagesLoaded(args);
-    } else if (id == NotificationCenter.FileDidLoaded) {
-      String location = (String) args[0];
-      Log.e(TAG, "Avatar loaded at " + location);
-      if (currentUser != null && abelianAvatarPath != null &&
-          abelianAvatarPath.endsWith(location)) {
-        if (AxolotlController.getInstance().loadAbelianIdentity(currentUser)) {
-          loadingAbelianIdentity = false;
-        }
-      }
-    } else if (id == NotificationCenter.ABELIAN_IDENTITY_LOADED) {
-      AxolotlAddress address = (AxolotlAddress) args[0];
-      Log.e(TAG, "Identity for address " + address + " loaded");
-      loadingAbelianIdentity = false;
-      updateSecretStatus();
     } else if (id == NotificationCenter.emojiDidLoaded) {
       if (chatListView != null) {
         chatListView.invalidateViews();
@@ -4137,6 +4055,29 @@ public class ChatActivity extends BaseFragment
     } else if (id == NotificationCenter.contactsDidLoaded) {
       updateContactStatus();
       updateSubtitle();
+    } else if (id == NotificationCenter.encryptedChatUpdated) {
+      TLRPC.EncryptedChat chat = (TLRPC.EncryptedChat) args[0];
+      if (currentEncryptedChat != null && chat.id == currentEncryptedChat.id) {
+        currentEncryptedChat = chat;
+        updateContactStatus();
+        updateSecretStatus();
+      }
+    } else if (id == NotificationCenter.messagesReadEncrypted) {
+      int encId = (Integer) args[0];
+      if (currentEncryptedChat != null && currentEncryptedChat.id == encId) {
+        int date = (Integer) args[1];
+        for (MessageObject obj : messages) {
+          if (!obj.isOut()) {
+            continue;
+          } else if (obj.isOut() && !obj.isUnread()) {
+            break;
+          }
+          if (obj.messageOwner.date - 1 <= date) {
+            obj.setIsRead();
+          }
+        }
+        updateVisibleRows();
+      }
     } else if (id == NotificationCenter.audioDidReset
         || id == NotificationCenter.audioPlayStateChanged) {
       Integer mid = (Integer) args[0];
@@ -4192,8 +4133,8 @@ public class ChatActivity extends BaseFragment
         messagesDict.clear();
         progressView.setVisibility(View.INVISIBLE);
         chatListView.setEmptyView(emptyViewContainer);
-        maxMessageId = Integer.MAX_VALUE;
-        minMessageId = Integer.MIN_VALUE;
+        maxMessageId = Integer.MIN_VALUE;
+        minMessageId = Integer.MAX_VALUE;
         maxDate = Integer.MIN_VALUE;
         minDate = 0;
         selectedMessagesIds.clear();
@@ -4205,12 +4146,6 @@ public class ChatActivity extends BaseFragment
           if (botButtons != null) {
             botButtons = null;
             chatActivityEnterView.setButtons(null, false);
-          }
-          if (currentUser != null
-              && (currentUser.flags & TLRPC.USER_FLAG_BOT) != 0
-              && botUser == null) {
-            botUser = "";
-            updateBottomOverlay();
           }
         }
       }
@@ -4333,61 +4268,6 @@ public class ChatActivity extends BaseFragment
       }
       if (updated) {
         updateVisibleRows();
-      }
-    } else if (id == NotificationCenter.botInfoDidLoaded) {
-      int guid = (Integer) args[1];
-      if (classGuid == guid) {
-        TLRPC.BotInfo info = (TLRPC.BotInfo) args[0];
-        if (!info.commands.isEmpty()) {
-          hasBotsCommands = true;
-        }
-        botInfo.put(info.user_id, info);
-        if (chatAdapter != null) {
-          chatAdapter.notifyItemChanged(0);
-        }
-        if (mentionsAdapter != null) {
-          mentionsAdapter.setBotInfo(botInfo);
-        }
-        if (chatActivityEnterView != null) {
-          chatActivityEnterView.setBotsCount(botsCount, hasBotsCommands);
-        }
-        updateBotButtons();
-      }
-    } else if (id == NotificationCenter.botKeyboardDidLoaded) {
-      if (dialog_id == (Long) args[1]) {
-        TLRPC.Message message = (TLRPC.Message) args[0];
-        if (message != null) {
-          botButtons = new MessageObject(message, null, false);
-          if (chatActivityEnterView != null) {
-            if (botButtons.messageOwner.reply_markup instanceof TLRPC.TL_replyKeyboardForceReply) {
-              SharedPreferences preferences =
-                  ApplicationLoader.applicationContext.getSharedPreferences(
-                      "mainconfig", Activity.MODE_PRIVATE);
-              if (preferences.getInt("answered_" + dialog_id, 0) != botButtons.getId()
-                  && (replyingMessageObject == null
-                      || chatActivityEnterView.getFieldText() == null)) {
-                botReplyButtons = botButtons;
-                chatActivityEnterView.setButtons(botButtons);
-                showReplyPanel(true, botButtons, null, null, false, true);
-              }
-            } else {
-              if (replyingMessageObject != null && botReplyButtons == replyingMessageObject) {
-                botReplyButtons = null;
-                showReplyPanel(false, null, null, null, false, true);
-              }
-              chatActivityEnterView.setButtons(botButtons);
-            }
-          }
-        } else {
-          botButtons = null;
-          if (chatActivityEnterView != null) {
-            if (replyingMessageObject != null && botReplyButtons == replyingMessageObject) {
-              botReplyButtons = null;
-              showReplyPanel(false, null, null, null, false, true);
-            }
-            chatActivityEnterView.setButtons(botButtons);
-          }
-        }
       }
     }
   }
@@ -4730,16 +4610,16 @@ public class ChatActivity extends BaseFragment
         if (type == 0) {
           items =
               new CharSequence[] {
-                LocaleController.getString("Retry", R.string.Retry),
-                LocaleController.getString("Delete", R.string.Delete)
+                  LocaleController.getString("Retry", R.string.Retry),
+                  LocaleController.getString("Delete", R.string.Delete)
               };
           options = new int[] {0, 1};
         } else if (type == 1) {
           if (currentChat != null && !isBroadcast) {
             items =
                 new CharSequence[] {
-                  LocaleController.getString("Reply", R.string.Reply),
-                  LocaleController.getString("Delete", R.string.Delete)
+                    LocaleController.getString("Reply", R.string.Reply),
+                    LocaleController.getString("Delete", R.string.Delete)
                 };
             options = new int[] {8, 1};
           } else {
@@ -4749,179 +4629,64 @@ public class ChatActivity extends BaseFragment
         } else if (type == 20) {
           items =
               new CharSequence[] {
-                LocaleController.getString("Retry", R.string.Retry),
-                LocaleController.getString("Copy", R.string.Copy),
-                LocaleController.getString("Delete", R.string.Delete)
+                  LocaleController.getString("Retry", R.string.Retry),
+                  LocaleController.getString("Copy", R.string.Copy),
+                  LocaleController.getString("Delete", R.string.Delete)
               };
           options = new int[] {0, 3, 1};
         } else {
-            if (!isBroadcast
-                && !(currentChat != null
-                    && (currentChat instanceof TLRPC.TL_chatForbidden || currentChat.left))) {
-              if (type == 2) {
-                items =
-                    new CharSequence[] {
-                      LocaleController.getString("Reply", R.string.Reply),
-                      LocaleController.getString("Forward", R.string.Forward),
-                      LocaleController.getString("Delete", R.string.Delete)
-                    };
-                options = new int[] {8, 2, 1};
-              } else if (type == 3) {
-                items =
-                    new CharSequence[] {
-                      LocaleController.getString("Reply", R.string.Reply),
-                      LocaleController.getString("Forward", R.string.Forward),
-                      LocaleController.getString("Copy", R.string.Copy),
-                      LocaleController.getString("Delete", R.string.Delete)
-                    };
-                options = new int[] {8, 2, 3, 1};
-              } else if (type == 4) {
-                if (selectedObject.messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
-                  String saveString;
-                  if (selectedObject.isMusic()) {
-                    saveString = LocaleController.getString("SaveToMusic", R.string.SaveToMusic);
-                  } else {
-                    saveString =
-                        LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads);
-                  }
-                  items =
-                      new CharSequence[] {
-                        LocaleController.getString("Reply", R.string.Reply),
-                        saveString,
-                        LocaleController.getString("ShareFile", R.string.ShareFile),
-                        LocaleController.getString("Forward", R.string.Forward),
-                        LocaleController.getString("Delete", R.string.Delete)
-                      };
-                  options = new int[] {8, 10, 4, 2, 1};
-                } else {
-                  items =
-                      new CharSequence[] {
-                        LocaleController.getString("Reply", R.string.Reply),
-                        LocaleController.getString("SaveToGallery", R.string.SaveToGallery),
-                        LocaleController.getString("Forward", R.string.Forward),
-                        LocaleController.getString("Delete", R.string.Delete)
-                      };
-                  options = new int[] {8, 4, 2, 1};
-                }
-              } else if (type == 5) {
-                items =
-                    new CharSequence[] {
-                      LocaleController.getString("Reply", R.string.Reply),
-                      LocaleController.getString(
-                          "ApplyLocalizationFile", R.string.ApplyLocalizationFile),
-                      LocaleController.getString("ShareFile", R.string.ShareFile),
-                      LocaleController.getString("Forward", R.string.Forward),
-                      LocaleController.getString("Delete", R.string.Delete)
-                    };
-                options = new int[] {8, 5, 4, 2, 1};
-              } else if (type == 6) {
-                String saveString;
-                if (selectedObject.isMusic()) {
-                  saveString = LocaleController.getString("SaveToMusic", R.string.SaveToMusic);
-                } else {
-                  saveString =
-                      LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads);
-                }
-                items =
-                    new CharSequence[] {
-                      LocaleController.getString("Reply", R.string.Reply),
-                      LocaleController.getString("SaveToGallery", R.string.SaveToGallery),
+          if (type == 2) {
+            items = new CharSequence[] {LocaleController.getString("Delete", R.string.Delete)};
+            options = new int[] {1};
+          } else if (type == 3) {
+            items =
+                new CharSequence[] {
+                    LocaleController.getString("Copy", R.string.Copy),
+                    LocaleController.getString("Delete", R.string.Delete)
+                };
+            options = new int[] {3, 1};
+          } else if (type == 4) {
+            if (selectedObject.messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
+              String saveString;
+              if (selectedObject.isMusic()) {
+                saveString = LocaleController.getString("SaveToMusic", R.string.SaveToMusic);
+              } else {
+                saveString =
+                    LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads);
+              }
+              items =
+                  new CharSequence[] {
                       saveString,
                       LocaleController.getString("ShareFile", R.string.ShareFile),
-                      LocaleController.getString("Forward", R.string.Forward),
                       LocaleController.getString("Delete", R.string.Delete)
-                    };
-                options = new int[] {8, 7, 10, 6, 2, 1};
-              } else if (type == 7) {
-                items =
-                    new CharSequence[] {
-                      LocaleController.getString("Reply", R.string.Reply),
-                      LocaleController.getString("Forward", R.string.Forward),
-                      LocaleController.getString("AddToStickers", R.string.AddToStickers),
-                      LocaleController.getString("Delete", R.string.Delete)
-                    };
-                options = new int[] {8, 2, 9, 1};
-              }
+                  };
+              options = new int[] {10, 4, 1};
             } else {
-              if (type == 2) {
-                items =
-                    new CharSequence[]{
-                        LocaleController.getString("Forward", R.string.Forward),
-                        LocaleController.getString("Delete", R.string.Delete)
-                    };
-                options = new int[]{2, 1};
-              } else if (type == 3) {
-                items =
-                    new CharSequence[]{
-                        LocaleController.getString("Forward", R.string.Forward),
-                        LocaleController.getString("Copy", R.string.Copy),
-                        LocaleController.getString("Delete", R.string.Delete)
-                    };
-                options = new int[]{2, 3, 1};
-              } else if (type == 4) {
-                if (selectedObject.messageOwner.media instanceof TLRPC.TL_messageMediaDocument) {
-                  String saveString;
-                  if (selectedObject.isMusic()) {
-                    saveString = LocaleController.getString("SaveToMusic", R.string.SaveToMusic);
-                  } else {
-                    saveString =
-                        LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads);
-                  }
-                  items =
-                      new CharSequence[]{
-                          saveString,
-                          LocaleController.getString("ShareFile", R.string.ShareFile),
-                          LocaleController.getString("Forward", R.string.Forward),
-                          LocaleController.getString("Delete", R.string.Delete)
-                      };
-                  options = new int[]{10, 4, 2, 1};
-                } else {
-                  items =
-                      new CharSequence[]{
-                          LocaleController.getString("SaveToGallery", R.string.SaveToGallery),
-                          LocaleController.getString("Forward", R.string.Forward),
-                          LocaleController.getString("Delete", R.string.Delete)
-                      };
-                  options = new int[]{4, 2, 1};
-                }
-              } else if (type == 5) {
-                items =
-                    new CharSequence[]{
-                        LocaleController.getString(
-                            "ApplyLocalizationFile", R.string.ApplyLocalizationFile),
-                        LocaleController.getString("ShareFile", R.string.ShareFile),
-                        LocaleController.getString("Forward", R.string.Forward),
-                        LocaleController.getString("Delete", R.string.Delete)
-                    };
-                options = new int[]{5, 4, 2, 1};
-              } else if (type == 6) {
-                String saveString;
-                if (selectedObject.isMusic()) {
-                  saveString = LocaleController.getString("SaveToMusic", R.string.SaveToMusic);
-                } else {
-                  saveString =
-                      LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads);
-                }
-                items =
-                    new CharSequence[]{
-                        LocaleController.getString("SaveToGallery", R.string.SaveToGallery),
-                        saveString,
-                        LocaleController.getString("ShareFile", R.string.ShareFile),
-                        LocaleController.getString("Forward", R.string.Forward),
-                        LocaleController.getString("Delete", R.string.Delete)
-                    };
-                options = new int[]{7, 10, 6, 2, 1};
-              } else if (type == 7) {
-                items =
-                    new CharSequence[]{
-                        LocaleController.getString("Reply", R.string.Reply),
-                        LocaleController.getString("Forward", R.string.Forward),
-                        LocaleController.getString("AddToStickers", R.string.AddToStickers),
-                        LocaleController.getString("Delete", R.string.Delete)
-                    };
-                options = new int[]{8, 2, 9, 1};
-              }
+              items =
+                  new CharSequence[] {
+                      LocaleController.getString("SaveToGallery", R.string.SaveToGallery),
+                      LocaleController.getString("Delete", R.string.Delete)
+                  };
+              options = new int[] {4, 1};
             }
+          } else if (type == 5) {
+            items =
+                new CharSequence[] {
+                    LocaleController.getString(
+                        "ApplyLocalizationFile", R.string.ApplyLocalizationFile),
+                    LocaleController.getString("Delete", R.string.Delete)
+                };
+            options = new int[] {5, 1};
+          } else if (type == 7) {
+            items =
+                new CharSequence[] {
+                    LocaleController.getString("Reply", R.string.Reply),
+                    LocaleController.getString("Forward", R.string.Forward),
+                    LocaleController.getString("AddToStickers", R.string.AddToStickers),
+                    LocaleController.getString("Delete", R.string.Delete)
+                };
+            options = new int[] {8, 2, 9, 1};
+          }
         }
 
         final int[] finalOptions = options;
@@ -4996,6 +4761,12 @@ public class ChatActivity extends BaseFragment
               ids.add(finalSelectedObject.getId());
               removeUnreadPlane();
               ArrayList<Long> random_ids = null;
+              if (currentEncryptedChat != null
+                  && finalSelectedObject.messageOwner.random_id != 0
+                  && finalSelectedObject.type != MessageObject.Type.CHAT_ACTION_PHOTO) {
+                random_ids = new ArrayList<>();
+                random_ids.add(finalSelectedObject.messageOwner.random_id);
+              }
               MessagesController.getInstance()
                   .deleteMessages(ids, random_ids, currentEncryptedChat);
             }

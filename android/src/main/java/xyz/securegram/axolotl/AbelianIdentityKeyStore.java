@@ -33,7 +33,7 @@ public class AbelianIdentityKeyStore extends MessagesStorage implements Identity
 
   @Override
   public SignedPreKeyRecord getSignedPreKeyRecord() {
-    return UserConfig.signedPreKeyRecord;
+    return null;
   }
 
   @Override
@@ -42,7 +42,8 @@ public class AbelianIdentityKeyStore extends MessagesStorage implements Identity
   }
 
   @Override
-  public void saveIdentity(final AxolotlAddress address, final IdentityKey identityKey) {
+  public void saveIdentity(final AxolotlAddress address,
+                                        final IdentityKey identityKey) {
     getStorageQueue().postRunnable(
         new Runnable() {
           @Override
@@ -65,7 +66,8 @@ public class AbelianIdentityKeyStore extends MessagesStorage implements Identity
   }
 
   @Override
-  public boolean isTrustedIdentity(final AxolotlAddress address, final IdentityKey theirIdentity) {
+  public boolean isTrustedIdentity(final AxolotlAddress address,
+                                                 final IdentityKey theirIdentity) {
     Semaphore semaphore = new Semaphore(0);
     ArrayList<Boolean> result = new ArrayList<>();
     isTrustedIdentity(address, theirIdentity, semaphore, result);
@@ -133,6 +135,24 @@ public class AbelianIdentityKeyStore extends MessagesStorage implements Identity
               new ExportDatabaseFileTask().execute("");
             } catch (Exception e) {
               Log.e(TAG, "Cannot delete identity of " + name, e);
+            }
+          }
+        });
+  }
+
+  public void deleteAllIdentities() {
+    getStorageQueue().postRunnable(
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              getDatabase()
+                  .executeFast("DELETE FROM identities WHERE 1")
+                  .stepThis()
+                  .dispose();
+              new ExportDatabaseFileTask().execute("");
+            } catch (Exception e) {
+              Log.e(TAG, "Cannot delete identity", e);
             }
           }
         });

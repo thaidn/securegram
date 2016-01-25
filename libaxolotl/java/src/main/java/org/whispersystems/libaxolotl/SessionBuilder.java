@@ -320,7 +320,7 @@ public class SessionBuilder {
         sessionRecord.getSessionState().setPendingKeyExchange(sequence, baseKey, ratchetKey, identityKey);
         sessionStore.storeSession(remoteAddress, sessionRecord);
 
-        return new KeyExchangeMessage(2, sequence, flags, baseKey.getPublicKey(), baseKeySignature,
+        return new KeyExchangeMessage(4, sequence, flags, baseKey.getPublicKey(), baseKeySignature,
                                       ratchetKey.getPublicKey(), identityKey.getPublicKey());
       } catch (InvalidKeyException e) {
         throw new AssertionError(e);

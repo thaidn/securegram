@@ -41,9 +41,7 @@ public class UserConfig {
   public static int lastUpdateVersion;
 
   public static IdentityKeyPair identityKeyPair = null;
-  public static SignedPreKeyRecord signedPreKeyRecord = null;
   public static int deviceId = 0;
-  public static boolean registeredForAbelian = false;
 
   public static int getNewMessageId() {
     int id;
@@ -82,6 +80,14 @@ public class UserConfig {
         editor.putInt("lastPauseTime", lastPauseTime);
         editor.putInt("lastUpdateVersion", lastUpdateVersion);
 
+        if (identityKeyPair != null) {
+          editor.putString("identityKeyPair",
+              Utilities.base64EncodeBytes(identityKeyPair.serialize()));
+        }
+        if (deviceId != 0) {
+          editor.putInt("deviceId", deviceId);
+        }
+
         if (currentUser != null) {
           if (shouldSaveUser) {
             SerializedData data = new SerializedData();
@@ -109,21 +115,6 @@ public class UserConfig {
                 "userconfing", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        if (identityKeyPair != null) {
-          editor.putString("identityKeyPair",
-              Utilities.base64EncodeBytes(identityKeyPair.serialize()));
-        }
-
-        if (signedPreKeyRecord != null) {
-          editor.putString("signedPreKeyRecord",
-              Utilities.base64EncodeBytes(signedPreKeyRecord.serialize()));
-        }
-
-        if (deviceId != 0) {
-          editor.putInt("deviceId", deviceId);
-        }
-
-        editor.putBoolean("registeredForAbelian", registeredForAbelian);
 
         editor.commit();
       } catch (Exception e) {
@@ -193,8 +184,6 @@ public class UserConfig {
       passcodeSalt = new byte[0];
     }
 
-    registeredForAbelian = preferences.getBoolean("registeredForAbelian", false);
-
     String identity = preferences.getString("identityKeyPair", "");
     if (identity.length() > 0) {
       try {
@@ -209,24 +198,7 @@ public class UserConfig {
 
     deviceId = preferences.getInt("deviceId", 0);
     if (deviceId == 0) {
-      deviceId = KeyHelper.generateDeviceId();
-    }
-
-    String signedPreKey = preferences.getString("signedPreKeyRecord", "");
-    if (signedPreKey.length() > 0) {
-      try {
-        signedPreKeyRecord = new SignedPreKeyRecord(
-            Utilities.base64DecodeBytes(signedPreKey.getBytes("UTF-8")));
-      } catch (Exception e) {
-        ; // we are in deep shit.
-      }
-    } else {
-      try {
-        signedPreKeyRecord = KeyHelper.generateSignedPreKey(
-            identityKeyPair);
-      } catch (Exception e) {
-        signedPreKeyRecord = null;
-      }
+      // deviceId = KeyHelper.generateDeviceId();
     }
   }
 

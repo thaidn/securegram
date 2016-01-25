@@ -3318,10 +3318,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                                             new ArrayList<>();
                                         for (int a = 0; a < res.new_messages.size(); a++) {
                                           TLRPC.Message message = res.new_messages.get(a);
-                                          if (message instanceof TLRPC.TL_message) {
-                                            message.message = AxolotlController.getInstance().decryptMessage(
-                                                message.message, message.from_id);
-                                          }
                                           if (message.action
                                               instanceof TLRPC.TL_messageActionChatDeleteUser) {
                                             TLRPC.User user = usersDict.get(message.action.user_id);
@@ -3609,8 +3605,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
             message.to_id.chat_id = updates.chat_id;
             message.dialog_id = -updates.chat_id;
           }
-          message.message = AxolotlController.getInstance().decryptMessage(
-              updates.message, user_id);
           message.date = updates.date;
           message.flags = updates.flags;
           message.fwd_from_id = updates.fwd_from_id;
@@ -4007,10 +4001,6 @@ public class MessagesController implements NotificationCenter.NotificationCenter
                 upd.message.from_id, ConnectionsManager.getInstance().getCurrentTime());
             interfaceUpdateMask |= UPDATE_MASK_STATUS;
           }
-        }
-        if (upd.message instanceof TLRPC.TL_message) {
-          upd.message.message = AxolotlController.getInstance().decryptMessage(
-              upd.message.message, upd.message.from_id);
         }
         messagesArr.add(upd.message);
         ImageLoader.saveMessageThumbs(upd.message);
